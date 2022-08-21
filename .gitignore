@@ -1,0 +1,14 @@
+/.cache
+/dist
+/node_modules
+/.DS_Store
+/.parcel-cache
+
+
+/Client/.cache
+/Client/dist
+/Client/node_modules
+/Client/.DS_Store
+/Client/yarn.lock
+/Client/yarn-error.log
+/Client/.parcel-cache
