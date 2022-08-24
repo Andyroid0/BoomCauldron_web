@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@types/color": "^3.0.2",
 		"color": "^4.0.1",
+		"colyseus.js": "^0.14.13",
 		"electron": "^16.0.1",
 		"firebase": "^9.9.3",
 		"phaser": "^3.55.2"
@@ -32,6 +33,6 @@
 	],
 	"staticFiles": {
 		"staticPath": "public",
-		"watcherGlob": "**/*"
+		"watcherGlob": "**/**/**/*"
 	}
 }

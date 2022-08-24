@@ -3,7 +3,7 @@
 /node_modules
 /.DS_Store
 /.parcel-cache
-
+*/*/.DS_Store
 
 /Client/.cache
 /Client/dist
@@ -12,3 +12,13 @@
 /Client/yarn.lock
 /Client/yarn-error.log
 /Client/.parcel-cache
+
+/Server/.cache
+/Server/dist
+/Server/node_modules
+/Server/.DS_Store
+/Server/yarn.lock
+/Server/yarn-error.log
+/Server/arena.env
+/Server/development.env
+
