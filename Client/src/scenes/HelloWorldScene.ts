@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
 import Player from './Actors/Player'; 
 //import { listenTest } from '../Api/Server';
-import { JoinOrCreate } from '../Api/colyseusAPI';
+import Server from '../Api/colServer';
 
+export const server = new Server();
 
 export default class HelloWorldScene extends Phaser.Scene
 {
@@ -14,7 +15,7 @@ export default class HelloWorldScene extends Phaser.Scene
 	preload()
     {
         //listenTest();
-        JoinOrCreate();
+
         this.load.image('test', 'test.png')
         this.scene.add('Player', Player, true);
     }

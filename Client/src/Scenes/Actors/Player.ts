@@ -3,10 +3,8 @@ import Phaser, {LEFT, Math} from 'phaser'
 import BlueOrb from '../Prefabs/blueOrb';
 //import { writeTest, placeTest } from '../Api/Server';
 import PlayerMoveState from '../../State/PlayerMovementState';
-
+import { server } from '../HelloWorldScene';
 import Message from '../../State/Message';
-
-import { sendPlayerMoveState } from '../../Api/colyseusAPI';
 
 class Player extends Phaser.Scene {
 
@@ -42,6 +40,7 @@ class Player extends Phaser.Scene {
     }
 
     create() {
+
         this.bush = this.physics.add.sprite(100, 100,'bush');
         this.bush.scale = 6;
         //this.pad = this.input.gamepad.getPad(1);
@@ -214,7 +213,7 @@ class Player extends Phaser.Scene {
     serverSync = () => {
 
         if(this.playerMoveState != PlayerMoveState.idle) {
-            sendPlayerMoveState( this.playerMoveState );
+            server.room.send(Message.PlayerMovement, this.playerMoveState)
         }
     }
 
