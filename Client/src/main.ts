@@ -9,9 +9,14 @@ const config: Phaser.Types.Core.GameConfig = {
 		height: 600
 	},
 	physics: {
-		default: 'arcade',
-		arcade: {
-			gravity: { y: 0 }
+		default: 'matter',
+		matter: {
+			enableSleeping: true,
+			gravity: { y: 0 },
+			debug: {
+				showBody: true,
+				showStaticBody: true
+			}
 		}
 	},
 	dom: {
@@ -19,6 +24,10 @@ const config: Phaser.Types.Core.GameConfig = {
     },
 	scene: [HelloWorldScene],
 	pixelArt: true,
+	fps: {
+		target: 60,
+		forceSetTimeOut: true
+	}
 
 }
 

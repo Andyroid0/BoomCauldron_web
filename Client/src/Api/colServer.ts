@@ -23,6 +23,8 @@ class Server extends Colyseus.Client {
             // ROOM STATE CHANGE
             this.room.onStateChange( state => {
                 console.log( this.room.name, "has new state:", state.playerMoveState);
+                console.log( this.room.name, "x coord:", state.x);
+                console.log( this.room.name, "y coord:", state.y);
             });
     
     

@@ -1,5 +1,4 @@
-import Phaser, {LEFT, Math} from 'phaser'
-
+import Phaser, {LEFT, Math } from 'phaser'
 import BlueOrb from '../Prefabs/blueOrb';
 //import { writeTest, placeTest } from '../Api/Server';
 import PlayerMoveState from '../../State/PlayerMovementState';
@@ -8,16 +7,23 @@ import Message from '../../State/Message';
 
 class Player extends Phaser.Scene {
 
-    bush!: Phaser.Physics.Arcade.Sprite;
+    bush!: Phaser.Physics.Matter.Sprite;
+
+    //body!: MatterJS.BodyType;
     //pad: Gamepad;
     cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 
     timer!: number;
 
     position!: Math.Vector2;
+
     previousPosition!: Math.Vector2;
 
     playerMoveState !: PlayerMoveState;
+
+    previous_playerMoveState !: PlayerMoveState;
+
+    playerSpeed !: number;
 
 
     up!: Phaser.Input.Keyboard.Key;
@@ -30,10 +36,14 @@ class Player extends Phaser.Scene {
         super("player")
         this.position = new Math.Vector2(0,0);
         this.position = new Math.Vector2(0,0);
+        this.previous_playerMoveState = PlayerMoveState.movingDown;
         this.playerMoveState = PlayerMoveState.idle;
+        this.playerSpeed = 3;
 	}
 
+
 	preload() {
+
         this.load.image('bush', 'bush_1.png');
         this.load.image('BlueOrb', 'blue_orb.png')
         this.timer = 0;
@@ -41,7 +51,11 @@ class Player extends Phaser.Scene {
 
     create() {
 
-        this.bush = this.physics.add.sprite(100, 100,'bush');
+        //this.bush = this.physics.add.sprite(100, 100,'bush');
+        this.bush = this.matter.add.sprite(100, 100,'bush',0, {"circleRadius": 20});
+        //this.bush.body = thing;
+        //this.body = this.matter.bodies.circle(100, 100, 80);
+
         this.bush.scale = 6;
         //this.pad = this.input.gamepad.getPad(1);
 
@@ -58,11 +72,15 @@ class Player extends Phaser.Scene {
     update(time: number, delta: number): void {
         
 
-
         this.inputHandler();
+
+        //this.projectileHandler();
+
         this.movementStateHandler();
+
         this.serverSync();
-        //this.timeHandler(delta);
+
+        this.syncPosition();
                    
     }
 
@@ -70,6 +88,48 @@ class Player extends Phaser.Scene {
     inputHandler = () => {
 
         const c = this.cursors;
+
+ 
+        if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingLeft;
+        }
+        else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingRight;
+        } 
+        else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
+            
+            this.playerMoveState = PlayerMoveState.movingUp;
+        }
+        else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingDown;
+        }
+        else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingDownLeft;
+        }
+        else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingDownRight;
+        }
+        else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingUpRight;
+        }
+        else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.movingUpLeft;
+        }
+        else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
+
+            this.playerMoveState = PlayerMoveState.idle;
+        }
+    }
+
+
+    projectileHandler = () => {
 
         const is_down = (btn: Phaser.Input.Keyboard.Key) : boolean => {
             return Phaser.Input.Keyboard.JustDown(btn);
@@ -115,127 +175,105 @@ class Player extends Phaser.Scene {
                 900
             );            
         }
-
-        if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingLeft;
-        }
-        else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingRight;
-        } 
-        else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
-            
-            this.playerMoveState = PlayerMoveState.movingUp;
-        }
-        else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingDown;
-        }
-        else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingDownLeft;
-        }
-        else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingDownRight;
-        }
-        else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingUpRight;
-        }
-        else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.movingUpLeft;
-        }
-        else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.idle;
-        }
     }
 
 
     movementStateHandler = () => {
 
-        switch ( this.playerMoveState ) {
+            switch ( this.playerMoveState ) {
 
-            case PlayerMoveState.idle:
+                case PlayerMoveState.idle:
+    
+                    if(this.bush.body.velocity.x != 0 && this.bush.body.velocity.y != 0 ) {
+                        let x = this.bush.body.velocity.x;
+                        let y = this.bush.body.velocity.y;
+                        this.bush.setVelocity(x/3, y/3)
+                    }
+                    else this.bush.setVelocity(0,0);
+                    break;
+    
+                case PlayerMoveState.movingDown:
 
-                if(this.bush.body.velocity != new Math.Vector2(0,0) ) {
-                    let x = this.bush.body.velocity.x;
-                    let y = this.bush.body.velocity.y;
-                    this.bush.setVelocity(x/3, y/3);
-                }
-                else this.bush.setVelocity(0,0);
-                break;
+                    this.bush.setVelocity(0, this.playerSpeed);
 
-            case PlayerMoveState.movingDown:
+                    break;        
+    
+                case PlayerMoveState.movingDownLeft:
+    
+                    this.bush.setVelocity(-this.playerSpeed, this.playerSpeed);
+                    break;
+    
+                case PlayerMoveState.movingDownRight:
+                    
+                    this.bush.setVelocity(this.playerSpeed, this.playerSpeed);
+                    break;
+    
+                case PlayerMoveState.movingUp:
+    
+                    this.bush.setVelocity( 0, -this.playerSpeed );
+                    break;
+    
+                case PlayerMoveState.movingUpLeft:
 
-                this.bush.setVelocity(0,160);
-                break;        
+                    this.bush.setVelocity( -this.playerSpeed, -this.playerSpeed );
+                    break;
+    
+                case PlayerMoveState.movingUpRight:
+    
+                    this.bush.setVelocity( this.playerSpeed, -this.playerSpeed );
+                    break;
+    
+                case PlayerMoveState.movingLeft:
 
-            case PlayerMoveState.movingDownLeft:
+                    this.bush.setVelocity( -this.playerSpeed, 0 );
+                    break;
+    
+                case PlayerMoveState.movingRight:
 
-                this.bush.setVelocity( -160, 160);
-                break;
-
-            case PlayerMoveState.movingDownRight:
-
-                this.bush.setVelocity( 160, 160);
-                break;
-
-            case PlayerMoveState.movingUp:
-
-                this.bush.setVelocity( 0,-160);
-                break;
-
-            case PlayerMoveState.movingUpLeft:
-
-                this.bush.setVelocity( -160, -160);
-                break;
-
-            case PlayerMoveState.movingUpRight:
-
-                this.bush.setVelocity( 160, -160);
-                break;
-
-            case PlayerMoveState.movingLeft:
-
-                this.bush.setVelocity(-160, 0);
-                break;
-
-            case PlayerMoveState.movingRight:
-                this.bush.setVelocity(160, 0);
-                break;
-        }
+                    this.bush.setVelocity( this.playerSpeed, 0 );
+                    break;
+            }
     }
+
 
     serverSync = () => {
 
-        if(this.playerMoveState != PlayerMoveState.idle) {
+        if( this.playerMoveState != this.previous_playerMoveState ) {
             server.room.send(Message.PlayerMovement, this.playerMoveState)
+            this.previous_playerMoveState = this.playerMoveState;
         }
     }
 
 
+    syncPosition = () => {
 
+        
+        this.bush.body.position.x = server.room.state.x;
+        this.bush.body.position.y = server.room.state.y;
+        this.bush.body.position.x = Phaser.Math.Linear(
+            this.bush.body.position.x,
+            server.room.state.x,
+            0.3
+        )
+        this.bush.body.position.y = Phaser.Math.Linear(
+            this.bush.body.position.y,
+            server.room.state.y,
+            0.3
+        )     
+        // this.bush.x = Phaser.Math.Linear(
+        //     this.bush.x,
+        //     this.body.position.x,
+        //     0.2
+        // );
 
+        // this.bush.y = Phaser.Math.Linear(
+        //     this.bush.y,
+        //     this.body.position.y,
+        //     0.2
+        // )
+        
+    }
 
-    // timeHandler = (delta: number) => {
-
-    //     this.position = this.bush.body.position;
-
-    //     this.timer += delta;
-
-    //     if(this.timer > 200) {
-    //         console.log("frame")
-    //         this.timer = 0;
-    //         if(this.position != this.previousPosition) {
-    //             this.previousPosition = this.bush.body.position;
-    //             //placeTest(this.bush.body.position.x, this.bush.body.position.y);
-    //         }
-    //     }
-    // }
 }
 
 export default Player;
