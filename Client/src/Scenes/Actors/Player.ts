@@ -25,6 +25,10 @@ class Player extends Phaser.Scene {
 
     playerSpeed !: number;
 
+    serverPlayer !: Phaser.GameObjects.Arc;
+
+    showServerPlayer !: boolean;
+
 
     up!: Phaser.Input.Keyboard.Key;
     left!: Phaser.Input.Keyboard.Key;
@@ -39,6 +43,8 @@ class Player extends Phaser.Scene {
         this.previous_playerMoveState = PlayerMoveState.movingDown;
         this.playerMoveState = PlayerMoveState.idle;
         this.playerSpeed = 3;
+
+        this.showServerPlayer = true
 	}
 
 
@@ -51,10 +57,11 @@ class Player extends Phaser.Scene {
 
     create() {
 
-        //this.bush = this.physics.add.sprite(100, 100,'bush');
         this.bush = this.matter.add.sprite(100, 100,'bush',0, {"circleRadius": 20});
-        //this.bush.body = thing;
-        //this.body = this.matter.bodies.circle(100, 100, 80);
+
+        if(this.showServerPlayer) {
+            this.serverPlayer = this.add.circle(100, 100, 4, Phaser.Display.Color.GetColor(255, 255, 255))
+        }
 
         this.bush.scale = 6;
         //this.pad = this.input.gamepad.getPad(1);
@@ -178,7 +185,7 @@ class Player extends Phaser.Scene {
     }
 
 
-    movementStateHandler = () => {
+    movementStateHandler = async () => {
 
             switch ( this.playerMoveState ) {
 
@@ -195,7 +202,6 @@ class Player extends Phaser.Scene {
                 case PlayerMoveState.movingDown:
 
                     this.bush.setVelocity(0, this.playerSpeed);
-
                     break;        
     
                 case PlayerMoveState.movingDownLeft:
@@ -247,30 +253,24 @@ class Player extends Phaser.Scene {
 
     syncPosition = () => {
 
-        
-        this.bush.body.position.x = server.room.state.x;
-        this.bush.body.position.y = server.room.state.y;
-        this.bush.body.position.x = Phaser.Math.Linear(
-            this.bush.body.position.x,
-            server.room.state.x,
-            0.3
-        )
-        this.bush.body.position.y = Phaser.Math.Linear(
-            this.bush.body.position.y,
-            server.room.state.y,
-            0.3
-        )     
-        // this.bush.x = Phaser.Math.Linear(
-        //     this.bush.x,
-        //     this.body.position.x,
-        //     0.2
-        // );
+        if(this.showServerPlayer) {
 
-        // this.bush.y = Phaser.Math.Linear(
-        //     this.bush.y,
-        //     this.body.position.y,
-        //     0.2
-        // )
+            this.serverPlayer.x = server.room.state.x;
+            this.serverPlayer.y = server.room.state.y;            
+        }
+
+
+        this.bush.x = Phaser.Math.Linear(
+            this.bush.x,
+            server.room.state.x,
+            0.05
+        )
+        this.bush.y = Phaser.Math.Linear(
+            this.bush.y,
+            server.room.state.y,
+            0.05
+        )     
+
         
     }
 
