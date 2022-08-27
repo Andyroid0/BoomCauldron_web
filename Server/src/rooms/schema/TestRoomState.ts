@@ -2,12 +2,6 @@ import { Schema, Context, type } from "@colyseus/schema";
 import PlayerMoveState from "../../State/PlayerMovementState";
 import {Vector} from "matter-js";
 
-class Position extends Schema {
-
-  @type("number") x: number = 0;
-  @type("number") y: number = 0;
-
-}
 
 export class TestRoomState extends Schema {
 

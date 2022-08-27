@@ -4,393 +4,393 @@ import BlueOrb from '../Prefabs/blueOrb';
 import PlayerMoveState from '../../State/PlayerMovementState';
 import { server } from '../HelloWorldScene';
 import Message from '../../State/Message';
+import PlayerController from '../../Scripts/PlayerController';
 
-class Player extends Phaser.Scene {
+export default class Player extends Phaser.Physics.Matter.Sprite {
 
-    bush!: Phaser.Physics.Matter.Sprite;
+    public controller !: PlayerController;
 
-    //body!: MatterJS.BodyType;
-    //pad: Gamepad;
-    cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+    constructor(world: Phaser.Physics.Matter.World, scene: Phaser.Scene, x: number, y: number ) {
 
-    timer!: number;
+        super(world, x, y, 'bush', 0, {circleRadius: 20} )
 
-    position!: Math.Vector2;
+        scene.add.existing(this);
+        //scene.add.existing;
+        world.add(this);
 
-    previousPosition!: Math.Vector2;
+        this.scale = 6;
 
-    playerMoveState !: PlayerMoveState;
-
-    previous_playerMoveState !: PlayerMoveState;
-
-    playerSpeed !: number;
-
-    serverPlayer !: Phaser.GameObjects.Arc;
-
-    showServerPlayer !: boolean;
-
-
-    up!: Phaser.Input.Keyboard.Key;
-    left!: Phaser.Input.Keyboard.Key;
-    down!: Phaser.Input.Keyboard.Key;
-    right!: Phaser.Input.Keyboard.Key;
-
-	constructor()
-	{
-        super("player")
-        this.position = new Math.Vector2(0,0);
-        this.position = new Math.Vector2(0,0);
-        this.previous_playerMoveState = PlayerMoveState.movingDown;
-        this.playerMoveState = PlayerMoveState.idle;
-        this.playerSpeed = 3;
-
-        this.showServerPlayer = true
-	}
-
-
-	preload() {
-
-        this.load.image('bush', 'bush_1.png');
-        this.load.image('BlueOrb', 'blue_orb.png')
-        this.timer = 0;
+        this.controller = new PlayerController(scene, this, server)
     }
 
-    create() {
+    
+}
 
-        this.bush = this.matter.add.sprite(100, 100,'bush',0, {"circleRadius": 20});
+// class Player extends Phaser.Scene {
 
-        if(this.showServerPlayer) {
-            this.serverPlayer = this.add.circle(100, 100, 4, Phaser.Display.Color.GetColor(255, 255, 255))
-        }
+//     bush!: Phaser.Physics.Matter.Sprite;
 
-        this.bush.scale = 6;
-        //this.pad = this.input.gamepad.getPad(1);
+//     cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 
-        this.cursors = this.input.keyboard.createCursorKeys();
+//     timer!: number;
 
-        //writeTest();
-        this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W); 
-        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A); 
-        this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S); 
-        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D); 
+//     position!: Math.Vector2;
 
-    }
+//     previousPosition!: Math.Vector2;
 
-    update(time: number, delta: number): void {
+//     playerMoveState !: PlayerMoveState;
+
+//     previous_playerMoveState !: PlayerMoveState;
+
+//     playerSpeed !: number;
+
+//     serverPlayer !: Phaser.GameObjects.Arc;
+
+//     showServerPlayer !: boolean;
+
+
+//     up!: Phaser.Input.Keyboard.Key;
+//     left!: Phaser.Input.Keyboard.Key;
+//     down!: Phaser.Input.Keyboard.Key;
+//     right!: Phaser.Input.Keyboard.Key;
+
+// 	constructor()
+// 	{
+//         super("player")
+//         this.position = new Math.Vector2(0,0);
+//         this.position = new Math.Vector2(0,0);
+//         this.previous_playerMoveState = PlayerMoveState.Down;
+//         this.playerMoveState = PlayerMoveState.idle;
+//         this.playerSpeed = 3;
+
+//         this.showServerPlayer = false;
+// 	}
+
+
+// 	preload() {
+
+//         this.load.image('bush', 'bush_1.png');
+//         this.load.image('BlueOrb', 'blue_orb.png')
+//         this.timer = 0;
+//     }
+
+//     create() {
+
+//         this.bush = this.matter.add.sprite(100, 100,'bush',0, {"circleRadius": 20});
+//         // CHOKE THE CIRCLE RADIUS DOWN TO COMPENSATE FOR COLLIDER JITTER.
+//         if(this.showServerPlayer) {
+//             this.serverPlayer = this.add.circle(100, 100, 4, Phaser.Display.Color.GetColor(255, 255, 255))
+//         }
+
+//         this.bush.scale = 6;
+//         //this.pad = this.input.gamepad.getPad(1);
+
+//         this.cursors = this.input.keyboard.createCursorKeys();
+
+//         //writeTest();
+//         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W); 
+//         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A); 
+//         this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S); 
+//         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D); 
+
+//     }
+
+//     update(time: number, delta: number): void {
         
 
-        this.inputHandler();
+//         this.inputHandler();
 
-        //this.projectileHandler();
+//         this.projectileHandler();
 
-        this.movementStateHandler();
+//         this.movementStateHandler();
 
-        this.serverSync();
+//         this.serverSync();
 
-        this.syncPosition();
+//         this.syncPosition();
                    
-    }
+//     }
 
 
-    inputHandler = () => {
+//     inputHandler = () => {
 
-        const c = this.cursors;
+//         const c = this.cursors;
 
  
-        if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
+//         if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingLeft;
-        }
-        else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
+//             this.playerMoveState = PlayerMoveState.Left;
+//         }
+//         else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingRight;
-        } 
-        else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
+//             this.playerMoveState = PlayerMoveState.Right;
+//         } 
+//         else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
             
-            this.playerMoveState = PlayerMoveState.movingUp;
-        }
-        else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
+//             this.playerMoveState = PlayerMoveState.Up;
+//         }
+//         else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingDown;
-        }
-        else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
+//             this.playerMoveState = PlayerMoveState.Down;
+//         }
+//         else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingDownLeft;
-        }
-        else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
+//             this.playerMoveState = PlayerMoveState.DownLeft;
+//         }
+//         else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingDownRight;
-        }
-        else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
+//             this.playerMoveState = PlayerMoveState.DownRight;
+//         }
+//         else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingUpRight;
-        }
-        else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
+//             this.playerMoveState = PlayerMoveState.UpRight;
+//         }
+//         else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.movingUpLeft;
-        }
-        else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
+//             this.playerMoveState = PlayerMoveState.UpLeft;
+//         }
+//         else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
 
-            this.playerMoveState = PlayerMoveState.idle;
-        }
-    }
-
-
-    projectileHandler = () => {
-
-        const is_down = (btn: Phaser.Input.Keyboard.Key) : boolean => {
-            return Phaser.Input.Keyboard.JustDown(btn);
-        };
-
-        if( is_down( this.up ) ) {
-
-            new BlueOrb(
-                this, 
-                this.bush.body.position.x + 10, 
-                this.bush.body.position.y + 10, 
-                new Phaser.Math.Vector2(0, -240),
-                900
-            );
-        }
-        else if( is_down( this.down ) ) {
-
-            new BlueOrb(
-                this, 
-                this.bush.body.position.x + 10, 
-                this.bush.body.position.y + 10, 
-                new Phaser.Math.Vector2(0, 240),
-                900
-            );            
-        }
-        else if( is_down( this.left ) ) {
-
-            new BlueOrb(
-                this, 
-                this.bush.body.position.x + 10, 
-                this.bush.body.position.y + 10, 
-                new Phaser.Math.Vector2(-240, 0),
-                900
-            );            
-        }
-        else if( is_down( this.right ) ) {
-
-            new BlueOrb(
-                this, 
-                this.bush.body.position.x + 10, 
-                this.bush.body.position.y + 10, 
-                new Phaser.Math.Vector2(240, 0),
-                900
-            );            
-        }
-    }
+//             this.playerMoveState = PlayerMoveState.idle;
+//         }
+//     }
 
 
-    movementStateHandler = async () => {
+//     projectileHandler = () => {
 
-            switch ( this.playerMoveState ) {
+//         const is_down = (btn: Phaser.Input.Keyboard.Key) : boolean => {
+//             return Phaser.Input.Keyboard.JustDown(btn);
+//         };
 
-                case PlayerMoveState.idle:
+//         if( is_down( this.up ) ) {
+
+//             new BlueOrb(
+//                 this.matter.world,
+//                 this, 
+//                 this.bush.body.position.x + 10, 
+//                 this.bush.body.position.y + 10, 
+//                 new Phaser.Math.Vector2(0, -10),
+//                 900
+//             );
+//         }
+//         else if( is_down( this.down ) ) {
+
+//             new BlueOrb(
+//                 this.matter.world,
+//                 this, 
+//                 this.bush.body.position.x + 10, 
+//                 this.bush.body.position.y + 10, 
+//                 new Phaser.Math.Vector2(0, 10),
+//                 900
+//             );            
+//         }
+//         else if( is_down( this.left ) ) {
+
+//             new BlueOrb(
+//                 this.matter.world,
+//                 this, 
+//                 this.bush.body.position.x + 10, 
+//                 this.bush.body.position.y + 10, 
+//                 new Phaser.Math.Vector2(-10, 0),
+//                 900
+//             );            
+//         }
+//         else if( is_down( this.right ) ) {
+
+//             new BlueOrb(
+//                 this.matter.world,
+//                 this, 
+//                 this.bush.body.position.x + 10, 
+//                 this.bush.body.position.y + 10, 
+//                 new Phaser.Math.Vector2(10, 0),
+//                 900
+//             );            
+//         }
+//     }
+
+
+//     movementStateHandler = async () => {
+
+//             switch ( this.playerMoveState ) {
+
+//                 case PlayerMoveState.idle:
     
-                    if(this.bush.body.velocity.x != 0 && this.bush.body.velocity.y != 0 ) {
-                        let x = this.bush.body.velocity.x;
-                        let y = this.bush.body.velocity.y;
-                        this.bush.setVelocity(x/3, y/3)
-                    }
-                    else this.bush.setVelocity(0,0);
-                    break;
+//                     if(this.bush.body.velocity.x != 0 && this.bush.body.velocity.y != 0 ) {
+//                         let x = this.bush.body.velocity.x;
+//                         let y = this.bush.body.velocity.y;
+//                         this.bush.setVelocity(x/3, y/3)
+//                     }
+//                     else this.bush.setVelocity(0,0);
+//                     break;
     
-                case PlayerMoveState.movingDown:
+//                 case PlayerMoveState.Down:
 
-                    this.bush.setVelocity(0, this.playerSpeed);
-                    break;        
+//                     this.bush.setVelocity(0, this.playerSpeed);
+//                     break;        
     
-                case PlayerMoveState.movingDownLeft:
+//                 case PlayerMoveState.DownLeft:
     
-                    this.bush.setVelocity(-this.playerSpeed, this.playerSpeed);
-                    break;
+//                     this.bush.setVelocity(-this.playerSpeed, this.playerSpeed);
+//                     break;
     
-                case PlayerMoveState.movingDownRight:
+//                 case PlayerMoveState.DownRight:
                     
-                    this.bush.setVelocity(this.playerSpeed, this.playerSpeed);
-                    break;
+//                     this.bush.setVelocity(this.playerSpeed, this.playerSpeed);
+//                     break;
     
-                case PlayerMoveState.movingUp:
+//                 case PlayerMoveState.Up:
     
-                    this.bush.setVelocity( 0, -this.playerSpeed );
-                    break;
+//                     this.bush.setVelocity( 0, -this.playerSpeed );
+//                     break;
     
-                case PlayerMoveState.movingUpLeft:
+//                 case PlayerMoveState.UpLeft:
 
-                    this.bush.setVelocity( -this.playerSpeed, -this.playerSpeed );
-                    break;
+//                     this.bush.setVelocity( -this.playerSpeed, -this.playerSpeed );
+//                     break;
     
-                case PlayerMoveState.movingUpRight:
+//                 case PlayerMoveState.UpRight:
     
-                    this.bush.setVelocity( this.playerSpeed, -this.playerSpeed );
-                    break;
+//                     this.bush.setVelocity( this.playerSpeed, -this.playerSpeed );
+//                     break;
     
-                case PlayerMoveState.movingLeft:
+//                 case PlayerMoveState.Left:
 
-                    this.bush.setVelocity( -this.playerSpeed, 0 );
-                    break;
+//                     this.bush.setVelocity( -this.playerSpeed, 0 );
+//                     break;
     
-                case PlayerMoveState.movingRight:
+//                 case PlayerMoveState.Right:
 
-                    this.bush.setVelocity( this.playerSpeed, 0 );
-                    break;
-            }
-    }
-
-
-    serverSync = () => {
-
-        if( this.playerMoveState != this.previous_playerMoveState ) {
-            server.room.send(Message.PlayerMovement, this.playerMoveState)
-            this.previous_playerMoveState = this.playerMoveState;
-        }
-    }
+//                     this.bush.setVelocity( this.playerSpeed, 0 );
+//                     break;
+//             }
+//     }
 
 
-    syncPosition = () => {
+//     serverSync = () => {
 
-        if(this.showServerPlayer) {
+//         if( this.playerMoveState != this.previous_playerMoveState ) {
+//             server.room.send(Message.PlayerMovement, this.playerMoveState)
+//             this.previous_playerMoveState = this.playerMoveState;
+//         }
+//     }
 
-            this.serverPlayer.x = server.room.state.x;
-            this.serverPlayer.y = server.room.state.y;            
-        }
+
+//     syncPosition = () => {
+
+//         if(this.showServerPlayer) {
+
+//             this.serverPlayer.x = server.room.state.x;
+//             this.serverPlayer.y = server.room.state.y;            
+//         }
 
 
-        this.bush.x = Phaser.Math.Linear(
-            this.bush.x,
-            server.room.state.x,
-            0.05
-        )
-        this.bush.y = Phaser.Math.Linear(
-            this.bush.y,
-            server.room.state.y,
-            0.05
-        )     
+//         this.bush.x = Phaser.Math.Linear(
+//             this.bush.x,
+//             server.room.state.x,
+//             0.05
+//         )
+//         this.bush.y = Phaser.Math.Linear(
+//             this.bush.y,
+//             server.room.state.y,
+//             0.05
+//         )     
 
         
-    }
+//     }
 
-}
+// }
 
-export default Player;
+// export default Player;
 
 
-enum PlayerFacingState {
+// enum PlayerFacingState {
 
-    // SIMPLE DIRECTIONS
+//     // SIMPLE DIRECTIONS
 
-    Up,
+//     Up,
 
-    Down,
+//     Down,
 
-    Left,
+//     Left,
 
-    Right,
+//     Right,
 
-// DIAGONALS DIRECTIONS
+// // DIAGONALS DIRECTIONS
 
-    UpLeft,
+//     UpLeft,
 
-    UpRight,
+//     UpRight,
 
-    DownLeft,
+//     DownLeft,
 
-    DownRight,
+//     DownRight,
 
-}
-
-enum PlayerShootingState {
-
-    // SIMPLE DIRECTIONS
-
-    Up,
-
-    Down,
-
-    Left,
-
-    Right,
-
-// DIAGONALS DIRECTIONS
-
-    UpLeft,
-
-    UpRight,
-
-    DownLeft,
-
-    DownRight,
-}
+// }
 
 
 
-class handleDirectionalInput extends Phaser.Scene {
+// class handleDirectionalInput extends Phaser.Scene {
 
-    public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+//     public cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
 
-    public peripheralState!: PeripheralState;
+//     public peripheralState!: PeripheralState;
 
-    constructor() {
-        super("handleDirectionalInput")
-    }
+//     constructor() {
+//         super("handleDirectionalInput")
+//     }
 
-    init() {
-        this.cursors = this.input.keyboard.createCursorKeys();
-    }
+//     init() {
+//         this.cursors = this.input.keyboard.createCursorKeys();
+//     }
 
-    create() {
+//     create() {
     
-    }
+//     }
 
-    update(time: number, delta: number): void {
+//     update(time: number, delta: number): void {
     
-    }
+//     }
 
-    directionalReturn = (): Phaser.Math.Vector2 => {
-        // SHOULD RETURN A DIRECTIONAL VECTOR2 REGARDLESS OF PERIPHERAL
-        const vec2 = Phaser.Math.Vector2;
+//     directionalReturn = (): Phaser.Math.Vector2 => {
+//         // SHOULD RETURN A DIRECTIONAL VECTOR2 REGARDLESS OF PERIPHERAL
+//         const vec2 = Phaser.Math.Vector2;
 
-        return new vec2();
-    };
+//         return new vec2();
+//     };
 
-    public changePeripheral = () => {
+//     public changePeripheral = () => {
 
-        switch ( this.peripheralState ) {
+//         switch ( this.peripheralState ) {
 
-            case PeripheralState.gamepad:
+//             case PeripheralState.gamepad:
 
-                this.peripheralState = PeripheralState.keyboard;
-                break;
+//                 this.peripheralState = PeripheralState.keyboard;
+//                 break;
         
-            case PeripheralState.keyboard:
+//             case PeripheralState.keyboard:
 
-                this.peripheralState = PeripheralState.gamepad;
-                break;
-        }
-    }
+//                 this.peripheralState = PeripheralState.gamepad;
+//                 break;
+//         }
+//     }
 
-    public getPeripheralState = () : string => {
+//     public getPeripheralState = () : string => {
 
-        switch ( this.peripheralState ) {
+//         switch ( this.peripheralState ) {
 
-            case PeripheralState.gamepad:
+//             case PeripheralState.gamepad:
 
-                return 'gamepad'
+//                 return 'gamepad'
         
-            case PeripheralState.keyboard:
+//             case PeripheralState.keyboard:
 
-                return 'keyboard'
-        }        
-    }
+//                 return 'keyboard'
+//         }        
+//     }
 
 
-};
+// };
 
-enum PeripheralState {
-    gamepad,
-    keyboard
-}
+// enum PeripheralState {
+//     gamepad,
+//     keyboard
+// }

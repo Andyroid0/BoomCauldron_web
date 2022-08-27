@@ -52,43 +52,43 @@ export class TestRoom extends Room<TestRoomState> {
 
             break;
   
-          case PlayerMoveState.movingDown:
+          case PlayerMoveState.Down:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( 0, this.playerSpeed));
             //this.player.position = Matter.Vector.create(x , y + (-this.playerSpeed * .03) )
             //this.player.force = Matter.Vector.create( 0, this.playerSpeed );
             break;
   
-          case PlayerMoveState.movingDownLeft:
+          case PlayerMoveState.DownLeft:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( -this.playerSpeed, this.playerSpeed));
             //this.player.force = Matter.Vector.create( -this.playerSpeed, this.playerSpeed );
             break;
   
-          case PlayerMoveState.movingDownRight:
+          case PlayerMoveState.DownRight:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( this.playerSpeed, this.playerSpeed));
             //this.player.force = Matter.Vector.create( this.playerSpeed, this.playerSpeed );
             break;
   
-          case PlayerMoveState.movingLeft:
+          case PlayerMoveState.Left:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( -this.playerSpeed, 0));
             //this.player.force = Matter.Vector.create( -this.playerSpeed, 0 );
             break;
   
-          case PlayerMoveState.movingRight:
+          case PlayerMoveState.Right:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( this.playerSpeed, 0));
             //this.player.force = Matter.Vector.create( this.playerSpeed, 0 );
             break;
   
-          case PlayerMoveState.movingUp:
+          case PlayerMoveState.Up:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( 0, -this.playerSpeed));
             //this.player.force = Matter.Vector.create( 0, -this.playerSpeed );
             break;
   
-          case PlayerMoveState.movingUpLeft:
+          case PlayerMoveState.UpLeft:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( -this.playerSpeed, -this.playerSpeed));
             //this.player.force = Matter.Vector.create( -this.playerSpeed, -this.playerSpeed );
             break;
   
-          case PlayerMoveState.movingUpRight:
+          case PlayerMoveState.UpRight:
             Matter.Body.setVelocity(this.player, Matter.Vector.create( this.playerSpeed, -this.playerSpeed));
             //this.player.force = Matter.Vector.create( -this.playerSpeed, this.playerSpeed );
             break;

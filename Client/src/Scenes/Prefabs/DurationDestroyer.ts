@@ -3,12 +3,12 @@ import Phaser from 'phaser'
 
 export default class DurationDestroyer extends Phaser.Scene
 {
-    object!: Phaser.Physics.Arcade.Sprite;
+    object!: Phaser.Physics.Matter.Sprite;
     duration?: number;
     elapsed!: number;
     name!: string;
 
-	constructor( scene: Phaser.Scene, object: Phaser.Physics.Arcade.Sprite, duration?: number ) {
+	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, duration?: number ) {
 
         var name = 'DurationDestroyer' + Phaser.Math.FloatBetween(-999, 999);
 		super(name)

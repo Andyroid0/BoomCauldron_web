@@ -1,27 +1,28 @@
-enum PlayerMoveState {
+enum PlayerAttackState {
     
     idle = "idle",
 
 // SIMPLE DIRECTIONS
 
-    movingUp = "movingUp",
+    Up = "Up",
 
-    movingDown = "movingDown",
+    Down = "Down",
 
-    movingLeft = "movingLeft",
+    Left = "Left",
 
-    movingRight = "movingRight",
+    Right = "Right",
 
 // DIAGONALS DIRECTIONS
 
-    movingUpLeft = "movingUpLeft",
+    UpLeft = "UpLeft",
 
-    movingUpRight = "movingUpRight",
+    UpRight = "UpRight",
 
-    movingDownLeft = "movingDownLeft",
+    DownLeft = "DownLeft",
 
-    movingDownRight = "movingDownRight",
+    DownRight = "DownRight",
 
 }
 
-export default PlayerMoveState;
+
+export default PlayerAttackState;
