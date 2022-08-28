@@ -1,4 +1,4 @@
-
+import { server } from "./Scenes/HelloWorldScene";
 
 const root : HTMLElement | null = document.getElementById('root');
 const canvasCol : HTMLCollectionOf<HTMLCanvasElement> | null = document.getElementsByTagName('canvas');
@@ -8,7 +8,10 @@ window.addEventListener('resize', event => {
 	console.log(window.innerWidth)
 })
 
-
+window.addEventListener('beforeunload', event => {
+	console.log("going to reload");
+	server.room.leave();
+});
 
 export const popFrank = () => {
 

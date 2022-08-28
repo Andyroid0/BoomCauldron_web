@@ -4,6 +4,7 @@ import Player from './Actors/Player';
 import Server from '../Api/colServer';
 import Color from 'color';
 import PlayerController from '~/Scripts/PlayerController';
+import PlayerState from '~/Api/schema/PlayerState';
 
 export const server = new Server();
 
@@ -36,7 +37,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
     create()
     {
-        var frank = this.add.image(400, 300, 'test');
+        //var frank = this.add.image(400, 300, 'test');
         //this.add.rectangle(400,320,400,300, Color("#488601").rgbNumber().valueOf() );
         this.add.image(400, 400, 'crystal1');
         this.add.image(445, 400, 'crystal2');
@@ -54,48 +55,36 @@ export default class HelloWorldScene extends Phaser.Scene
         g3.tint = Color("#ff80e5").rgbNumber().valueOf();
         g3.tintFill = true;
 
-        this.createPlayer();
-        this.playerController = this.player.controller;
         //this.scene.launch('Player');
+    }
+
+    update(time: number, delta: number): void {
+
+        if( server != null && this.player == undefined || server != null && this.player == null ) {
+            this.createPlayer();
+        }
     }
 
 
     createPlayer = () => {
+        console.log("playerCreation fired");
 
-        switch (server.slot) {
-
-            case "player1":
+        const sync = ( ps: PlayerState | null ) => {
+            if(ps?.id == server.room.sessionId) {
+                console.log(ps)
                 this.player = new Player( 
                     this.matter.world, 
                     this, 
-                    server.room.state.player1?.x as number, 
-                    server.room.state.player1?.y as number 
+                    ps?.x as number, 
+                    ps?.y as number 
                 );
-                break;
-            case "player2":
-                this.player = new Player( 
-                    this.matter.world, 
-                    this, 
-                    server.room.state.player2?.x as number, 
-                    server.room.state.player2?.y as number 
-                );                
-                break;
-            case "player3":
-                this.player = new Player( 
-                    this.matter.world, 
-                    this, 
-                    server.room.state.player3?.x as number, 
-                    server.room.state.player3?.y as number 
-                );                
-                break;
-            case "player4":
-                this.player = new Player( 
-                    this.matter.world, 
-                    this, 
-                    server.room.state.player4?.x as number, 
-                    server.room.state.player4?.y as number 
-                );                
-                break;
+                this.playerController = this.player.controller;
+            }
         }
+        sync(server.room.state.player1)
+        sync(server.room.state.player2)
+        sync(server.room.state.player3)
+        sync(server.room.state.player4)
+
     }
 }

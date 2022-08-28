@@ -31,7 +31,4 @@ const config: Phaser.Types.Core.GameConfig = {
 	}
 
 }
-const canvas = document.getElementsByTagName('canvas')
-
-console.log(canvas)
 export default new Phaser.Game(config)

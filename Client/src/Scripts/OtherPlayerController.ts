@@ -1,19 +1,18 @@
 import BlueOrb from '../Scenes/Prefabs/blueOrb';
 import Message from '../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
-import PlayerMoveState from '../State/PlayerAttackState';
+import PlayerMoveState from '../State/PlayerMovementState';
 import PlayerAttackState from '../State/PlayerMovementState';
 import playerType from '../State/playerType';
 import Server from '../Api/colServer';
+import PlayerState from '~/Api/schema/PlayerState';
 
 
-export default class PlayerController extends Phaser.Scene
+export default class OtherPlayerController extends Phaser.Scene
 {
     player!: Physics.Matter.Sprite;
 
     name!: string;
-
-    cursors!: Types.Input.Keyboard.CursorKeys;
 
     position!: Math.Vector2;
 
@@ -37,14 +36,10 @@ export default class PlayerController extends Phaser.Scene
 
     slot !: string;
 
-    up!: Phaser.Input.Keyboard.Key;
-    left!: Phaser.Input.Keyboard.Key;
-    down!: Phaser.Input.Keyboard.Key;
-    right!: Phaser.Input.Keyboard.Key;
 
 	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, server : Server) {
 
-        var name = server.room.sessionId;//"PlayerController"
+        var name = server.room.sessionId;
 
 		super(name)
 
@@ -68,7 +63,34 @@ export default class PlayerController extends Phaser.Scene
 
         this.showServerPlayer = false;     
 
+        this.server.room.onStateChange( state => {
 
+            let s = this.server.room.state;
+
+            switch (this.server.room.sessionId) {
+                
+                case s.player1?.id:
+    
+                    this.playerMoveState = s.player1?.playerMoveState as PlayerMoveState;
+                    break;
+    
+                case s.player2?.id:
+
+                    this.playerMoveState = s.player2?.playerMoveState as PlayerMoveState;
+                    break;
+
+                case s.player3?.id:
+
+                    this.playerMoveState = s.player3?.playerMoveState as PlayerMoveState;    
+                    break;
+
+                case s.player4?.id:
+
+                    this.playerMoveState = s.player4?.playerMoveState as PlayerMoveState;    
+                    break;                
+            }
+            
+        })
 	}
 
 
@@ -84,131 +106,80 @@ export default class PlayerController extends Phaser.Scene
             this.serverPlayer = this.add.circle(100, 100, 4, Phaser.Display.Color.GetColor(255, 255, 255))
         }
 
-        this.cursors = this.input.keyboard.createCursorKeys();
-
-        this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W); 
-        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A); 
-        this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S); 
-        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D); 
-
     }
 
     update(time: number, delta: number): void {
         
 
-        this.inputHandler();
-
-        this.projectileHandler();
+        //this.projectileHandler();
 
         this.movementStateHandler();
-
-        this.serverSync();
 
         this.syncPosition();
                    
     }
 
 
-    inputHandler = () => {
 
-        const c = this.cursors;
+    // projectileHandler = () => {
 
- 
-        if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
+    //     const is_down = (btn: Phaser.Input.Keyboard.Key) : boolean => {
+    //         return Phaser.Input.Keyboard.JustDown(btn);
+    //     };
 
-            this.playerMoveState = PlayerMoveState.Left;
-        }
-        else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
+    //     if( is_down( this.up ) ) {
 
-            this.playerMoveState = PlayerMoveState.Right;
-        } 
-        else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
-            
-            this.playerMoveState = PlayerMoveState.Up;
-        }
-        else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
+    //         new BlueOrb(
+    //             this.matter.world,
+    //             this, 
+    //             this.player.body.position.x + 10, 
+    //             this.player.body.position.y + 10, 
+    //             new Phaser.Math.Vector2(0, -10),
+    //             900
+    //         );
+    //     }
+    //     else if( is_down( this.down ) ) {
 
-            this.playerMoveState = PlayerMoveState.Down;
-        }
-        else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
+    //         new BlueOrb(
+    //             this.matter.world,
+    //             this, 
+    //             this.player.body.position.x + 10, 
+    //             this.player.body.position.y + 10, 
+    //             new Phaser.Math.Vector2(0, 10),
+    //             900
+    //         );            
+    //     }
+    //     else if( is_down( this.left ) ) {
 
-            this.playerMoveState = PlayerMoveState.DownLeft;
-        }
-        else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
+    //         new BlueOrb(
+    //             this.matter.world,
+    //             this, 
+    //             this.player.body.position.x + 10, 
+    //             this.player.body.position.y + 10, 
+    //             new Phaser.Math.Vector2(-10, 0),
+    //             900
+    //         );            
+    //     }
+    //     else if( is_down( this.right ) ) {
 
-            this.playerMoveState = PlayerMoveState.DownRight;
-        }
-        else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.UpRight;
-        }
-        else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.UpLeft;
-        }
-        else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.idle;
-        }
-    }
-
-
-    projectileHandler = () => {
-
-        const is_down = (btn: Phaser.Input.Keyboard.Key) : boolean => {
-            return Phaser.Input.Keyboard.JustDown(btn);
-        };
-
-        if( is_down( this.up ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
-                new Phaser.Math.Vector2(0, -10),
-                900
-            );
-        }
-        else if( is_down( this.down ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
-                new Phaser.Math.Vector2(0, 10),
-                900
-            );            
-        }
-        else if( is_down( this.left ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
-                new Phaser.Math.Vector2(-10, 0),
-                900
-            );            
-        }
-        else if( is_down( this.right ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
-                new Phaser.Math.Vector2(10, 0),
-                900
-            );            
-        }
-    }
+    //         new BlueOrb(
+    //             this.matter.world,
+    //             this, 
+    //             this.player.body.position.x + 10, 
+    //             this.player.body.position.y + 10, 
+    //             new Phaser.Math.Vector2(10, 0),
+    //             900
+    //         );            
+    //     }
+    // }
 
 
     movementStateHandler = async () => {
+        // LOGIC EXECUTED AT BOTTOM OF FUNCTION
 
-            switch ( this.playerMoveState ) {
+        const handleMoveState = ( p : PlayerState ) => {
+
+            switch ( p?.playerMoveState ) {
 
                 case PlayerMoveState.idle:
     
@@ -260,14 +231,29 @@ export default class PlayerController extends Phaser.Scene
                     this.player.setVelocity( this.playerSpeed, 0 );
                     break;
             }
-    }
+        }
 
+        let s = this.server.room.state;
 
-    serverSync = () => {
+        switch (this.server.room.sessionId) {
+            
+            case s.player1?.id:
 
-        if( this.playerMoveState != this.previous_playerMoveState ) {
-            this.server.room.send(Message.PlayerMovement, this.playerMoveState)
-            this.previous_playerMoveState = this.playerMoveState;
+                handleMoveState( s.player1 as PlayerState )
+                break;
+
+            case s.player2?.id:
+
+                handleMoveState( s.player2 as PlayerState )
+                break;
+            case s.player3?.id:
+
+                handleMoveState( s.player3 as PlayerState )
+                break;
+            case s.player4?.id:
+
+                handleMoveState( s.player4 as PlayerState )
+                break;                
         }
     }
 

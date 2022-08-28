@@ -17,7 +17,7 @@ enum powerUpTypes {
 
 export default class PlayerState extends Schema {
 
-    @type("string") id: string | null = null;
+    @type("string") id: number | string = '';
     @type("number") x: number = 0;
     @type("number") y: number = 0;
     @type("number") moveSpeed = 3;

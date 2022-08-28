@@ -1,4 +1,4 @@
-import { Room, Client } from "colyseus";
+import { Room, Client, ClientState } from "colyseus";
 import { MyRoomState } from "./schema/MyRoomState";
 import { TestRoomState } from "./schema/TestRoomState";
 import { TeamRoomState } from "./schema/teamRoomState";
@@ -36,8 +36,34 @@ export class TestRoom extends Room<TeamRoomState> {
     // ADD WORLD OBJECTS HERE
     Matter.Composite.add(this.engine.world, [])
 
+    // this.onMessage( Message.PlayerSlotAssignment, client => {
 
+    //   let result;
+    //   let s = this.state;
 
+    //   const check = (s:any) : boolean => {
+    //     if(s == client.id) {
+    //       return true;
+    //     } else return false;
+    //   }
+
+    //   if( check( s.player1.id )) {
+    //     result = "player1";
+    //   }
+    //   else if ( check( s.player2.id )) {
+    //     result = "player2";
+    //   }
+    //   else if ( check( s.player3.id )) {
+    //     result = "player3"
+    //   }
+    //   else if ( check( s.player4.id )) {
+    //     result = "player4"
+    //   }
+    //   else result = null;
+
+    //   client.send( Message.PlayerSlotAssignment, result);
+    // })
+    
     this.onMessage( Message.PlayerMovement, ( client, message ) => {
       // HANDLE PLAYER MOVE STATE MESSAGES
       var id = client.id;
@@ -61,6 +87,33 @@ export class TestRoom extends Room<TeamRoomState> {
       }
     });
 
+    this.onMessage( Message.PlayerLeaving, client => {
+      if(this.state.player1.id == client.id) {
+
+        this.state.player1 = null;
+        Matter.Composite.remove(this.engine.world, this.player1);
+        this.player1 = null;
+      }
+      else if(this.state.player2.id == client.id) {
+        
+        this.state.player2 = null;
+        Matter.Composite.remove(this.engine.world, this.player2);
+        this.player2 = null;
+      }
+      else if(this.state.player3.id == client.id) {
+        
+        this.state.player3 = null;
+        Matter.Composite.remove( this.engine.world, this.player3 );
+        this.player3 = null;
+      }
+      else if(this.state.player4.id == client.id) {
+        
+        this.state.player4 = null;
+        Matter.Composite.remove( this.engine.world, this.player4 );
+        this.player4 = null;
+      }
+    })
+
     setInterval( () => {
 
       // PHYSICS
@@ -74,8 +127,6 @@ export class TestRoom extends Room<TeamRoomState> {
         console.log(e)
       }
 
-
-
       Matter.Engine.update(this.engine, 1000/60)
 
       // MAIN LOOP
@@ -86,8 +137,10 @@ export class TestRoom extends Room<TeamRoomState> {
 
   }
 
+
   onJoin (client: Client, options: any) {
 
+    //this.send(client, Message.ClientID, client.id + " " + client.sessionId)
     console.log(client.sessionId, "joined!");
 
     if ( this.state.player1 == null ) {
@@ -104,7 +157,7 @@ export class TestRoom extends Room<TeamRoomState> {
       p.x = x;
       p.y = y;
 
-      this.send(client, Message.PlayerSlotAssignment, "player1");
+      //client.send( Message.PlayerSlotAssignment, "player1 ");
     }
     else if ( this.state.player2 == null && this.state.player1 != null) {
 
@@ -118,7 +171,7 @@ export class TestRoom extends Room<TeamRoomState> {
       p.id = client.id;
       p.x = x;
       p.y = y;    
-      this.send(client, Message.PlayerSlotAssignment, "player2");
+      //client.send( Message.PlayerSlotAssignment, "player2" );
 
     }
     else if ( this.state.player3 == null && this.state.player1 != null && this.state.player2 != null ) {
@@ -134,7 +187,7 @@ export class TestRoom extends Room<TeamRoomState> {
       p.id = client.id;
       p.x = x;
       p.y = y;     
-      this.send(client, Message.PlayerSlotAssignment, "player3");
+      //client.send( Message.PlayerSlotAssignment, "player3" );
 
     }
     else if ( this.state.player4 == null && this.state.player1 != null && this.state.player2 != null && this.state.player3 != null ) {
@@ -150,13 +203,13 @@ export class TestRoom extends Room<TeamRoomState> {
       p.id = client.id;
       p.x = x;
       p.y = y; 
-      this.send(client, Message.PlayerSlotAssignment, "player4");
+      //client.send( Message.PlayerSlotAssignment, "player4" );
 
     }
   }
 
   onLeave (client: Client, consented: boolean) {
-    console.log(client.sessionId, "left!");
+      this.state.player1 = null;
   }
 
   onDispose() {
@@ -171,9 +224,9 @@ export class TestRoom extends Room<TeamRoomState> {
 
       if ( 
 
-        physicsBody && player.x != physicsBody?.position.x
+        physicsBody && player && player.x != physicsBody?.position.x
         || 
-        physicsBody && player.y != physicsBody?.position.y 
+        physicsBody && player && player.y != physicsBody?.position.y 
 
         ) {
 

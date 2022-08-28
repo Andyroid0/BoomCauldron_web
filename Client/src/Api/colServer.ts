@@ -9,7 +9,7 @@ const address = 'ws://localhost:2567';
 class Server extends Colyseus.Client {
 
     room !: Colyseus.Room<TeamRoomState>;
-    public slot !: string;
+    //public slot !: string;
 
     constructor() {
         super("Server")
@@ -25,6 +25,54 @@ class Server extends Colyseus.Client {
             // ROOM STATE CHANGE
             this.room.onStateChange( state => {
                 //console.log( this.room.name, "has new state:", state.playerMoveState);
+                if( this.room.sessionId == state.player1?.id ) {
+
+                    if(state.player2 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player3 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player4 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                }
+                else if( this.room.sessionId == state.player2?.id ) {
+
+                    if(state.player1 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player3 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player4 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }                    
+                }
+                else if( this.room.sessionId == state.player3?.id ) {
+
+                    if(state.player1 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player2 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player4 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }                    
+                }
+                else if( this.room.sessionId == state.player4?.id ) {
+
+                    if(state.player1 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player2 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }
+                    if(state.player3 != null) {
+                        // ADD TEAM MEMBER COMPONENT
+                    }                    
+                }
                 console.log( this.room.name, "x coord:", state.player1?.x);
                 console.log( this.room.name, "y coord:", state.player1?.y);
             });
@@ -34,15 +82,18 @@ class Server extends Colyseus.Client {
             this.room.onMessage( Message.PlayerMovement, message => {
                 console.log("move state: " + message);
             });
-            this.room.onMessage( Message.PlayerSlotAssignment, message => {
-                this.slot = message;
-                console.log("player slot: " + message);
-            });
+
+
+            this.room.onLeave( () => {
+                this.room.send(Message.PlayerLeaving)
+                console.log("you left!")
+            })
     
         })
         .catch( e => {
             console.log("JOIN ERROR", e);
         });
+
     }
     sendPlayerMoveState = ( moveState:PlayerMoveState ) => {
         this.room.send(Message.PlayerMovement, {moveState: moveState});
