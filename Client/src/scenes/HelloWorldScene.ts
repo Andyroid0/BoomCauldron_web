@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Player from './Actors/Player'; 
+import OtherPlayer from './Actors/OtherPlayer';
 //import { listenTest } from '../Api/Server';
 import Server from '../Api/colServer';
 import Color from 'color';
@@ -17,6 +18,8 @@ export default class HelloWorldScene extends Phaser.Scene
 	constructor()
 	{
 		super('hello-world')
+
+
 	}
 
 	preload()
@@ -32,7 +35,6 @@ export default class HelloWorldScene extends Phaser.Scene
         this.load.image('test', 'test.png')
         this.load.image('bush', 'bush_1.png');
 
-        //this.scene.add('Player', Player, true);
     }
 
     create()
@@ -55,36 +57,191 @@ export default class HelloWorldScene extends Phaser.Scene
         g3.tint = Color("#ff80e5").rgbNumber().valueOf();
         g3.tintFill = true;
 
-        //this.scene.launch('Player');
+        server.room.onStateChange( state => {
+
+            if( server.room.sessionId == state.player1?.id ) {
+
+                if (this.player == undefined && this.player == null) {
+
+                    this.createPlayer( server.room.state.player1, true );
+                }
+                if(state.player2 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player2, false );
+                }
+                if(state.player3 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player3, false );
+                }
+                if(state.player4 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player4, false );
+                }
+            }
+            else if( server.room.sessionId == state.player2?.id ) {
+
+                if (this.player == undefined && this.player == null) {
+
+                    this.createPlayer( server.room.state.player2, true );
+                }
+                if(state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player1, false );
+                }
+                if(state.player3 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player3, false );
+                }
+                if(state.player4 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player4, false );
+                }                    
+            }
+            else if( server.room.sessionId == state.player3?.id ) {
+
+                if (this.player == undefined && this.player == null) {
+
+                    this.createPlayer( server.room.state.player3, true );
+                }
+                if(state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player1, false );
+                }
+                if(state.player2 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player2, false );
+                }
+                if(state.player4 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player4, false );
+                }                    
+            }
+            else if( server.room.sessionId == state.player4?.id ) {
+
+                if (this.player == undefined && this.player == null) {
+
+                    this.createPlayer( server.room.state.player4, true );
+                }
+                if(state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player1, false );
+                }
+                if(state.player2 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player2, false );
+                }
+                if(state.player3 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player3, false );
+                }                    
+            }
+        })        
+
     }
 
     update(time: number, delta: number): void {
 
         if( server != null && this.player == undefined || server != null && this.player == null ) {
-            this.createPlayer();
-        }
+
+            let state = server.room.state;
+
+            if( server.room.sessionId == state.player1?.id ) {
+
+                this.createPlayer( state.player1, true );
+
+                if(state.player2 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player2, false );
+                }
+                if(state.player3 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player3, false );
+                }
+                if(state.player4 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player4, false );
+                }
+            }
+            else if( server.room.sessionId == state.player2?.id ) {
+
+                this.createPlayer( state.player2, true );
+
+                if(state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player1, false );
+                }
+                if(state.player3 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player3, false );
+                }
+                if(state.player4 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player4, false );
+                }                    
+            }
+            else if( server.room.sessionId == state.player3?.id ) {
+
+                this.createPlayer( state.player3, true );
+
+                if(state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player1, false );
+                }
+                if(state.player2 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player2, false );
+                }
+                if(state.player4 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player4, false );
+                }                    
+            }
+            else if( server.room.sessionId == state.player4?.id ) {
+
+                this.createPlayer( state.player4, true );
+
+                if(state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player1, false );
+                }
+                if(state.player2 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player2, false );
+                }
+                if(state.player3 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( state.player3, false );
+                }  
+            }                  
+        }   
     }
 
 
-    createPlayer = () => {
-        console.log("playerCreation fired");
+    createPlayer = ( ps: PlayerState | null, playable: boolean ) => {
+        if(ps?.id == server.room.sessionId) {
 
-        const sync = ( ps: PlayerState | null ) => {
-            if(ps?.id == server.room.sessionId) {
-                console.log(ps)
-                this.player = new Player( 
-                    this.matter.world, 
-                    this, 
-                    ps?.x as number, 
-                    ps?.y as number 
-                );
-                this.playerController = this.player.controller;
+            switch (playable) {
+
+                case true:
+
+                    this.player = new Player( 
+                        this.matter.world, 
+                        this, 
+                        ps?.x as number, 
+                        ps?.y as number 
+                    );
+                    this.playerController = this.player.controller;
+                    break;
+                case false:
+                    new OtherPlayer( 
+                        this.matter.world, 
+                        this, 
+                        ps?.x as number, 
+                        ps?.y as number 
+                    );
+                    break;
             }
         }
-        sync(server.room.state.player1)
-        sync(server.room.state.player2)
-        sync(server.room.state.player3)
-        sync(server.room.state.player4)
-
     }
+
 }

@@ -25,54 +25,7 @@ class Server extends Colyseus.Client {
             // ROOM STATE CHANGE
             this.room.onStateChange( state => {
                 //console.log( this.room.name, "has new state:", state.playerMoveState);
-                if( this.room.sessionId == state.player1?.id ) {
 
-                    if(state.player2 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player3 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player4 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                }
-                else if( this.room.sessionId == state.player2?.id ) {
-
-                    if(state.player1 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player3 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player4 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }                    
-                }
-                else if( this.room.sessionId == state.player3?.id ) {
-
-                    if(state.player1 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player2 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player4 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }                    
-                }
-                else if( this.room.sessionId == state.player4?.id ) {
-
-                    if(state.player1 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player2 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }
-                    if(state.player3 != null) {
-                        // ADD TEAM MEMBER COMPONENT
-                    }                    
-                }
                 console.log( this.room.name, "x coord:", state.player1?.x);
                 console.log( this.room.name, "y coord:", state.player1?.y);
             });
