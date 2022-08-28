@@ -19,10 +19,12 @@
 		},
 		"typeRoots": [
 			"node_modules/@types",
-			"node_module/phaser/types"
+			"node_modules/phaser/types",
+			"node_modules/react"
 		],
 		"types": [
-			"phaser"
+			"phaser",
+			"react"
 		]
 	},
 	"include": [

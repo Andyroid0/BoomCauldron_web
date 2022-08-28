@@ -2,13 +2,15 @@ import * as Colyseus from "colyseus.js"; // not necessary if included via <scrip
 import Message from "../State/Message";
 import PlayerMoveState from "../State/PlayerMovementState";
 import { TestRoomState } from "./schema/TestRoomState";
-
+import TeamRoomState from "./schema/teamRoomState";
 const address = 'ws://localhost:2567';
 
 
 class Server extends Colyseus.Client {
 
-    room!: Colyseus.Room<TestRoomState>;
+    room !: Colyseus.Room<TeamRoomState>;
+    public slot !: string;
+
     constructor() {
         super("Server")
 
@@ -16,21 +18,25 @@ class Server extends Colyseus.Client {
         this.joinOrCreate("test_room")
         .then( room => {
             console.log(room.sessionId, "joined", room.name);
-            this.room = room as Colyseus.Room<TestRoomState>;
+            this.room = room as Colyseus.Room<TeamRoomState>;
         })
         .then( () => {
     
             // ROOM STATE CHANGE
             this.room.onStateChange( state => {
                 //console.log( this.room.name, "has new state:", state.playerMoveState);
-                console.log( this.room.name, "x coord:", state.x);
-                console.log( this.room.name, "y coord:", state.y);
+                console.log( this.room.name, "x coord:", state.player1?.x);
+                console.log( this.room.name, "y coord:", state.player1?.y);
             });
     
     
             // MESSAGE BROADCASTED FROM SERVER
             this.room.onMessage( Message.PlayerMovement, message => {
                 console.log("move state: " + message);
+            });
+            this.room.onMessage( Message.PlayerSlotAssignment, message => {
+                this.slot = message;
+                console.log("player slot: " + message);
             });
     
         })

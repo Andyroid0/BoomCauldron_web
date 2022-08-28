@@ -1,18 +1,24 @@
 import { Room, Client } from "colyseus";
 import { MyRoomState } from "./schema/MyRoomState";
 import { TestRoomState } from "./schema/TestRoomState";
+import { TeamRoomState } from "./schema/teamRoomState";
 import Message from "../State/Message";
 
 import Matter, { Vector } from 'matter-js';
 import PlayerMoveState from "../State/PlayerMovementState";
+import PlayerState from "./schema/PlayerState";
 
-export class TestRoom extends Room<TestRoomState> {
+export class TestRoom extends Room<TeamRoomState> {
 
   engine: Matter.Engine;
   runner: Matter.Runner;
   bodies: Matter.Bodies;
   composite: Matter.Composite;
-  player: Matter.Body;
+
+  player1: Matter.Body;
+  player2: Matter.Body;
+  player3: Matter.Body;
+  player4: Matter.Body;
 
   playerSpeed: number;
 
@@ -24,97 +30,129 @@ export class TestRoom extends Room<TestRoomState> {
     this.bodies = Matter.Bodies;
     this.composite = Matter.Composite.create();
 
-    this.playerSpeed = 3;
 
-    this.setState(new TestRoomState());
-    //this.state.playerMoveState
+    this.setState(new TeamRoomState());
 
     // ADD WORLD OBJECTS HERE
     Matter.Composite.add(this.engine.world, [])
 
-    this.onMessage( Message.PlayerMovement, (client, message) => {
 
-      this.state.playerMoveState = message;
 
+    this.onMessage( Message.PlayerMovement, ( client, message ) => {
+      // HANDLE PLAYER MOVE STATE MESSAGES
+      var id = client.id;
+      var s = this.state;
+
+      if( s.player1.id == id ) {
+        
+        s.player1.playerMoveState = message;
+      }
+      else if( s.player2.id == id ) {
+
+        s.player2.playerMoveState = message; 
+      }
+      else if( s.player3.id == id ) {
+
+        s.player3.playerMoveState = message;
+      }
+      else if( s.player4.id == id ) {
+
+        s.player4.playerMoveState = message;
+      }
     });
 
     setInterval( () => {
 
-      if(this.player) {
-        var x = this.player.position.x;
-        var y = this.player.position.y;
-
-        switch( this.state.playerMoveState ) {
-
-          case PlayerMoveState.idle:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( 0, 0))
-
-
-            break;
-  
-          case PlayerMoveState.Down:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( 0, this.playerSpeed));
-            //this.player.position = Matter.Vector.create(x , y + (-this.playerSpeed * .03) )
-            //this.player.force = Matter.Vector.create( 0, this.playerSpeed );
-            break;
-  
-          case PlayerMoveState.DownLeft:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( -this.playerSpeed, this.playerSpeed));
-            //this.player.force = Matter.Vector.create( -this.playerSpeed, this.playerSpeed );
-            break;
-  
-          case PlayerMoveState.DownRight:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( this.playerSpeed, this.playerSpeed));
-            //this.player.force = Matter.Vector.create( this.playerSpeed, this.playerSpeed );
-            break;
-  
-          case PlayerMoveState.Left:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( -this.playerSpeed, 0));
-            //this.player.force = Matter.Vector.create( -this.playerSpeed, 0 );
-            break;
-  
-          case PlayerMoveState.Right:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( this.playerSpeed, 0));
-            //this.player.force = Matter.Vector.create( this.playerSpeed, 0 );
-            break;
-  
-          case PlayerMoveState.Up:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( 0, -this.playerSpeed));
-            //this.player.force = Matter.Vector.create( 0, -this.playerSpeed );
-            break;
-  
-          case PlayerMoveState.UpLeft:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( -this.playerSpeed, -this.playerSpeed));
-            //this.player.force = Matter.Vector.create( -this.playerSpeed, -this.playerSpeed );
-            break;
-  
-          case PlayerMoveState.UpRight:
-            Matter.Body.setVelocity(this.player, Matter.Vector.create( this.playerSpeed, -this.playerSpeed));
-            //this.player.force = Matter.Vector.create( -this.playerSpeed, this.playerSpeed );
-            break;
-  
-        }
+      // PHYSICS
+      try {
+        if (this.state.player1) this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
+        if (this.state.player2) this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
+        if (this.state.player3) this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
+        if (this.state.player4) this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
       }
+      catch (e) {
+        console.log(e)
+      }
+
+
 
       Matter.Engine.update(this.engine, 1000/60)
 
       // MAIN LOOP
+      this.syncPhysicsToState();
 
-      if( this.player && this.state.x != this.player?.position.x || this.player && this.state.y != this.player?.position.y ) {
-        this.state.x = this.player?.position.x;
-        this.state.y = this.player?.position.y;
-      }
 
-    }, 1000/60)
+    }, 1000/60);
 
   }
 
   onJoin (client: Client, options: any) {
 
     console.log(client.sessionId, "joined!");
-    this.player = Matter.Bodies.circle(100, 100, 20);
-    Matter.Composite.add(this.engine.world, this.player)
 
+    if ( this.state.player1 == null ) {
+
+      let x = 100;
+      let y = 100;
+      this.player1 = Matter.Bodies.circle(x, y, 20);
+
+      Matter.Composite.add(this.engine.world, this.player1)
+      this.state.player1 = new PlayerState();
+
+      let p = this.state.player1;
+      p.id = client.id;
+      p.x = x;
+      p.y = y;
+
+      this.send(client, Message.PlayerSlotAssignment, "player1");
+    }
+    else if ( this.state.player2 == null && this.state.player1 != null) {
+
+      let x = this.player1.position.x
+      let y = this.player1.position.y + 25
+      this.player2 = Matter.Bodies.circle(x, y, 20 );
+
+      Matter.Composite.add(this.engine.world, this.player2);
+      this.state.player2 = new PlayerState();
+      let p = this.state.player1;
+      p.id = client.id;
+      p.x = x;
+      p.y = y;    
+      this.send(client, Message.PlayerSlotAssignment, "player2");
+
+    }
+    else if ( this.state.player3 == null && this.state.player1 != null && this.state.player2 != null ) {
+      
+      let x = this.player1.position.x - 25;
+      let y = this.player1.position.y - 25;
+      this.player3 = Matter.Bodies.circle( x, y, 20 );
+
+      Matter.Composite.add(this.engine.world, this.player3);
+      this.state.player3 = new PlayerState();
+
+      let p = this.state.player1;
+      p.id = client.id;
+      p.x = x;
+      p.y = y;     
+      this.send(client, Message.PlayerSlotAssignment, "player3");
+
+    }
+    else if ( this.state.player4 == null && this.state.player1 != null && this.state.player2 != null && this.state.player3 != null ) {
+
+      let x = this.player1.position.x + 25;
+      let y = this.player1.position.y + 25;
+      this.player4 = Matter.Bodies.circle( x, y, 20 );
+
+      Matter.Composite.add(this.engine.world, this.player4);
+      this.state.player4 = new PlayerState();
+
+      let p = this.state.player1;
+      p.id = client.id;
+      p.x = x;
+      p.y = y; 
+      this.send(client, Message.PlayerSlotAssignment, "player4");
+
+    }
   }
 
   onLeave (client: Client, consented: boolean) {
@@ -125,8 +163,88 @@ export class TestRoom extends Room<TestRoomState> {
     console.log("room", this.roomId, "disposing...");
   }
 
-  frank = () => {
-    console.log("frank")
+
+
+  syncPhysicsToState = () => {
+
+    const synchronize = (physicsBody : Matter.Body, player: PlayerState) => {
+
+      if ( 
+
+        physicsBody && player.x != physicsBody?.position.x
+        || 
+        physicsBody && player.y != physicsBody?.position.y 
+
+        ) {
+
+        player.x = physicsBody?.position.x;
+        player.y = physicsBody?.position.y;
+      }
+    };
+
+    synchronize(this.player1, this.state.player1);
+    synchronize(this.player2, this.state.player2);
+    synchronize(this.player3, this.state.player3);
+    synchronize(this.player4, this.state.player4);
+  };
+
+
+  handleMovement = (physicsBody : Matter.Body, moveState : string, moveSpeed: number) => {
+
+    if ( physicsBody ) {
+      var x = physicsBody.position.x;
+      var y = physicsBody.position.y;
+
+      switch ( moveState ) {
+
+        case PlayerMoveState.idle:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( 0, 0))
+          break;
+
+        case PlayerMoveState.Down:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( 0, moveSpeed));
+
+          break;
+
+        case PlayerMoveState.DownLeft:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( -moveSpeed, moveSpeed));
+          break;
+
+        case PlayerMoveState.DownRight:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( moveSpeed, moveSpeed));
+          break;
+
+        case PlayerMoveState.Left:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( -moveSpeed, 0));
+          break;
+
+        case PlayerMoveState.Right:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( moveSpeed, 0));
+          break;
+
+        case PlayerMoveState.Up:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( 0, -moveSpeed));
+          break;
+
+        case PlayerMoveState.UpLeft:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( -moveSpeed, -moveSpeed));
+          break;
+
+        case PlayerMoveState.UpRight:
+
+          Matter.Body.setVelocity( physicsBody, Matter.Vector.create( moveSpeed, -moveSpeed));
+          break;
+
+      }
+    }
   }
 
 }

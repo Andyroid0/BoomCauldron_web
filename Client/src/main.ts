@@ -1,33 +1,24 @@
-import Phaser from 'phaser'
 
-import HelloWorldScene from './Scenes/HelloWorldScene'
 
-const config: Phaser.Types.Core.GameConfig = {
-	type: Phaser.AUTO,
-	scale: {
-		width: 800,
-		height: 600
-	},
-	physics: {
-		default: 'matter',
-		matter: {
-			gravity: { y: 0 },
-			debug: {
-				showBody: true,
-				showStaticBody: true
-			}
-		}
-	},
-	dom: {
-        createContainer: true
-    },
-	scene: [HelloWorldScene],
-	pixelArt: true,
-	fps: {
-		target: 60,
-		forceSetTimeOut: true
-	}
+const root : HTMLElement | null = document.getElementById('root');
+const canvasCol : HTMLCollectionOf<HTMLCanvasElement> | null = document.getElementsByTagName('canvas');
+const canvas : HTMLCanvasElement | null = canvasCol[0];
 
+window.addEventListener('resize', event => {
+	console.log(window.innerWidth)
+})
+
+
+
+export const popFrank = () => {
+
+	const test = document.createElement('p')
+	test.innerText = "frank"
+	test.setAttribute('class', 'text-xl font-serif')
+	root?.append(test)
 }
 
-export default new Phaser.Game(config)
+
+
+
+

@@ -1,4 +1,4 @@
-enum PlayerMoveState {
+enum PlayerAttackState {
     
     idle = "idle",
 
@@ -24,4 +24,4 @@ enum PlayerMoveState {
 
 }
 
-export default PlayerMoveState;
+export default PlayerAttackState;

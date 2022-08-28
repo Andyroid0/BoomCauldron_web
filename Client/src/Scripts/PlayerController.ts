@@ -7,7 +7,6 @@ import playerType from '../State/playerType';
 import Server from '../Api/colServer';
 
 
-
 export default class PlayerController extends Phaser.Scene
 {
     player!: Physics.Matter.Sprite;
@@ -28,10 +27,15 @@ export default class PlayerController extends Phaser.Scene
 
     server !: Server;
 
+    serverX !: any;
+
+    serverY !: any;
+
     serverPlayer !: Phaser.GameObjects.Arc;
 
     showServerPlayer !: boolean;
 
+    slot !: string;
 
     up!: Phaser.Input.Keyboard.Key;
     left!: Phaser.Input.Keyboard.Key;
@@ -63,6 +67,24 @@ export default class PlayerController extends Phaser.Scene
         this.server = server;
 
         this.showServerPlayer = false;     
+
+        let slot = this.server.slot;
+
+        switch (slot) {
+            
+            case "player1": 
+                this.slot = "player1";
+                break;
+            case "player2": 
+                this.slot = "player2";
+                break;           
+            case "player3": 
+                this.slot = "player3";
+                break;
+            case "player4": 
+                this.slot = "player4"
+                break;
+        }
 
 	}
 
@@ -271,8 +293,8 @@ export default class PlayerController extends Phaser.Scene
 
         // SYNC PLAYER POSITION WITH THE SERVER AND EASES DIFFERENCES
         // METHODS EXECUTED AT BOTTOM OF FUNCTION
-        let Ydelta = Math.Difference(this.player.y, this.server.room.state.y);
-        let Xdelta = Math.Difference(this.player.x, this.server.room.state.x);
+        let Ydelta = Math.Difference( this.player.y, this.serverY );
+        let Xdelta = Math.Difference( this.player.x, this.serverX );
 
 
 
@@ -280,64 +302,94 @@ export default class PlayerController extends Phaser.Scene
 
             if(this.showServerPlayer) {
 
-                this.serverPlayer.x = this.server.room.state.x;
-                this.serverPlayer.y = this.server.room.state.y;            
+                this.serverPlayer.x = this.serverX;
+                this.serverPlayer.y = this.serverY;            
             }
         }
 
         const easeX = () => {
 
+            let sx;
+            let x = this.player.x;
+
+            switch ( this.slot ) {
+
+                case "player1": 
+    
+                    sx = this.server.room.state.player1?.x;
+                    break;
+    
+                case "player2": 
+    
+                    sx = this.server.room.state.player2?.x;
+                    break;   
+    
+                case "player3": 
+    
+                    sx = this.server.room.state.player3?.x;
+                    break;
+    
+                case "player4": 
+    
+                    sx = this.server.room.state.player4?.x;
+                    break;
+            }
+
             if ( Xdelta > 5 ) {
 
-                this.player.x = Phaser.Math.Linear(
-                    this.player.x,
-                    this.server.room.state.x,
-                    0.05
-                ) 
+                this.player.x = Phaser.Math.Linear( x, sx, 0.05 ); 
             }
             else if ( Xdelta > 1 && Xdelta <= 5 ) {
                 
-                this.player.x = Phaser.Math.Linear(
-                    this.player.x,
-                    this.server.room.state.x,
-                    0.1
-                ) 
+                this.player.x = Phaser.Math.Linear( x, sx, 0.1 ); 
             }        
             else {
-                this.player.x = Phaser.Math.Linear(
-                    this.player.x,
-                    this.server.room.state.x,
-                    0.3
-                ) 
+
+                this.player.x = Phaser.Math.Linear( x, sx, 0.3 );
             }
-        }
+        };
+
         const easeY = () => {
+
+            let sy;
+            let y = this.player.y;
+
+            switch ( this.slot ) {
+
+                case "player1": 
+    
+                    sy = this.server.room.state.player1?.y;
+                    break;
+    
+                case "player2": 
+    
+                    sy = this.server.room.state.player2?.y;
+                    break;   
+    
+                case "player3": 
+    
+                    sy = this.server.room.state.player3?.y;
+                    break;
+    
+                case "player4": 
+    
+                    sy = this.server.room.state.player4?.y;
+                    break;
+            }
 
             if (   Ydelta > 5 ) {
 
-                this.player.y = Phaser.Math.Linear(
-                    this.player.y,
-                    this.server.room.state.y,
-                    0.05
-                )    
+                this.player.y = Phaser.Math.Linear( y, sy, 0.05 );    
             }
             else if ( Ydelta > 1 && Ydelta <=5 ) {
     
-                this.player.y = Phaser.Math.Linear(
-                    this.player.y,
-                    this.server.room.state.y,
-                    0.1
-                )    
+                this.player.y = Phaser.Math.Linear( y, sy, 0.1 );    
             }        
             else {
     
-                this.player.y = Phaser.Math.Linear(
-                    this.player.y,
-                    this.server.room.state.y,
-                    0.3
-                )                
+                this.player.y = Phaser.Math.Linear( y, sy, 0.3 );                
             }
-        }
+        };
 
 
         easeX();

@@ -54,8 +54,48 @@ export default class HelloWorldScene extends Phaser.Scene
         g3.tint = Color("#ff80e5").rgbNumber().valueOf();
         g3.tintFill = true;
 
-        this.player = new Player( this.matter.world, this, 100, 100 );
+        this.createPlayer();
         this.playerController = this.player.controller;
         //this.scene.launch('Player');
+    }
+
+
+    createPlayer = () => {
+
+        switch (server.slot) {
+
+            case "player1":
+                this.player = new Player( 
+                    this.matter.world, 
+                    this, 
+                    server.room.state.player1?.x as number, 
+                    server.room.state.player1?.y as number 
+                );
+                break;
+            case "player2":
+                this.player = new Player( 
+                    this.matter.world, 
+                    this, 
+                    server.room.state.player2?.x as number, 
+                    server.room.state.player2?.y as number 
+                );                
+                break;
+            case "player3":
+                this.player = new Player( 
+                    this.matter.world, 
+                    this, 
+                    server.room.state.player3?.x as number, 
+                    server.room.state.player3?.y as number 
+                );                
+                break;
+            case "player4":
+                this.player = new Player( 
+                    this.matter.world, 
+                    this, 
+                    server.room.state.player4?.x as number, 
+                    server.room.state.player4?.y as number 
+                );                
+                break;
+        }
     }
 }
