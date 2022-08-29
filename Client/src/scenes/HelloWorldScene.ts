@@ -143,7 +143,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
     update(time: number, delta: number): void {
 
-        if( server != null && this.player == undefined || server != null && this.player == null ) {
+        if( server.connected && server.room && this.player == undefined || server.connected && server.room && this.player == null ) {
 
 
             if( server?.room?.sessionId == server?.room?.state?.player1?.id ) {
@@ -222,7 +222,6 @@ export default class HelloWorldScene extends Phaser.Scene
     createPlayer = ( ps: PlayerState | null, playable: boolean ) => {
         if(ps?.id == server?.room?.sessionId) {
 
-            console.log("samsonite")
             this.player = new Player( 
                 this.matter.world, 
                 this, 
@@ -234,7 +233,6 @@ export default class HelloWorldScene extends Phaser.Scene
     }
 
     createOtherPlayer = ( ps: PlayerState | null ) => {
-        console.log("triple frank coconut 🌴")
         new OtherPlayer( 
             this.matter.world, 
             this, 
