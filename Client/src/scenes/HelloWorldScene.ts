@@ -143,7 +143,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
     update(time: number, delta: number): void {
 
-        if( server.connected && server.room && this.player == undefined || server.connected && server.room && this.player == null ) {
+        if( server.room && this.player == undefined || server.room && this.player == null ) {
 
 
             if( server?.room?.sessionId == server?.room?.state?.player1?.id ) {
