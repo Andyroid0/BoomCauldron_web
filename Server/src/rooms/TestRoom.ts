@@ -167,7 +167,7 @@ export class TestRoom extends Room<TeamRoomState> {
 
       Matter.Composite.add(this.engine.world, this.player2);
       this.state.player2 = new PlayerState();
-      let p = this.state.player1;
+      let p = this.state.player2;
       p.id = client.id;
       p.x = x;
       p.y = y;    
@@ -182,7 +182,7 @@ export class TestRoom extends Room<TeamRoomState> {
       Matter.Composite.add(this.engine.world, this.player3);
       this.state.player3 = new PlayerState();
 
-      let p = this.state.player1;
+      let p = this.state.player3;
       p.id = client.id;
       p.x = x;
       p.y = y;     
@@ -198,7 +198,7 @@ export class TestRoom extends Room<TeamRoomState> {
       Matter.Composite.add(this.engine.world, this.player4);
       this.state.player4 = new PlayerState();
 
-      let p = this.state.player1;
+      let p = this.state.player4;
       p.id = client.id;
       p.x = x;
       p.y = y; 
