@@ -172,7 +172,6 @@ export class TestRoom extends Room<TeamRoomState> {
       p.x = x;
       p.y = y;    
       //client.send( Message.PlayerSlotAssignment, "player2" );
-
     }
     else if ( this.state.player3 == null && this.state.player1 != null && this.state.player2 != null ) {
       

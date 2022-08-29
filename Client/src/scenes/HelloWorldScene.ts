@@ -57,85 +57,87 @@ export default class HelloWorldScene extends Phaser.Scene
         g3.tint = Color("#ff80e5").rgbNumber().valueOf();
         g3.tintFill = true;
 
-        server.room.onStateChange( state => {
 
-            if( server.room.sessionId == state.player1?.id ) {
 
-                if (this.player == undefined && this.player == null) {
+        // server.room.onStateChange( state => {
+        //     console.log("frog")
+        //     if( server.room.sessionId == state.player1?.id ) {
 
-                    this.createPlayer( server.room.state.player1, true );
-                }
-                if(state.player2 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player2, false );
-                }
-                if(state.player3 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player3, false );
-                }
-                if(state.player4 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player4, false );
-                }
-            }
-            else if( server.room.sessionId == state.player2?.id ) {
+        //         if (this.player == undefined && this.player == null) {
 
-                if (this.player == undefined && this.player == null) {
+        //             this.createPlayer( server.room.state.player1, true );
+        //         }
+        //         if(state.player2 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player2, false );
+        //         }
+        //         if(state.player3 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player3, false );
+        //         }
+        //         if(state.player4 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player4, false );
+        //         }
+        //     }
+        //     else if( server.room.sessionId == state.player2?.id ) {
 
-                    this.createPlayer( server.room.state.player2, true );
-                }
-                if(state.player1 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1, false );
-                }
-                if(state.player3 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player3, false );
-                }
-                if(state.player4 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player4, false );
-                }                    
-            }
-            else if( server.room.sessionId == state.player3?.id ) {
+        //         if (this.player == undefined && this.player == null) {
 
-                if (this.player == undefined && this.player == null) {
+        //             this.createPlayer( server.room.state.player2, true );
+        //         }
+        //         if(state.player1 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player1, false );
+        //         }
+        //         if(state.player3 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player3, false );
+        //         }
+        //         if(state.player4 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player4, false );
+        //         }                    
+        //     }
+        //     else if( server.room.sessionId == state.player3?.id ) {
 
-                    this.createPlayer( server.room.state.player3, true );
-                }
-                if(state.player1 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1, false );
-                }
-                if(state.player2 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player2, false );
-                }
-                if(state.player4 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player4, false );
-                }                    
-            }
-            else if( server.room.sessionId == state.player4?.id ) {
+        //         if (this.player == undefined && this.player == null) {
 
-                if (this.player == undefined && this.player == null) {
+        //             this.createPlayer( server.room.state.player3, true );
+        //         }
+        //         if(state.player1 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player1, false );
+        //         }
+        //         if(state.player2 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player2, false );
+        //         }
+        //         if(state.player4 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player4, false );
+        //         }                    
+        //     }
+        //     else if( server.room.sessionId == state.player4?.id ) {
 
-                    this.createPlayer( server.room.state.player4, true );
-                }
-                if(state.player1 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1, false );
-                }
-                if(state.player2 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player2, false );
-                }
-                if(state.player3 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player3, false );
-                }                    
-            }
-        })        
+        //         if (this.player == undefined && this.player == null) {
+
+        //             this.createPlayer( server.room.state.player4, true );
+        //         }
+        //         if(state.player1 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player1, false );
+        //         }
+        //         if(state.player2 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player2, false );
+        //         }
+        //         if(state.player3 != null) {
+        //             // ADD TEAM MEMBER COMPONENT
+        //             this.createPlayer( server.room.state.player3, false );
+        //         }                    
+        //     }
+        // })        
 
     }
 
@@ -149,69 +151,69 @@ export default class HelloWorldScene extends Phaser.Scene
 
                 this.createPlayer( state.player1, true );
 
-                if(state.player2 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player2, false );
-                }
-                if(state.player3 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player3, false );
-                }
-                if(state.player4 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player4, false );
-                }
+                // if(state.player2 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player2, false );
+                // }
+                // if(state.player3 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player3, false );
+                // }
+                // if(state.player4 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player4, false );
+                // }
             }
             else if( server.room.sessionId == state.player2?.id ) {
 
                 this.createPlayer( state.player2, true );
 
-                if(state.player1 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player1, false );
-                }
-                if(state.player3 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player3, false );
-                }
-                if(state.player4 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player4, false );
-                }                    
+                // if(state.player1 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player1, false );
+                // }
+                // if(state.player3 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player3, false );
+                // }
+                // if(state.player4 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player4, false );
+                // }                    
             }
             else if( server.room.sessionId == state.player3?.id ) {
 
                 this.createPlayer( state.player3, true );
 
-                if(state.player1 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player1, false );
-                }
-                if(state.player2 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player2, false );
-                }
-                if(state.player4 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player4, false );
-                }                    
+                // if(state.player1 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player1, false );
+                // }
+                // if(state.player2 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player2, false );
+                // }
+                // if(state.player4 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player4, false );
+                // }                    
             }
             else if( server.room.sessionId == state.player4?.id ) {
 
                 this.createPlayer( state.player4, true );
 
-                if(state.player1 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player1, false );
-                }
-                if(state.player2 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player2, false );
-                }
-                if(state.player3 != null) {
-                    // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( state.player3, false );
-                }  
+                // if(state.player1 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player1, false );
+                // }
+                // if(state.player2 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player2, false );
+                // }
+                // if(state.player3 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( state.player3, false );
+                // }  
             }                  
         }   
     }
