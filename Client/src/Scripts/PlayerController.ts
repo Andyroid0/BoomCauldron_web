@@ -294,29 +294,29 @@ export default class PlayerController extends Phaser.Scene
 
             let sx: number | undefined;
             let x = this.player.x;
-            let state = this.server.room.state;
-            let sID = this.server.room.sessionId;
+            let state = this.server?.room?.state;
+            let sID = this.server?.room?.sessionId;
 
             switch ( sID ) {
 
-                case state.player1?.id: 
+                case state?.player1?.id: 
     
-                    sx = state.player1?.x;
+                    sx = state?.player1?.x;
                     break;
     
-                case state.player2?.id: 
+                case state?.player2?.id: 
     
-                    sx = state.player2?.x;
+                    sx = state?.player2?.x;
                     break;   
     
-                case state.player3?.id: 
+                case state?.player3?.id: 
     
                     sx = state.player3?.x;
                     break;
     
-                case state.player4?.id: 
+                case state?.player4?.id: 
     
-                    sx = state.player4?.x;
+                    sx = state?.player4?.x;
                     break;
             }
 
@@ -338,29 +338,29 @@ export default class PlayerController extends Phaser.Scene
 
             let sy : number | undefined;
             let y = this.player.y;
-            let state = this.server.room.state;
-            let sID = this.server.room.sessionId;            
+            let state = this.server?.room?.state;
+            let sID = this.server?.room?.sessionId;            
 
             switch ( sID ) {
 
-                case state.player1?.id: 
+                case state?.player1?.id: 
     
-                    sy = state.player1?.y;
+                    sy = state?.player1?.y;
                     break;
     
-                case state.player2?.id: 
+                case state?.player2?.id: 
     
-                    sy = state.player2?.y;
+                    sy = state?.player2?.y;
                     break;   
     
-                case state.player3?.id: 
+                case state?.player3?.id: 
     
-                    sy = state.player3?.y;
+                    sy = state?.player3?.y;
                     break;
     
-                case state.player4?.id: 
+                case state?.player4?.id: 
     
-                    sy = state.player4?.y;
+                    sy = state?.player4?.y;
                     break;
             }
 
