@@ -1,7 +1,7 @@
 import { Physics } from 'phaser'
 import { server } from '../HelloWorldScene';
-import OtherPlayerController from '../../Scripts/PlayerController';
 import Color from 'color';
+import OtherPlayerController from '../../Scripts/OtherPlayerController';
 
 export default class OtherPlayer extends Physics.Matter.Sprite {
 
@@ -16,7 +16,7 @@ export default class OtherPlayer extends Physics.Matter.Sprite {
         world.add(this);
 
         this.scale = 6;
-        this.controller = new OtherPlayerController(scene, this, server, namer)
+        this.controller = new OtherPlayerController(scene, this, server, namer);
 
         switch ( server.room.sessionId ) {
 
