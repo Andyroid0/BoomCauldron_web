@@ -239,7 +239,8 @@ export default class HelloWorldScene extends Phaser.Scene
             this.matter.world, 
             this, 
             ps?.x as number, 
-            ps?.y as number 
+            ps?.y as number,
+            ps?.id as string 
         );
     }
 

@@ -7,7 +7,7 @@ export default class OtherPlayer extends Physics.Matter.Sprite {
 
     public controller !: OtherPlayerController;
 
-    constructor(world: Phaser.Physics.Matter.World, scene: Phaser.Scene, x: number, y: number ) {
+    constructor(world: Phaser.Physics.Matter.World, scene: Phaser.Scene, x: number, y: number, namer: string ) {
 
         super(world, x, y, 'bush', 0, {circleRadius: 20} )
 
@@ -16,12 +16,12 @@ export default class OtherPlayer extends Physics.Matter.Sprite {
         world.add(this);
 
         this.scale = 6;
-        this.controller = new OtherPlayerController(scene, this, server)
+        this.controller = new OtherPlayerController(scene, this, server, namer)
 
         switch ( server.room.sessionId ) {
 
             case server.room.state.player1?.id:
-                
+
                 this.tintFill = true;
                 //red
                 this.tint = Color("rgb(255,0,0)").rgbNumber().valueOf();

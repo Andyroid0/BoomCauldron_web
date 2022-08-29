@@ -37,15 +37,15 @@ export default class OtherPlayerController extends Phaser.Scene
     slot !: string;
 
 
-	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, server : Server) {
+	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, server : Server, namer: string) {
 
-        var name = server.room.sessionId;
+        //var name = server.room.sessionId;
 
-		super(name)
+		super(namer)
 
-        this.name = name;
+        this.name = namer;
 
-        scene.scene.add(name, this, true);
+        scene.scene.add(namer, this, true);
 
         this.position = new Math.Vector2(0,0);
 
