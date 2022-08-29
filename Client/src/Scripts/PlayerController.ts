@@ -44,7 +44,7 @@ export default class PlayerController extends Phaser.Scene
 
 	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, server : Server) {
 
-        var name = server.room.sessionId;//"PlayerController"
+        var name = server?.room?.sessionId;//"PlayerController"
 
 		super(name)
 
