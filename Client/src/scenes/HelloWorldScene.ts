@@ -145,72 +145,71 @@ export default class HelloWorldScene extends Phaser.Scene
 
         if( server != null && this.player == undefined || server != null && this.player == null ) {
 
-            let state = server.room.state;
 
-            if( server.room.sessionId == state.player1?.id ) {
+            if( server.room.sessionId == server.room.state.player1?.id ) {
+                console.log("sloppy don miloso vitch")
+                this.createPlayer( server.room.state.player1, true );
 
-                this.createPlayer( state.player1, true );
-
-                // if(state.player2 != null) {
+                // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player2, false );
                 // }
-                // if(state.player3 != null) {
+                // if(server.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player3, false );
                 // }
-                // if(state.player4 != null) {
+                // if(server.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player4, false );
                 // }
             }
-            else if( server.room.sessionId == state.player2?.id ) {
+            else if( server.room.sessionId == server.room.state.player2?.id ) {
+                console.log("blog")
+                this.createPlayer( server.room.state.player2, true );
 
-                this.createPlayer( state.player2, true );
+                if(server.room.state.player1 != null) {
+                    // ADD TEAM MEMBER COMPONENT
+                    this.createPlayer( server.room.state.player1, false );
+                }
+                // if(server.room.state.player3 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( server.room.state.player3, false );
+                // }
+                // if(server.room.state.player4 != null) {
+                //     // ADD TEAM MEMBER COMPONENT
+                //     this.createPlayer( server.room.state.player4, false );
+                // }                    
+            }
+            else if( server.room.sessionId == server.room.state.player3?.id ) {
 
-                // if(state.player1 != null) {
+                this.createPlayer( server.room.state?.player3, true );
+
+                // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player1, false );
                 // }
-                // if(state.player3 != null) {
+                // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player3, false );
+                //     this.createPlayer( state.player2, false );
                 // }
-                // if(state.player4 != null) {
+                // if(server.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player4, false );
                 // }                    
             }
-            else if( server.room.sessionId == state.player3?.id ) {
+            else if( server.room.sessionId == server.room.state.player4?.id ) {
 
-                this.createPlayer( state.player3, true );
+                this.createPlayer( server.room.state?.player4, true );
 
-                // if(state.player1 != null) {
+                // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player1, false );
                 // }
-                // if(state.player2 != null) {
+                // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player2, false );
                 // }
-                // if(state.player4 != null) {
-                //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player4, false );
-                // }                    
-            }
-            else if( server.room.sessionId == state.player4?.id ) {
-
-                this.createPlayer( state.player4, true );
-
-                // if(state.player1 != null) {
-                //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player1, false );
-                // }
-                // if(state.player2 != null) {
-                //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player2, false );
-                // }
-                // if(state.player3 != null) {
+                // if(server.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createPlayer( state.player3, false );
                 // }  
@@ -234,13 +233,15 @@ export default class HelloWorldScene extends Phaser.Scene
                     );
                     this.playerController = this.player.controller;
                     break;
+
                 case false:
-                    new OtherPlayer( 
-                        this.matter.world, 
-                        this, 
-                        ps?.x as number, 
-                        ps?.y as number 
-                    );
+                        console.log("triple frank coconut 🌴")
+                    // new OtherPlayer( 
+                    //     this.matter.world, 
+                    //     this, 
+                    //     ps?.x as number, 
+                    //     ps?.y as number 
+                    // );
                     break;
             }
         }

@@ -21,7 +21,10 @@ export default class OtherPlayer extends Physics.Matter.Sprite {
         switch ( server.room.sessionId ) {
 
             case server.room.state.player1?.id:
-
+                
+                this.tintFill = true;
+                //red
+                this.tint = Color("rgb(255,0,0)").rgbNumber().valueOf();
                 break;
             case server.room.state.player2?.id:
 
