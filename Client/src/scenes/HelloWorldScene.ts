@@ -146,7 +146,8 @@ export default class HelloWorldScene extends Phaser.Scene
         if( server != null && this.player == undefined || server != null && this.player == null ) {
 
 
-            if( server.room?.sessionId == server.room.state.player1?.id ) {
+            if( server?.room?.sessionId == server?.room?.state?.player1?.id ) {
+
                 console.log("sloppy don miloso vitch")
                 this.createPlayer( server.room.state.player1, true );
 
@@ -163,7 +164,7 @@ export default class HelloWorldScene extends Phaser.Scene
                 //     this.createPlayer( state.player4, false );
                 // }
             }
-            else if( server.room.sessionId == server.room.state.player2?.id ) {
+            else if( server?.room?.sessionId == server?.room?.state?.player2?.id ) {
                 console.log("blog")
                 this.createPlayer( server.room.state.player2, true );
 
@@ -180,7 +181,7 @@ export default class HelloWorldScene extends Phaser.Scene
                 //     this.createPlayer( server.room.state.player4, false );
                 // }                    
             }
-            else if( server.room.sessionId == server.room.state.player3?.id ) {
+            else if( server?.room?.sessionId == server?.room?.state?.player3?.id ) {
 
                 this.createPlayer( server.room.state?.player3, true );
 
@@ -197,9 +198,9 @@ export default class HelloWorldScene extends Phaser.Scene
                 //     this.createPlayer( state.player4, false );
                 // }                    
             }
-            else if( server.room.sessionId == server.room.state.player4?.id ) {
+            else if( server?.room?.sessionId == server?.room?.state?.player4?.id ) {
 
-                this.createPlayer( server.room.state?.player4, true );
+                this.createPlayer( server?.room?.state?.player4, true );
 
                 // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
