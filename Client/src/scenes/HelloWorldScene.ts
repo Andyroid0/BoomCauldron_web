@@ -153,15 +153,15 @@ export default class HelloWorldScene extends Phaser.Scene
 
                 // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player2, false );
+                //     this.createOtherPlayer( state.player2 );
                 // }
                 // if(server.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player3, false );
+                //     this.createOtherPlayer( state.player3 );
                 // }
                 // if(server.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player4, false );
+                //     this.createOtherPlayer( state.player4 );
                 // }
             }
             else if( server?.room?.sessionId == server?.room?.state?.player2?.id ) {
@@ -170,15 +170,15 @@ export default class HelloWorldScene extends Phaser.Scene
 
                 if(server?.room?.state?.player1 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server?.room?.state?.player1, false );
+                    this.createOtherPlayer( server?.room?.state?.player1 );
                 }
                 // if(server.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( server.room.state.player3, false );
+                //     this.createOtherPlayer( server.room.state.player3 );
                 // }
                 // if(server.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( server.room.state.player4, false );
+                //     this.createOtherPlayer( server.room.state.player4 );
                 // }                    
             }
             else if( server?.room?.sessionId == server?.room?.state?.player3?.id ) {
@@ -187,15 +187,15 @@ export default class HelloWorldScene extends Phaser.Scene
 
                 // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player1, false );
+                //     this.createOtherPlayer( state.player1 );
                 // }
                 // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player2, false );
+                //     this.createOtherPlayer( state.player2 );
                 // }
                 // if(server.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player4, false );
+                //     this.createOtherPlayer( state.player4 );
                 // }                    
             }
             else if( server?.room?.sessionId == server?.room?.state?.player4?.id ) {
@@ -204,15 +204,15 @@ export default class HelloWorldScene extends Phaser.Scene
 
                 // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player1, false );
+                //     this.createOtherPlayer( state.player1 );
                 // }
                 // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player2, false );
+                //     this.createOtherPlayer( state.player2 );
                 // }
                 // if(server.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
-                //     this.createPlayer( state.player3, false );
+                //     this.createOtherPlayer( state.player3 );
                 // }  
             }                  
         }   
@@ -222,30 +222,25 @@ export default class HelloWorldScene extends Phaser.Scene
     createPlayer = ( ps: PlayerState | null, playable: boolean ) => {
         if(ps?.id == server?.room?.sessionId) {
 
-            switch (playable) {
-
-                case true:
-                    console.log("samsonite")
-                    this.player = new Player( 
-                        this.matter.world, 
-                        this, 
-                        ps?.x as number, 
-                        ps?.y as number 
-                    );
-                    this.playerController = this.player.controller;
-                    break;
-
-                case false:
-                        console.log("triple frank coconut 🌴")
-                    // new OtherPlayer( 
-                    //     this.matter.world, 
-                    //     this, 
-                    //     ps?.x as number, 
-                    //     ps?.y as number 
-                    // );
-                    break;
-            }
+            console.log("samsonite")
+            this.player = new Player( 
+                this.matter.world, 
+                this, 
+                ps?.x as number, 
+                ps?.y as number 
+            );
+            this.playerController = this.player.controller;
         }
+    }
+
+    createOtherPlayer = ( ps: PlayerState | null ) => {
+        console.log("triple frank coconut 🌴")
+        new OtherPlayer( 
+            this.matter.world, 
+            this, 
+            ps?.x as number, 
+            ps?.y as number 
+        );
     }
 
 }
