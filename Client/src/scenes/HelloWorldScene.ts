@@ -146,7 +146,7 @@ export default class HelloWorldScene extends Phaser.Scene
         if( server != null && this.player == undefined || server != null && this.player == null ) {
 
 
-            if( server.room.sessionId == server.room.state.player1?.id ) {
+            if( server.room?.sessionId == server.room.state.player1?.id ) {
                 console.log("sloppy don miloso vitch")
                 this.createPlayer( server.room.state.player1, true );
 
