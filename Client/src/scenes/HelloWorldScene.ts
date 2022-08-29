@@ -149,7 +149,7 @@ export default class HelloWorldScene extends Phaser.Scene
             if( server?.room?.sessionId == server?.room?.state?.player1?.id ) {
 
                 console.log("sloppy don miloso vitch")
-                this.createPlayer( server.room.state.player1, true );
+                this.createPlayer( server?.room?.state?.player1, true );
 
                 // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
@@ -166,11 +166,11 @@ export default class HelloWorldScene extends Phaser.Scene
             }
             else if( server?.room?.sessionId == server?.room?.state?.player2?.id ) {
                 console.log("blog")
-                this.createPlayer( server.room.state.player2, true );
+                this.createPlayer( server?.room?.state?.player2, true );
 
-                if(server.room.state.player1 != null) {
+                if(server?.room?.state?.player1 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1, false );
+                    this.createPlayer( server?.room?.state?.player1, false );
                 }
                 // if(server.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
@@ -183,7 +183,7 @@ export default class HelloWorldScene extends Phaser.Scene
             }
             else if( server?.room?.sessionId == server?.room?.state?.player3?.id ) {
 
-                this.createPlayer( server.room.state?.player3, true );
+                this.createPlayer( server?.room?.state?.player3, true );
 
                 // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
@@ -225,7 +225,7 @@ export default class HelloWorldScene extends Phaser.Scene
             switch (playable) {
 
                 case true:
-
+                    console.log("samsonite")
                     this.player = new Player( 
                         this.matter.world, 
                         this, 
