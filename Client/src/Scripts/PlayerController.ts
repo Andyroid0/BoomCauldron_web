@@ -266,7 +266,7 @@ export default class PlayerController extends Phaser.Scene
     serverSync = () => {
 
         if( this.playerMoveState != this.previous_playerMoveState ) {
-            this.server.room.send(Message.PlayerMovement, this.playerMoveState)
+            this.server?.room?.send(Message.PlayerMovement, this.playerMoveState)
             this.previous_playerMoveState = this.playerMoveState;
         }
     }
