@@ -220,7 +220,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
 
     createPlayer = ( ps: PlayerState | null, playable: boolean ) => {
-        if(ps?.id == server.room.sessionId) {
+        if(ps?.id == server?.room?.sessionId) {
 
             switch (playable) {
 
