@@ -118,10 +118,10 @@ export class TestRoom extends Room<TeamRoomState> {
 
       // PHYSICS
       try {
-        if (this.state.player1) this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
-        if (this.state.player2) this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
-        if (this.state.player3) this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
-        if (this.state.player4) this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
+        this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
+        this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
+        this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
+        this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
       }
       catch (e) {
         console.log(e)
@@ -159,10 +159,10 @@ export class TestRoom extends Room<TeamRoomState> {
 
       //client.send( Message.PlayerSlotAssignment, "player1 ");
     }
-    else if ( this.state.player2 == null ) {
+    else if ( this.state.player2 == null && this.state.player1 != null ) {
 
-      let x = this.player1.position.x
-      let y = this.player1.position.y + 25
+      let x = 400//this.player1.position.x + 100;
+      let y = 400//this.player1.position.y + 100;
       this.player2 = Matter.Bodies.circle(x, y, 20 );
 
       Matter.Composite.add(this.engine.world, this.player2);

@@ -149,7 +149,7 @@ export default class HelloWorldScene extends Phaser.Scene
             if( server?.room?.sessionId == server?.room?.state?.player1?.id ) {
 
                 console.log("sloppy don miloso vitch")
-                this.createPlayer( server?.room?.state?.player1, true );
+                this.createPlayer( server?.room?.state?.player1 );
 
                 // if(server.room.state.player2 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
@@ -166,7 +166,7 @@ export default class HelloWorldScene extends Phaser.Scene
             }
             else if( server?.room?.sessionId == server?.room?.state?.player2?.id ) {
                 console.log("blog")
-                this.createPlayer( server?.room?.state?.player2, true );
+                this.createPlayer( server?.room?.state?.player2 );
 
                 if(server?.room?.state?.player1 != null) {
                     // ADD TEAM MEMBER COMPONENT
@@ -183,7 +183,7 @@ export default class HelloWorldScene extends Phaser.Scene
             }
             else if( server?.room?.sessionId == server?.room?.state?.player3?.id ) {
 
-                this.createPlayer( server?.room?.state?.player3, true );
+                this.createPlayer( server?.room?.state?.player3 );
 
                 // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
@@ -200,7 +200,7 @@ export default class HelloWorldScene extends Phaser.Scene
             }
             else if( server?.room?.sessionId == server?.room?.state?.player4?.id ) {
 
-                this.createPlayer( server?.room?.state?.player4, true );
+                this.createPlayer( server?.room?.state?.player4 );
 
                 // if(server.room.state.player1 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
@@ -219,7 +219,7 @@ export default class HelloWorldScene extends Phaser.Scene
     }
 
 
-    createPlayer = ( ps: PlayerState | null, playable: boolean ) => {
+    createPlayer = ( ps: PlayerState | null ) => {
         if(ps?.id == server?.room?.sessionId) {
 
             this.player = new Player( 
