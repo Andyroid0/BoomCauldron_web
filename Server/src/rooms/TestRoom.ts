@@ -118,10 +118,10 @@ export class TestRoom extends Room<TeamRoomState> {
 
       // PHYSICS
       try {
-        this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
-        this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
-        this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
-        this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
+        if(this.player1) this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
+        if(this.player2) this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
+        if(this.player3) this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
+        if(this.player4) this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
       }
       catch (e) {
         console.log(e)

@@ -9,7 +9,8 @@ export default class Player extends Physics.Matter.Sprite {
     constructor(world: Phaser.Physics.Matter.World, scene: Phaser.Scene, x: number, y: number ) {
 
         super(world, x, y, 'bush', 0, {circleRadius: 20} )
-
+        this.x = x;
+        this.y = y;
         scene.add.existing(this);
         scene.add.existing;
         world.add(this);

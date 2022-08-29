@@ -95,7 +95,7 @@ export default class PlayerController extends Phaser.Scene
 
     update(time: number, delta: number): void {
         
-
+        //console.log(this.player.x)
         this.inputHandler();
 
         this.projectileHandler();
@@ -273,11 +273,34 @@ export default class PlayerController extends Phaser.Scene
 
 
     syncPosition = () => {
+        let Xdelta;
+        let Ydelta
+        let state = this.server?.room?.state;
+
+        if(this.name == state?.player1?.id) {
+
+            Ydelta = Math.Difference( this.player.y, state?.player1?.y );
+            Xdelta = Math.Difference( this.player.x, state?.player1?.x );
+        }
+        else if(this.name == state?.player2?.id) {
+
+            Ydelta = Math.Difference( this.player.y, state?.player2?.y );
+            Xdelta = Math.Difference( this.player.x, state?.player2?.x );
+        }
+        else if(this.name == state?.player3?.id) {
+
+            Ydelta = Math.Difference( this.player.y, state?.player3?.y );
+            Xdelta = Math.Difference( this.player.x, state?.player3?.x );
+        }
+        else if(this.name == state?.player4?.id) {
+
+            Ydelta = Math.Difference( this.player.y, state?.player4?.y );
+            Xdelta = Math.Difference( this.player.x, state?.player4?.x );
+        }
 
         // SYNC PLAYER POSITION WITH THE SERVER AND EASES DIFFERENCES
         // METHODS EXECUTED AT BOTTOM OF FUNCTION
-        let Ydelta = Math.Difference( this.player.y, this.serverY );
-        let Xdelta = Math.Difference( this.player.x, this.serverX );
+
 
 
 
@@ -295,7 +318,7 @@ export default class PlayerController extends Phaser.Scene
             let sx: number | undefined;
             let x = this.player.x;
             let state = this.server?.room?.state;
-            let sID = this.server?.room?.sessionId;
+            let sID = this.name;
 
             switch ( sID ) {
 
@@ -339,7 +362,7 @@ export default class PlayerController extends Phaser.Scene
             let sy : number | undefined;
             let y = this.player.y;
             let state = this.server?.room?.state;
-            let sID = this.server?.room?.sessionId;            
+            let sID = this.name;            
 
             switch ( sID ) {
 

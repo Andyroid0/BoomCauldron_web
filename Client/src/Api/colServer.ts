@@ -9,11 +9,12 @@ const address = 'ws://localhost:2567';
 class Server extends Colyseus.Client {
 
     room !: Colyseus.Room<TeamRoomState>;
+    connected !: boolean;
     //public slot !: string;
+    
 
     constructor() {
         super("Server")
-
         this.endpoint = address;
         this.joinOrCreate("test_room")
         .then( room => {
