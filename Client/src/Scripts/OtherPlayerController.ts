@@ -65,9 +65,10 @@ export default class OtherPlayerController extends Phaser.Scene
 
         this.server.room.onStateChange( state => {
 
+
             let s = this.server.room.state;
 
-            switch (this.server.room.sessionId) {
+            switch (this.name) {
                 
                 case s.player1?.id:
     
