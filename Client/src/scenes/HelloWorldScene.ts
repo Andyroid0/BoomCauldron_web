@@ -59,7 +59,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
 
 
-        server.room.onStateChange( state => {
+        server.room?.onStateChange( state => {
             
             if( server.room.sessionId == state.player1?.id ) {
 
