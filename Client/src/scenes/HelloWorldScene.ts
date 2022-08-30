@@ -63,78 +63,78 @@ export default class HelloWorldScene extends Phaser.Scene
             
             if( server.room.sessionId == state.player1?.id ) {
 
-                if (this.player == undefined && this.player == null) {
+                // if (this.player == undefined && this.player == null) {
 
-                    this.createPlayer( server.room.state.player1 );
-                }
+                //     this.createPlayer( server.room.state.player1 );
+                // }
                 if(state.player2 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player2 );
+                    this.createOtherPlayer( server.room.state.player2 );
                 }
                 if(state.player3 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player3 );
+                    this.createOtherPlayer( server.room.state.player3 );
                 }
                 if(state.player4 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player4 );
+                    this.createOtherPlayer( server.room.state.player4 );
                 }
             }
             else if( server.room.sessionId == state.player2?.id ) {
 
-                if (this.player == undefined && this.player == null) {
+                // if (this.player == undefined && this.player == null) {
 
-                    this.createPlayer( server.room.state.player2 );
-                }
+                //     this.createPlayer( server.room.state.player2 );
+                // }
                 if(state.player1 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1 );
+                    this.createOtherPlayer( server.room.state.player1 );
                 }
                 if(state.player3 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player3 );
+                    this.createOtherPlayer( server.room.state.player3 );
                 }
                 if(state.player4 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player4 );
+                    this.createOtherPlayer( server.room.state.player4 );
                 }                    
             }
             else if( server.room.sessionId == state.player3?.id ) {
 
-                if (this.player == undefined && this.player == null) {
+                // if (this.player == undefined && this.player == null) {
 
-                    this.createPlayer( server.room.state.player3 );
-                }
+                //     this.createPlayer( server.room.state.player3 );
+                // }
                 if(state.player1 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1 );
+                    this.createOtherPlayer( server.room.state.player1 );
                 }
                 if(state.player2 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player2 );
+                    this.createOtherPlayer( server.room.state.player2 );
                 }
                 if(state.player4 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player4 );
+                    this.createOtherPlayer( server.room.state.player4 );
                 }                    
             }
             else if( server.room.sessionId == state.player4?.id ) {
 
-                if (this.player == undefined && this.player == null) {
+                // if (this.player == undefined && this.player == null) {
 
-                    this.createPlayer( server.room.state.player4 );
-                }
+                //     this.createPlayer( server.room.state.player4 );
+                // }
                 if(state.player1 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player1 );
+                    this.createOtherPlayer( server.room.state.player1 );
                 }
                 if(state.player2 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player2 );
+                    this.createOtherPlayer( server.room.state.player2 );
                 }
                 if(state.player3 != null) {
                     // ADD TEAM MEMBER COMPONENT
-                    this.createPlayer( server.room.state.player3 );
+                    this.createOtherPlayer( server.room.state.player3 );
                 }                    
             }
         })        
