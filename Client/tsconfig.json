@@ -19,13 +19,18 @@
 		},
 		"typeRoots": [
 			"node_modules/@types",
-			"node_modules/phaser/types",
+			"node_modules/phaser/types"
 		],
 		"types": [
+			"node",
 			"phaser",
+			"mocha"
 		]
 	},
 	"include": [
-		"src/**/**/*"
+		"src/**/**/**/*",
+		"cypress/**/**/*",
+		"test/**/**/*",
+		 "mocha/**/**/*"	
 	]
 }
