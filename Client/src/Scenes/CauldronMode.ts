@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
-import Player from '../Actors/Player'; 
-import OtherPlayer from '../Actors/OtherPlayer';
+import Player from '../Actors/Players/Player';
+import OtherPlayer from '../Actors/Players/OtherPlayer';
 import Color from 'color';
 import PlayerController from '~/Scripts/PlayerController';
 import PlayerState from '~/Api/schema/PlayerState';
@@ -29,25 +29,25 @@ export default class CauldronMode extends Phaser.Scene
     createPlayer = ( ps: PlayerState | null ) => {
         if(ps?.id == colyseusClient?.room?.sessionId) {
 
-            this.player = new Player( 
-                this.matter.world, 
-                this, 
-                ps?.x as number, 
-                ps?.y as number 
+            this.player = new Player(
+                this.matter.world,
+                this,
+                ps?.x as number,
+                ps?.y as number
             );
             this.playerController = this.player.controller;
         }
     }
 
     createOtherPlayer = ( ps: PlayerState | null ) => {
-        new OtherPlayer( 
-            this.matter.world, 
-            this, 
-            ps?.x as number, 
+        new OtherPlayer(
+            this.matter.world,
+            this,
+            ps?.x as number,
             ps?.y as number,
-            ps?.id as string 
+            ps?.id as string
         );
-    }    
+    }
 
 	preload()
     {
@@ -74,7 +74,7 @@ export default class CauldronMode extends Phaser.Scene
         var g1 = this.add.image(300, 480, 'grassEdge2')
         g1.tint = Color("#c756c7").rgbNumber().valueOf();
         g1.tintFill = true;
-        
+
         var g2 = this.add.image(325, 480, 'grassEdge1');
         g2.tint = Color("#ff80e5").rgbNumber().valueOf();
         g2.tintFill = true;
@@ -87,24 +87,24 @@ export default class CauldronMode extends Phaser.Scene
 
         this.createPlayer(
             colyseusClient.room?.state.players
-                .find( 
+                .find(
                     player => {
                         return player.id === colyseusClient.room?.sessionId
                     }
                 ) as PlayerState
         );
-            
+
         const players: unknown = colyseusClient.room?.state.players;
         const defined = players as ArraySchema<PlayerState>
             .onAdd = (item, key) => {}
-        
-        
+
+
                //onStateChange( state => {
 
             const handlePlayerCreation = function () {
                 colyseusClient.room?.state.
             }
-            
+
             if( colyseusClient.room?.sessionId == state.player1?.id ) {
 
                 // if (this.player == undefined && this.player == null) {
@@ -141,7 +141,7 @@ export default class CauldronMode extends Phaser.Scene
                 if(state.player4 != null) {
                     // ADD TEAM MEMBER COMPONENT
                     this.createOtherPlayer( colyseusClient.room?.state.player4 );
-                }                    
+                }
             }
             else if( colyseusClient.room?.sessionId == state.player3?.id ) {
 
@@ -160,7 +160,7 @@ export default class CauldronMode extends Phaser.Scene
                 if(state.player4 != null) {
                     // ADD TEAM MEMBER COMPONENT
                     this.createOtherPlayer( colyseusClient.room?.state.player4 );
-                }                    
+                }
             }
             else if( colyseusClient.room?.sessionId == state.player4?.id ) {
 
@@ -179,9 +179,9 @@ export default class CauldronMode extends Phaser.Scene
                 if(state.player3 != null) {
                     // ADD TEAM MEMBER COMPONENT
                     this.createOtherPlayer( colyseusClient.room?.state.player3 );
-                }                    
+                }
             }
-        })        
+        })
 
     }
 
@@ -223,7 +223,7 @@ export default class CauldronMode extends Phaser.Scene
                 // if(colyseusClient.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createOtherPlayer( colyseusClient.room.state.player4 );
-                // }                    
+                // }
             }
             else if( colyseusClient?.room?.sessionId == colyseusClient?.room?.state?.player3?.id ) {
 
@@ -240,7 +240,7 @@ export default class CauldronMode extends Phaser.Scene
                 // if(colyseusClient.room.state.player4 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createOtherPlayer( state.player4 );
-                // }                    
+                // }
             }
             else if( colyseusClient?.room?.sessionId == colyseusClient?.room?.state?.player4?.id ) {
 
@@ -257,10 +257,10 @@ export default class CauldronMode extends Phaser.Scene
                 // if(colyseusClient.room.state.player3 != null) {
                 //     // ADD TEAM MEMBER COMPONENT
                 //     this.createOtherPlayer( state.player3 );
-                // }  
-            }                  
-        }   
-    
+                // }
+            }
+        }
+
 
 
 

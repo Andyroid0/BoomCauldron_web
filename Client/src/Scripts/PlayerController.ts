@@ -1,11 +1,11 @@
 import BlueOrb from '../Prefabs/blueOrb';
 import Message from '../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
-import PlayerMoveState from '../State/PlayerAttackState';
-import PlayerAttackState from '../State/PlayerMovementState';
+import PlayerMoveState from '../State/PlayerMovementState';
+import PlayerAttackState from '../State/PlayerAttackState';
 import playerType from '../State/playerType';
 import ColyseusClient from '~/Api/ColyseusClient';
-
+import InputHandler from '~/Actors/Players/functions/InputHandler';
 
 export default class PlayerController extends Phaser.Scene
 {
@@ -14,6 +14,8 @@ export default class PlayerController extends Phaser.Scene
     name!: string;
 
     cursors!: Types.Input.Keyboard.CursorKeys;
+
+    online!: boolean;
 
     position!: Math.Vector2;
 
@@ -42,13 +44,15 @@ export default class PlayerController extends Phaser.Scene
     down!: Phaser.Input.Keyboard.Key;
     right!: Phaser.Input.Keyboard.Key;
 
-	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, colyseusClient : ColyseusClient) {
+	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, colyseusClient : ColyseusClient, online: boolean) {
 
         var name = colyseusClient?.room?.sessionId;//"PlayerController"
 
 		super( name as string )
 
         this.name = name as string;
+
+        this.online = online;
 
         scene.scene.add( name as string, this, true );
 
@@ -66,7 +70,7 @@ export default class PlayerController extends Phaser.Scene
 
         this.colyseusClient = colyseusClient;
 
-        this.showServerPlayer = false;     
+        this.showServerPlayer = false;
 
 
 	}
@@ -86,74 +90,36 @@ export default class PlayerController extends Phaser.Scene
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W); 
-        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A); 
-        this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S); 
-        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D); 
+        this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.down = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
     }
 
     update(time: number, delta: number): void {
-        
+
         //console.log(this.player.x)
-        this.inputHandler();
+        InputHandler(this.cursors, this.playerMoveState);
 
         this.projectileHandler();
 
         this.movementStateHandler();
 
-        this.serverSync();
 
-        this.syncPosition();
-                   
+        if( this.online ) {
+
+            this.serverSync();
+            this.syncPosition();
+        }
+
     }
 
 
-    inputHandler = () => {
-
-        const c = this.cursors;
-
- 
-        if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.Left;
-        }
-        else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.Right;
-        } 
-        else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
-            
-            this.playerMoveState = PlayerMoveState.Up;
-        }
-        else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.Down;
-        }
-        else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.DownLeft;
-        }
-        else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.DownRight;
-        }
-        else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.UpRight;
-        }
-        else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.UpLeft;
-        }
-        else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
-
-            this.playerMoveState = PlayerMoveState.idle;
-        }
-    }
 
     VelocityAndState_setter = (state: PlayerMoveState, x: number, y: number) => {
-        let speed = this.colyseusClient.room?.state.players.find( player => player.id === this.name)?.moveSpeed
+        // not in use
+        let speed = this.colyseusClient.room?.state.players.get(this.name)?.moveSpeed
         this.playerMoveState = state;
         this.player.setVelocity(x*speed!, y*speed!)
     }
@@ -169,9 +135,9 @@ export default class PlayerController extends Phaser.Scene
 
             new BlueOrb(
                 this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
+                this,
+                this.player.body.position.x + 10,
+                this.player.body.position.y + 10,
                 new Phaser.Math.Vector2(0, -10),
                 900
             );
@@ -180,34 +146,34 @@ export default class PlayerController extends Phaser.Scene
 
             new BlueOrb(
                 this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
+                this,
+                this.player.body.position.x + 10,
+                this.player.body.position.y + 10,
                 new Phaser.Math.Vector2(0, 10),
                 900
-            );            
+            );
         }
         else if( is_down( this.left ) ) {
 
             new BlueOrb(
                 this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
+                this,
+                this.player.body.position.x + 10,
+                this.player.body.position.y + 10,
                 new Phaser.Math.Vector2(-10, 0),
                 900
-            );            
+            );
         }
         else if( is_down( this.right ) ) {
 
             new BlueOrb(
                 this.matter.world,
-                this, 
-                this.player.body.position.x + 10, 
-                this.player.body.position.y + 10, 
+                this,
+                this.player.body.position.x + 10,
+                this.player.body.position.y + 10,
                 new Phaser.Math.Vector2(10, 0),
                 900
-            );            
+            );
         }
     }
 
@@ -217,7 +183,7 @@ export default class PlayerController extends Phaser.Scene
             switch ( this.playerMoveState ) {
 
                 case PlayerMoveState.idle:
-    
+
                     if(this.player.body.velocity.x != 0 && this.player.body.velocity.y != 0 ) {
                         let x = this.player.body.velocity.x;
                         let y = this.player.body.velocity.y;
@@ -225,42 +191,42 @@ export default class PlayerController extends Phaser.Scene
                     }
                     else this.player.setVelocity(0,0);
                     break;
-    
+
                 case PlayerMoveState.Down:
 
                     this.player.setVelocity(0, this.playerSpeed);
-                    break;        
-    
+                    break;
+
                 case PlayerMoveState.DownLeft:
-    
+
                     this.player.setVelocity(-this.playerSpeed, this.playerSpeed);
                     break;
-    
+
                 case PlayerMoveState.DownRight:
-                    
+
                     this.player.setVelocity(this.playerSpeed, this.playerSpeed);
                     break;
-    
+
                 case PlayerMoveState.Up:
-    
+
                     this.player.setVelocity( 0, -this.playerSpeed );
                     break;
-    
+
                 case PlayerMoveState.UpLeft:
 
                     this.player.setVelocity( -this.playerSpeed, -this.playerSpeed );
                     break;
-    
+
                 case PlayerMoveState.UpRight:
-    
+
                     this.player.setVelocity( this.playerSpeed, -this.playerSpeed );
                     break;
-    
+
                 case PlayerMoveState.Left:
 
                     this.player.setVelocity( -this.playerSpeed, 0 );
                     break;
-    
+
                 case PlayerMoveState.Right:
 
                     this.player.setVelocity( this.playerSpeed, 0 );
@@ -272,7 +238,7 @@ export default class PlayerController extends Phaser.Scene
     serverSync = () => {
 
         if( this.playerMoveState != this.previous_playerMoveState ) {
-            
+
             this.colyseusClient.room?.send(Message.PlayerMovement, this.playerMoveState);
             this.previous_playerMoveState = this.playerMoveState;
         }
@@ -280,84 +246,41 @@ export default class PlayerController extends Phaser.Scene
 
 
     syncPosition = () => {
-        let Xdelta;
-        let Ydelta
+
         let state = this.colyseusClient.room?.state;
 
-        if(this.name == state?.player1?.id) {
+        let Ydelta = Math.Difference( this.player.y, state?.players.get(this.name)?.y as number);
+        let Xdelta = Math.Difference( this.player.x, state?.players.get(this.name)?.x as number);
 
-            Ydelta = Math.Difference( this.player.y, state?.player1?.y );
-            Xdelta = Math.Difference( this.player.x, state?.player1?.x );
-        }
-        else if(this.name == state?.player2?.id) {
 
-            Ydelta = Math.Difference( this.player.y, state?.player2?.y );
-            Xdelta = Math.Difference( this.player.x, state?.player2?.x );
-        }
-        else if(this.name == state?.player3?.id) {
-
-            Ydelta = Math.Difference( this.player.y, state?.player3?.y );
-            Xdelta = Math.Difference( this.player.x, state?.player3?.x );
-        }
-        else if(this.name == state?.player4?.id) {
-
-            Ydelta = Math.Difference( this.player.y, state?.player4?.y );
-            Xdelta = Math.Difference( this.player.x, state?.player4?.x );
-        }
 
         // SYNC PLAYER POSITION WITH THE SERVER AND EASES DIFFERENCES
         // METHODS EXECUTED AT BOTTOM OF FUNCTION
-
-
-
 
         const serverPlayer_positionDebugger = () => {
 
             if(this.showServerPlayer) {
 
                 this.serverPlayer.x = this.serverX;
-                this.serverPlayer.y = this.serverY;            
+                this.serverPlayer.y = this.serverY;
             }
         }
 
         const easeX = () => {
 
-            let sx: number | undefined;
             let x = this.player.x;
             let state = this.colyseusClient?.room?.state;
-            let sID = this.name;
+            let sx = state?.players.get(this.name)?.x;
 
-            switch ( sID ) {
-
-                case state?.player1?.id: 
-    
-                    sx = state?.player1?.x;
-                    break;
-    
-                case state?.player2?.id: 
-    
-                    sx = state?.player2?.x;
-                    break;   
-    
-                case state?.player3?.id: 
-    
-                    sx = state.player3?.x;
-                    break;
-    
-                case state?.player4?.id: 
-    
-                    sx = state?.player4?.x;
-                    break;
-            }
 
             if ( Xdelta > 5 ) {
 
-                this.player.x = Phaser.Math.Linear( x, sx as number, 0.05 ); 
+                this.player.x = Phaser.Math.Linear( x, sx as number, 0.05 );
             }
             else if ( Xdelta > 1 && Xdelta <= 5 ) {
-                
-                this.player.x = Phaser.Math.Linear( x, sx as number, 0.1 ); 
-            }        
+
+                this.player.x = Phaser.Math.Linear( x, sx as number, 0.1 );
+            }
             else {
 
                 this.player.x = Phaser.Math.Linear( x, sx as number, 0.3 );
@@ -366,45 +289,21 @@ export default class PlayerController extends Phaser.Scene
 
         const easeY = () => {
 
-            let sy : number | undefined;
             let y = this.player.y;
             let state = this.colyseusClient?.room?.state;
-            let sID = this.name;            
-
-            switch ( sID ) {
-
-                case state?.player1?.id: 
-    
-                    sy = state?.player1?.y;
-                    break;
-    
-                case state?.player2?.id: 
-    
-                    sy = state?.player2?.y;
-                    break;   
-    
-                case state?.player3?.id: 
-    
-                    sy = state?.player3?.y;
-                    break;
-    
-                case state?.player4?.id: 
-    
-                    sy = state?.player4?.y;
-                    break;
-            }
+            let sy = state?.players.get(this.name)?.y;
 
             if (   Ydelta > 5 ) {
 
-                this.player.y = Phaser.Math.Linear( y, sy as number, 0.05 );    
+                this.player.y = Phaser.Math.Linear( y, sy as number, 0.05 );
             }
             else if ( Ydelta > 1 && Ydelta <=5 ) {
-    
-                this.player.y = Phaser.Math.Linear( y, sy as number, 0.1 );    
-            }        
+
+                this.player.y = Phaser.Math.Linear( y, sy as number, 0.1 );
+            }
             else {
-    
-                this.player.y = Phaser.Math.Linear( y, sy as number, 0.3 );                
+
+                this.player.y = Phaser.Math.Linear( y, sy as number, 0.3 );
             }
         };
 

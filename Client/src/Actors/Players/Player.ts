@@ -1,7 +1,6 @@
 import { Physics } from 'phaser'
-import { server } from '../Scenes/HelloWorldScene';
 import PlayerController from '../Scripts/PlayerController';
-
+import { colyseusClient } from '../main';
 export default class Player extends Physics.Matter.Sprite {
 
     public controller !: PlayerController;
@@ -16,7 +15,6 @@ export default class Player extends Physics.Matter.Sprite {
         world.add(this);
 
         this.scale = 6;
-        this.controller = new PlayerController(scene, this, server)
+        this.controller = new PlayerController( scene, this, colyseusClient, false);
     }
- 
 }
