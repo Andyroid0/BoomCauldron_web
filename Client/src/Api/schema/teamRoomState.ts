@@ -1,4 +1,5 @@
 import { 
+  ArraySchema,
   Schema, 
   type
 
@@ -16,5 +17,6 @@ export default class TeamRoomState extends Schema {
   @type(PlayerState) player3: PlayerState | null = null;
   @type(PlayerState) player4: PlayerState | null = null;
 
-
+  @type([PlayerState]) players = new ArraySchema<PlayerState>();
+  
 }

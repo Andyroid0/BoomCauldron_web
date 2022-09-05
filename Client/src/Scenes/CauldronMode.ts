@@ -1,27 +1,53 @@
 import Phaser from 'phaser'
 import Player from '../Actors/Player'; 
 import OtherPlayer from '../Actors/OtherPlayer';
-//import { listenTest } from '../Api/colyseusClient';
-import { colyseusClient } from '../main';
 import Color from 'color';
 import PlayerController from '~/Scripts/PlayerController';
 import PlayerState from '~/Api/schema/PlayerState';
+import { colyseusClient } from '../main';
+import * as Colyseus from "colyseus.js";
+import CauldronRoomState from '../Api/schema/CauldronRoomState';
 
-//export const colyseusClient = new colyseusClient();
 
 
-export default class HelloWorldScene extends Phaser.Scene
+export default class CauldronMode extends Phaser.Scene
 {
     player !: Player;
 
     playerController !: PlayerController;
 
+    room !: Colyseus.Room<CauldronRoomState>;
+
 	constructor()
 	{
-		super('hello-world')
+		super('cauldron-world')
 
+        this.room = colyseusClient.room as Colyseus.Room<CauldronRoomState>
 
 	}
+
+    createPlayer = ( ps: PlayerState | null ) => {
+        if(ps?.id == colyseusClient?.room?.sessionId) {
+
+            this.player = new Player( 
+                this.matter.world, 
+                this, 
+                ps?.x as number, 
+                ps?.y as number 
+            );
+            this.playerController = this.player.controller;
+        }
+    }
+
+    createOtherPlayer = ( ps: PlayerState | null ) => {
+        new OtherPlayer( 
+            this.matter.world, 
+            this, 
+            ps?.x as number, 
+            ps?.y as number,
+            ps?.id as string 
+        );
+    }    
 
 	preload()
     {
@@ -40,8 +66,7 @@ export default class HelloWorldScene extends Phaser.Scene
 
     create()
     {
-        //var frank = this.add.image(400, 300, 'test');
-        //this.add.rectangle(400,320,400,300, Color("#488601").rgbNumber().valueOf() );
+
         this.add.image(400, 400, 'crystal1');
         this.add.image(445, 400, 'crystal2');
         this.add.image(355, 410, 'crystal3');
@@ -59,7 +84,26 @@ export default class HelloWorldScene extends Phaser.Scene
         g3.tintFill = true;
 
 
-        colyseusClient.room?.onStateChange( state => {
+
+        this.createPlayer(
+            colyseusClient.room?.state.players
+                .find( 
+                    player => {
+                        return player.id === colyseusClient.room?.sessionId
+                    }
+                ) as PlayerState
+        );
+            
+        const players: unknown = colyseusClient.room?.state.players;
+        const defined = players as ArraySchema<PlayerState>
+            .onAdd = (item, key) => {}
+        
+        
+               //onStateChange( state => {
+
+            const handlePlayerCreation = function () {
+                colyseusClient.room?.state.
+            }
             
             if( colyseusClient.room?.sessionId == state.player1?.id ) {
 
@@ -216,30 +260,8 @@ export default class HelloWorldScene extends Phaser.Scene
                 // }  
             }                  
         }   
-    }
+    
 
 
-    createPlayer = ( ps: PlayerState | null ) => {
-        if(ps?.id == colyseusClient?.room?.sessionId) {
 
-            this.player = new Player( 
-                this.matter.world, 
-                this, 
-                ps?.x as number, 
-                ps?.y as number 
-            );
-            this.playerController = this.player.controller;
-        }
-    }
 
-    createOtherPlayer = ( ps: PlayerState | null ) => {
-        new OtherPlayer( 
-            this.matter.world, 
-            this, 
-            ps?.x as number, 
-            ps?.y as number,
-            ps?.id as string 
-        );
-    }
-
-}

@@ -6,6 +6,7 @@ import { monitor } from "@colyseus/monitor";
  */
 import { MyRoom } from "./rooms/MyRoom";
 import { TestRoom } from "./rooms/TestRoom";
+import CauldronRoom from "./rooms/CauldronRoom/CauldronRoom";
 
 export default Arena({
     getId: () => "Your Colyseus App",
@@ -16,6 +17,7 @@ export default Arena({
          */
         gameServer.define('my_room', MyRoom);
         gameServer.define('test_room', TestRoom);
+        gameServer.define('cauldron', CauldronRoom);
 
 
     },

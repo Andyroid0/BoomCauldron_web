@@ -1,11 +1,12 @@
-import BlueOrb from '../Scenes/Prefabs/blueOrb';
+import BlueOrb from '../Prefabs/blueOrb';
 import Message from '../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
 import PlayerMoveState from '../State/PlayerMovementState';
 import PlayerAttackState from '../State/PlayerMovementState';
 import playerType from '../State/playerType';
-import Server from '../Api/colServer';
+import Server from '../Api/ColyseusClient';
 import PlayerState from '~/Api/schema/PlayerState';
+import ColyseusClient from '../Api/ColyseusClient';
 
 
 export default class OtherPlayerController extends Phaser.Scene
@@ -24,7 +25,7 @@ export default class OtherPlayerController extends Phaser.Scene
 
     playerSpeed !: number;
 
-    server !: Server;
+    colyseusClient !: ColyseusClient;
 
     serverX !: any;
 
@@ -37,7 +38,7 @@ export default class OtherPlayerController extends Phaser.Scene
     slot !: string;
 
 
-	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, server : Server, namer: string) {
+	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, colyseusClient : ColyseusClient, namer: string) {
 
         //var name = server.room.sessionId;
 
@@ -59,14 +60,14 @@ export default class OtherPlayerController extends Phaser.Scene
 
         this.playerSpeed = 3;
 
-        this.server = server;
+        this.colyseusClient = colyseusClient;
 
         this.showServerPlayer = false;     
 
-        this.server.room.onStateChange( state => {
+        this.colyseusClient.room?.onStateChange( state => {
 
 
-            let s = this.server.room.state;
+            let s = this.colyseusClient.room?.state;
 
             switch (this.name) {
                 
@@ -232,7 +233,7 @@ export default class OtherPlayerController extends Phaser.Scene
             }
         }
 
-        let s = this.server.room.state;
+        let s = this.colyseusClient.room?.state;
 
         switch (this.name) {
             
@@ -263,7 +264,7 @@ export default class OtherPlayerController extends Phaser.Scene
         // METHODS EXECUTED AT BOTTOM OF FUNCTION
         let Xdelta;
         let Ydelta
-        let state = this.server?.room?.state;
+        let state = this.colyseusClient?.room?.state;
 
         if(this.name == state?.player1?.id) {
 
@@ -299,7 +300,7 @@ export default class OtherPlayerController extends Phaser.Scene
 
             let sx: number | undefined;
             let x = this.player.x;
-            let state = this.server.room.state;
+            let state = this.colyseusClient.room?.state;
             let sID = this.name;
 
             switch ( sID ) {
@@ -343,7 +344,7 @@ export default class OtherPlayerController extends Phaser.Scene
 
             let sy : number | undefined;
             let y = this.player.y;
-            let state = this.server.room.state;
+            let state = this.colyseusClient.room?.state;
             let sID = this.name;            
 
             switch ( sID ) {

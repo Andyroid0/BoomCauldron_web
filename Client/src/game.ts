@@ -1,14 +1,16 @@
 import Phaser from 'phaser'
 
-import HelloWorldScene from './Scenes/HelloWorldScene'
+import Start from './Scenes/Start';
 
 console.log( 'width: ' + window.screen.availWidth + '\n\n' + 'height: ' + window.screen.availHeight)
 
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	scale: {
-		width: 800,
-		height: 600
+		width: 1920,
+		height: 1080,
+		mode: Phaser.Scale.FIT,
+		autoCenter: Phaser.Scale.Center.CENTER_BOTH,
 	},
 	physics: {
 		default: 'matter',
@@ -20,15 +22,12 @@ const config: Phaser.Types.Core.GameConfig = {
 			}
 		}
 	},
-	dom: {
-        createContainer: true
-    },
-	scene: [HelloWorldScene],
+	scene: [Start],
 	pixelArt: true,
 	fps: {
 		target: 60,
 		forceSetTimeOut: true
-	}
+	},
 
 }
 export default new Phaser.Game(config)

@@ -1,10 +1,10 @@
-import BlueOrb from '../Scenes/Prefabs/blueOrb';
+import BlueOrb from '../Prefabs/blueOrb';
 import Message from '../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
 import PlayerMoveState from '../State/PlayerAttackState';
 import PlayerAttackState from '../State/PlayerMovementState';
 import playerType from '../State/playerType';
-import Server from '../Api/colServer';
+import ColyseusClient from '~/Api/ColyseusClient';
 
 
 export default class PlayerController extends Phaser.Scene
@@ -25,7 +25,7 @@ export default class PlayerController extends Phaser.Scene
 
     playerSpeed !: number;
 
-    server !: Server;
+    colyseusClient !: ColyseusClient;
 
     serverX !: any;
 
@@ -42,15 +42,15 @@ export default class PlayerController extends Phaser.Scene
     down!: Phaser.Input.Keyboard.Key;
     right!: Phaser.Input.Keyboard.Key;
 
-	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, server : Server) {
+	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, colyseusClient : ColyseusClient) {
 
-        var name = server?.room?.sessionId;//"PlayerController"
+        var name = colyseusClient?.room?.sessionId;//"PlayerController"
 
-		super(name)
+		super( name as string )
 
-        this.name = name;
+        this.name = name as string;
 
-        scene.scene.add(name, this, true);
+        scene.scene.add( name as string, this, true );
 
         this.position = new Math.Vector2(0,0);
 
@@ -64,7 +64,7 @@ export default class PlayerController extends Phaser.Scene
 
         this.playerSpeed = 3;
 
-        this.server = server;
+        this.colyseusClient = colyseusClient;
 
         this.showServerPlayer = false;     
 
@@ -150,6 +150,12 @@ export default class PlayerController extends Phaser.Scene
 
             this.playerMoveState = PlayerMoveState.idle;
         }
+    }
+
+    VelocityAndState_setter = (state: PlayerMoveState, x: number, y: number) => {
+        let speed = this.colyseusClient.room?.state.players.find( player => player.id === this.name)?.moveSpeed
+        this.playerMoveState = state;
+        this.player.setVelocity(x*speed!, y*speed!)
     }
 
 
@@ -266,7 +272,8 @@ export default class PlayerController extends Phaser.Scene
     serverSync = () => {
 
         if( this.playerMoveState != this.previous_playerMoveState ) {
-            this.server?.room?.send(Message.PlayerMovement, this.playerMoveState)
+            
+            this.colyseusClient.room?.send(Message.PlayerMovement, this.playerMoveState);
             this.previous_playerMoveState = this.playerMoveState;
         }
     }
@@ -275,7 +282,7 @@ export default class PlayerController extends Phaser.Scene
     syncPosition = () => {
         let Xdelta;
         let Ydelta
-        let state = this.server?.room?.state;
+        let state = this.colyseusClient.room?.state;
 
         if(this.name == state?.player1?.id) {
 
@@ -317,7 +324,7 @@ export default class PlayerController extends Phaser.Scene
 
             let sx: number | undefined;
             let x = this.player.x;
-            let state = this.server?.room?.state;
+            let state = this.colyseusClient?.room?.state;
             let sID = this.name;
 
             switch ( sID ) {
@@ -361,7 +368,7 @@ export default class PlayerController extends Phaser.Scene
 
             let sy : number | undefined;
             let y = this.player.y;
-            let state = this.server?.room?.state;
+            let state = this.colyseusClient?.room?.state;
             let sID = this.name;            
 
             switch ( sID ) {

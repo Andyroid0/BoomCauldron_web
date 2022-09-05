@@ -4,9 +4,10 @@ import { TestRoomState } from "./schema/TestRoomState";
 import { TeamRoomState } from "./schema/teamRoomState";
 import Message from "../State/Message";
 
-import Matter, { Vector } from 'matter-js';
+import Matter from 'matter-js';
 import PlayerMoveState from "../State/PlayerMovementState";
 import PlayerState from "./schema/PlayerState";
+import Test_Message from "../State/Test_Message";
 
 export class TestRoom extends Room<TeamRoomState> {
 
@@ -19,6 +20,7 @@ export class TestRoom extends Room<TeamRoomState> {
   player2: Matter.Body;
   player3: Matter.Body;
   player4: Matter.Body;
+
 
   playerSpeed: number;
 
@@ -35,34 +37,6 @@ export class TestRoom extends Room<TeamRoomState> {
 
     // ADD WORLD OBJECTS HERE
     Matter.Composite.add(this.engine.world, [])
-
-    // this.onMessage( Message.PlayerSlotAssignment, client => {
-
-    //   let result;
-    //   let s = this.state;
-
-    //   const check = (s:any) : boolean => {
-    //     if(s == client.id) {
-    //       return true;
-    //     } else return false;
-    //   }
-
-    //   if( check( s.player1.id )) {
-    //     result = "player1";
-    //   }
-    //   else if ( check( s.player2.id )) {
-    //     result = "player2";
-    //   }
-    //   else if ( check( s.player3.id )) {
-    //     result = "player3"
-    //   }
-    //   else if ( check( s.player4.id )) {
-    //     result = "player4"
-    //   }
-    //   else result = null;
-
-    //   client.send( Message.PlayerSlotAssignment, result);
-    // })
     
     this.onMessage( Message.PlayerMovement, ( client, message ) => {
       // HANDLE PLAYER MOVE STATE MESSAGES
@@ -118,10 +92,11 @@ export class TestRoom extends Room<TeamRoomState> {
 
       // PHYSICS
       try {
-        if(this.player1) this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
-        if(this.player2) this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
-        if(this.player3) this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
-        if(this.player4) this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
+        if ( this.player1 ) this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
+        //if ( this.player1 ) this.handleMovement( this.player1, this.state.player1.playerMoveState, this.state.player1.moveSpeed );
+        if ( this.player2 ) this.handleMovement( this.player2, this.state.player2.playerMoveState, this.state.player2.moveSpeed );
+        if ( this.player3 ) this.handleMovement( this.player3, this.state.player3.playerMoveState, this.state.player3.moveSpeed );
+        if ( this.player4 ) this.handleMovement( this.player4, this.state.player4.playerMoveState, this.state.player4.moveSpeed );
       }
       catch (e) {
         console.log(e)
@@ -141,7 +116,6 @@ export class TestRoom extends Room<TeamRoomState> {
   onJoin (client: Client, options: any) {
 
     //this.send(client, Message.ClientID, client.id + " " + client.sessionId)
-    console.log(client.sessionId, "joined!");
 
     if ( this.state.player1 == null ) {
 
@@ -150,14 +124,16 @@ export class TestRoom extends Room<TeamRoomState> {
       this.player1 = Matter.Bodies.circle(x, y, 20);
 
       Matter.Composite.add(this.engine.world, this.player1)
-      this.state.player1 = new PlayerState();
+      
+      //this.state.player1 = new PlayerState();
 
-      let p = this.state.player1;
+      //let p = this.state.player1;
+      let p = new PlayerState();
       p.id = client.id;
       p.x = x;
       p.y = y;
-
-      //client.send( Message.PlayerSlotAssignment, "player1 ");
+  
+      this.state.players.push(p);
     }
     else if ( this.state.player2 == null && this.state.player1 != null ) {
 
@@ -208,7 +184,37 @@ export class TestRoom extends Room<TeamRoomState> {
   }
 
   onLeave (client: Client, consented: boolean) {
-      this.state.player1 = null;
+
+    switch (client.id) {
+      
+      case this.state.player1.id:
+
+        this.state.player1 = null;
+        Matter.Composite.remove(this.engine.world, this.player1);
+        this.player1 = null;
+
+
+      case this.state.player2.id:
+
+        this.state.player2 = null;
+        Matter.Composite.remove(this.engine.world, this.player2);
+        this.player2 = null;
+
+
+      case this.state.player3.id:
+
+        this.state.player3 = null;
+        Matter.Composite.remove(this.engine.world, this.player3);
+        this.player3 = null;
+
+      case this.state.player4.id:
+
+        this.state.player4 = null;
+        Matter.Composite.remove(this.engine.world, this.player4);
+        this.player4 = null;
+
+    }
+      
   }
 
   onDispose() {
@@ -228,16 +234,18 @@ export class TestRoom extends Room<TeamRoomState> {
         physicsBody && player && player.y != physicsBody?.position.y 
 
         ) {
-
+        
+        player.X_Velocity = physicsBody?.velocity.x;
+        player.Y_Velocity = physicsBody?.velocity.y; 
         player.x = physicsBody?.position.x;
         player.y = physicsBody?.position.y;
       }
     };
 
-    synchronize(this.player1, this.state.player1);
-    synchronize(this.player2, this.state.player2);
-    synchronize(this.player3, this.state.player3);
-    synchronize(this.player4, this.state.player4);
+    if ( this.state.player1 ) synchronize(this.player1, this.state.player1);
+    if ( this.state.player2 ) synchronize(this.player2, this.state.player2);
+    if ( this.state.player3 ) synchronize(this.player3, this.state.player3);
+    if ( this.state.player4 ) synchronize(this.player4, this.state.player4);
   };
 
 

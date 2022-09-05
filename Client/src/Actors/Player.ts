@@ -1,6 +1,6 @@
 import { Physics } from 'phaser'
-import { server } from '../HelloWorldScene';
-import PlayerController from '../../Scripts/PlayerController';
+import { server } from '../Scenes/HelloWorldScene';
+import PlayerController from '../Scripts/PlayerController';
 
 export default class Player extends Physics.Matter.Sprite {
 

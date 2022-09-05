@@ -1,14 +1,12 @@
 import { 
 
   ArraySchema,
-  Context, 
   Schema, 
   type
-
+  
 } from "@colyseus/schema";
 
 import PlayerState from "./PlayerState";
-
 
 
 export class TeamRoomState extends Schema {
@@ -19,5 +17,6 @@ export class TeamRoomState extends Schema {
   @type(PlayerState) player3: PlayerState | null = null;
   @type(PlayerState) player4: PlayerState | null = null;
 
+  @type([PlayerState]) players = new ArraySchema<PlayerState>();
 
 }
