@@ -5,7 +5,6 @@
 /.parcel-cache
 */*/.DS_Store
 
-/Client/test
 /Client/.cache
 /Client/dist
 /Client/node_modules

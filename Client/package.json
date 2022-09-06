@@ -5,10 +5,9 @@
 	"scripts": {
 		"start": "parcel src/index.html -p 1234",
 		"build": "parcel build src/index.html",
-		"test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'test/**/*.ts'",
+		"test": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --require ts-node/register test/**.mocha.test.ts --exit --timeout 15000",
 		"lint": "eslint ./src --ext .js,.jsx,.ts,.tsx",
-		"cy": "cypress open",
-		"mocha": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --require ts-node/register test/**.mocha.test.ts --exit --timeout 15000"
+		"cy": "cypress open"
 	},
 	"author": "AndrewValley",
 	"license": "private",

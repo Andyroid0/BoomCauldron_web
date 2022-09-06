@@ -1,6 +1,6 @@
 import { Physics } from 'phaser'
-import PlayerController from '../Scripts/PlayerController';
-import { colyseusClient } from '../main';
+import PlayerController from '../../Scripts/PlayerController';
+import { colyseusClient } from '../../main';
 export default class Player extends Physics.Matter.Sprite {
 
     public controller !: PlayerController;

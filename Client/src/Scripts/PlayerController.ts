@@ -4,8 +4,12 @@ import Phaser, { Math, Physics, Types } from 'phaser'
 import PlayerMoveState from '../State/PlayerMovementState';
 import PlayerAttackState from '../State/PlayerAttackState';
 import playerType from '../State/playerType';
-import ColyseusClient from '~/Api/ColyseusClient';
-import InputHandler from '~/Actors/Players/functions/InputHandler';
+import ColyseusClient from '../Api/ColyseusClient';
+import InputHandler from '../Actors/Players/functions/InputHandler';
+import MovementStateHandler from '../Actors/Players/functions/MovementStateHandler';
+import AttackInputHandler from '../Actors/Players/functions/AttackInputHandler';
+import AttackStateHandler from '../Actors/Players/functions/AttackStateHandler';
+
 
 export default class PlayerController extends Phaser.Scene
 {
@@ -24,6 +28,8 @@ export default class PlayerController extends Phaser.Scene
     playerMoveState !: PlayerMoveState;
 
     previous_playerMoveState !: PlayerMoveState;
+
+    playerAttackState !: PlayerAttackState;
 
     playerSpeed !: number;
 
@@ -61,6 +67,8 @@ export default class PlayerController extends Phaser.Scene
         this.position = new Math.Vector2(0,0);
 
         this.previous_playerMoveState = PlayerMoveState.Down;
+
+        this.playerAttackState = PlayerAttackState.idle;
 
         this.player = object;
 
@@ -100,11 +108,52 @@ export default class PlayerController extends Phaser.Scene
     update(time: number, delta: number): void {
 
         //console.log(this.player.x)
-        InputHandler(this.cursors, this.playerMoveState);
+        this.playerMoveState =
+            InputHandler(
+                this.cursors.up.isDown, 
+                this.cursors.down.isDown, 
+                this.cursors.left.isDown,
+                this.cursors.right.isDown,
+            );
 
-        this.projectileHandler();
+        //this.projectileHandler();
 
-        this.movementStateHandler();
+        this.playerAttackState =
+            AttackInputHandler( 
+                Phaser.Input.Keyboard.JustDown(this.up), 
+                Phaser.Input.Keyboard.JustDown(this.down), 
+                Phaser.Input.Keyboard.JustDown(this.left), 
+                Phaser.Input.Keyboard.JustDown(this.right),             
+            );
+        const projectiledata = AttackStateHandler(
+            this.playerAttackState, 
+            {
+                x: this.player.x, 
+                y: this.player.y
+            },
+            10
+        );
+
+        if( this.playerAttackState != PlayerAttackState.idle ) {
+            new BlueOrb(
+                this.matter.world, 
+                this, 
+                {
+                    x: projectiledata?.startPosition.x as number,
+                    y: projectiledata?.startPosition.y as number
+                },
+                projectiledata?.velocity as { x:number, y: number },
+                900 
+            )
+        }
+            
+
+        const velocityVector = MovementStateHandler(
+            this.playerMoveState, 
+            this.player.body.velocity,
+            this.playerSpeed
+        );
+        this.player.setVelocity(velocityVector.x, velocityVector.y);
 
 
         if( this.online ) {
@@ -122,116 +171,6 @@ export default class PlayerController extends Phaser.Scene
         let speed = this.colyseusClient.room?.state.players.get(this.name)?.moveSpeed
         this.playerMoveState = state;
         this.player.setVelocity(x*speed!, y*speed!)
-    }
-
-
-    projectileHandler = () => {
-
-        const is_down = (btn: Phaser.Input.Keyboard.Key) : boolean => {
-            return Phaser.Input.Keyboard.JustDown(btn);
-        };
-
-        if( is_down( this.up ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this,
-                this.player.body.position.x + 10,
-                this.player.body.position.y + 10,
-                new Phaser.Math.Vector2(0, -10),
-                900
-            );
-        }
-        else if( is_down( this.down ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this,
-                this.player.body.position.x + 10,
-                this.player.body.position.y + 10,
-                new Phaser.Math.Vector2(0, 10),
-                900
-            );
-        }
-        else if( is_down( this.left ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this,
-                this.player.body.position.x + 10,
-                this.player.body.position.y + 10,
-                new Phaser.Math.Vector2(-10, 0),
-                900
-            );
-        }
-        else if( is_down( this.right ) ) {
-
-            new BlueOrb(
-                this.matter.world,
-                this,
-                this.player.body.position.x + 10,
-                this.player.body.position.y + 10,
-                new Phaser.Math.Vector2(10, 0),
-                900
-            );
-        }
-    }
-
-
-    movementStateHandler = async () => {
-
-            switch ( this.playerMoveState ) {
-
-                case PlayerMoveState.idle:
-
-                    if(this.player.body.velocity.x != 0 && this.player.body.velocity.y != 0 ) {
-                        let x = this.player.body.velocity.x;
-                        let y = this.player.body.velocity.y;
-                        this.player.setVelocity(x/3, y/3)
-                    }
-                    else this.player.setVelocity(0,0);
-                    break;
-
-                case PlayerMoveState.Down:
-
-                    this.player.setVelocity(0, this.playerSpeed);
-                    break;
-
-                case PlayerMoveState.DownLeft:
-
-                    this.player.setVelocity(-this.playerSpeed, this.playerSpeed);
-                    break;
-
-                case PlayerMoveState.DownRight:
-
-                    this.player.setVelocity(this.playerSpeed, this.playerSpeed);
-                    break;
-
-                case PlayerMoveState.Up:
-
-                    this.player.setVelocity( 0, -this.playerSpeed );
-                    break;
-
-                case PlayerMoveState.UpLeft:
-
-                    this.player.setVelocity( -this.playerSpeed, -this.playerSpeed );
-                    break;
-
-                case PlayerMoveState.UpRight:
-
-                    this.player.setVelocity( this.playerSpeed, -this.playerSpeed );
-                    break;
-
-                case PlayerMoveState.Left:
-
-                    this.player.setVelocity( -this.playerSpeed, 0 );
-                    break;
-
-                case PlayerMoveState.Right:
-
-                    this.player.setVelocity( this.playerSpeed, 0 );
-                    break;
-            }
     }
 
 

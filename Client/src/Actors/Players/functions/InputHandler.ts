@@ -1,43 +1,59 @@
-import { Types } from 'phaser'
-import PlayerMoveState from '~/State/PlayerMovementState';
+import PlayerMoveState from '../../../State/PlayerMovementState';
 
-const InputHandler = (c: Types.Input.Keyboard.CursorKeys, p: PlayerMoveState) => {
 
-    if( c.left.isDown && c.up.isUp && c.down.isUp && c.right.isUp ) {
+/**
+ * Accepts isDown booleans for 4 directional key or key combinations
+ * @param upKey boolean : up key is down
+ * @param downKey boolean : down key is down
+ * @param leftKey boolean : left key is down
+ * @param rightKey boolean : right key is down
+ * @returns  PlayerMoveState
+ */
+const InputHandler = (
+    upKey: boolean,
+    downKey: boolean,
+    leftKey: boolean,
+    rightKey: boolean,
+                     ) : PlayerMoveState => {
 
-        p = PlayerMoveState.Left;
+    if( leftKey && !upKey && !downKey && !rightKey ) {
+
+        return PlayerMoveState.Left;
     }
-    else if( c.right.isDown && c.up.isUp && c.down.isUp && c.left.isUp ) {
+    else if( rightKey && !upKey && !downKey && !leftKey ) {
 
-        p = PlayerMoveState.Right;
+        return PlayerMoveState.Right;
     }
-    else if( c.up.isDown && c.left.isUp && c.right.isUp && c.down.isUp ) {
+    else if( upKey && !leftKey && !rightKey && !downKey ) {
 
-        p = PlayerMoveState.Up;
+        return PlayerMoveState.Up;
     }
-    else if( c.down.isDown && c.left.isUp && c.right.isUp && c.up.isUp ) {
+    else if( downKey && !leftKey && !rightKey && !upKey ) {
 
-        p = PlayerMoveState.Down;
+        return PlayerMoveState.Down;
     }
-    else if( c.down.isDown && c.left.isDown && c.right.isUp && c.up.isUp ) {
+    else if( downKey && leftKey && !rightKey && !upKey ) {
 
-        p = PlayerMoveState.DownLeft;
+        return PlayerMoveState.DownLeft;
     }
-    else if (c.down.isDown && c.right.isDown && c.left.isUp && c.up.isUp ) {
+    else if ( downKey && rightKey && !leftKey && !upKey ) {
 
-        p = PlayerMoveState.DownRight;
+        return PlayerMoveState.DownRight;
     }
-    else if ( c.up.isDown && c.right.isDown && c.left.isUp && c.down.isUp ) {
+    else if ( upKey && rightKey && !leftKey && !downKey ) {
 
-        p = PlayerMoveState.UpRight;
+        return PlayerMoveState.UpRight;
     }
-    else if ( c.up.isDown && c.left.isDown && c.right.isUp && c.down.isUp ) {
+    else if ( upKey && leftKey && !rightKey && !downKey ) {
 
-        p = PlayerMoveState.UpLeft;
+        return PlayerMoveState.UpLeft;
     }
-    else if( c.up.isUp && c.down.isUp && c.right.isUp && c.left.isUp ) {
-
-        p = PlayerMoveState.idle;
+    else if( !upKey && !downKey && !rightKey && !leftKey ) {
+ 
+        return PlayerMoveState.idle;
+    }
+    else {
+        return PlayerMoveState.idle;
     }
 };
 
