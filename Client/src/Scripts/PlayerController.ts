@@ -154,7 +154,6 @@ export default class PlayerController extends Phaser.Scene
             this.serverSync();
             this.syncPosition();
         }
-
     }
 
 

@@ -3,9 +3,9 @@ import PlayerMoveState from '../../../State/PlayerMovementState';
 /**
  * sets enity velocity
  * @param p PlayerMoveState : the players move state
- * @param v {x: number, y: number} : the players velocity
+ * @param v **[X and Y coordinate object]** {x: number, y: number} : the players velocity
  * @param s number : the players speed
- * @returns {x: number, y: number}
+ * @returns **[Player Velocity]** -- *{x: number, y: number}*
  */
 const MovementStateHandler = ( p: PlayerMoveState, v: { x: number, y: number }, s: number ) 
     : { x:number , y: number } => {
