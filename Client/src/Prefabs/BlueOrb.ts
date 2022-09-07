@@ -4,6 +4,7 @@ import DurationDestroyer from './DurationDestroyer';
 
 /**
  * Instantiates as a BlueOrb
+ * @class
  * @param world [Matter.World] : The physics world simulation to be added to
  * @param scene [Phaser.Scene] : the scene that this will be instantiated to
  * @param position [object] : the position to instantiate at (x and y coodinates)
@@ -13,16 +14,21 @@ import DurationDestroyer from './DurationDestroyer';
  */
 export default class BlueOrb extends Phaser.Physics.Matter.Sprite
 {
-	constructor(world: Phaser.Physics.Matter.World, scene: Phaser.Scene, position: {x: number, y: number} , velocity: {x: number, y: number}, duration?: number) {
+	constructor(
+        world: Phaser.Physics.Matter.World,
+        scene: Phaser.Scene, 
+        data: { startPosition: { x: number, y: number }, velocity: { x: number, y: number } },
+        duration?: number
+    ) {
 
-		super( world, position.x, position.y, 'BlueOrb', 0, {circleRadius: 10})
+		super( world, data.startPosition.x, data.startPosition.y, 'BlueOrb', 0, {circleRadius: 10})
 
         scene.add.existing(this);
         world.add(this);
 
         this.setScale(1);
         this.setBounce(1);
-        this.setVelocity(velocity.x, velocity.y);        
+        this.setVelocity(data.velocity.x, data.velocity.y);        
         
         new DurationDestroyer(scene, this, duration);
 	}

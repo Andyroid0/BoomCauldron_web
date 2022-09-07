@@ -5,7 +5,7 @@ import PlayerAttackState from '../../../State/PlayerAttackState';
  * @param pa PlayerAttackState : the players attack state
  * @param pp {x: number, y: number} : the players position
  * @param a number : the attack speed
- * @returns { startPosition: { x: number, y: number }, velocity: { x: number, y: number } } | null
+ * @returns **[Projectile Data]** : { startPosition: { x: number, y: number }, velocity: { x: number, y: number } } | null
  */
 const AttackStateHandler = ( pa: PlayerAttackState, pp: { x: number, y: number }, a: number ) 
     :{ 

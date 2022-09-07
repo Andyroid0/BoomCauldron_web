@@ -9,6 +9,7 @@ import PlayerMoveState from '../src/State/PlayerMovementState';
 import PlayerAttackState from "../src/State/PlayerAttackState";
 import AttackStateHandler from '../src/Actors/Players/functions/AttackStateHandler';
 import AttackInputHandler from '../src/Actors/Players/functions/AttackInputHandler';
+import ProjectileHandler from '../src/Actors/Players/functions/ProjectileHandler';
 
 
 describe('Player tests', function () {
@@ -413,6 +414,19 @@ describe('Player tests', function () {
 
         });  
 
-    })
+    });
+
+    describe('Projectile Handler Tests', function () {
+
+        it('Should fire the callback function', function () {
+
+            let state = PlayerAttackState.Down;
+            let result = ProjectileHandler(state, () => {
+                return "success";
+            });
+
+            expect(result).to.equal("success");
+        });
+    });
 
 });

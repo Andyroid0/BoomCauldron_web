@@ -9,6 +9,7 @@ import InputHandler from '../Actors/Players/functions/InputHandler';
 import MovementStateHandler from '../Actors/Players/functions/MovementStateHandler';
 import AttackInputHandler from '../Actors/Players/functions/AttackInputHandler';
 import AttackStateHandler from '../Actors/Players/functions/AttackStateHandler';
+import ProjectileHandler from '../Actors/Players/functions/ProjectileHandler';
 
 
 export default class PlayerController extends Phaser.Scene
@@ -107,46 +108,39 @@ export default class PlayerController extends Phaser.Scene
 
     update(time: number, delta: number): void {
 
-        //console.log(this.player.x)
-        this.playerMoveState =
-            InputHandler(
-                this.cursors.up.isDown, 
-                this.cursors.down.isDown, 
-                this.cursors.left.isDown,
-                this.cursors.right.isDown,
-            );
+        this.playerMoveState = InputHandler(
 
-        //this.projectileHandler();
-
-        this.playerAttackState =
-            AttackInputHandler( 
-                Phaser.Input.Keyboard.JustDown(this.up), 
-                Phaser.Input.Keyboard.JustDown(this.down), 
-                Phaser.Input.Keyboard.JustDown(this.left), 
-                Phaser.Input.Keyboard.JustDown(this.right),             
-            );
-        const projectiledata = AttackStateHandler(
-            this.playerAttackState, 
-            {
-                x: this.player.x, 
-                y: this.player.y
-            },
-            10
+            this.cursors.up.isDown, 
+            this.cursors.down.isDown, 
+            this.cursors.left.isDown,
+            this.cursors.right.isDown,
         );
 
-        if( this.playerAttackState != PlayerAttackState.idle ) {
+        this.playerAttackState = AttackInputHandler( 
+
+            Phaser.Input.Keyboard.JustDown(this.up), 
+            Phaser.Input.Keyboard.JustDown(this.down), 
+            Phaser.Input.Keyboard.JustDown(this.left), 
+            Phaser.Input.Keyboard.JustDown(this.right),             
+        );
+
+        ProjectileHandler( this.playerAttackState, () => {
+
             new BlueOrb(
+
                 this.matter.world, 
                 this, 
-                {
-                    x: projectiledata?.startPosition.x as number,
-                    y: projectiledata?.startPosition.y as number
-                },
-                projectiledata?.velocity as { x:number, y: number },
+                AttackStateHandler(
+                    this.playerAttackState, 
+                    {
+                        x: this.player.x, 
+                        y: this.player.y
+                    },
+                    10
+                )!,
                 900 
-            )
-        }
-            
+            );
+        });
 
         const velocityVector = MovementStateHandler(
             this.playerMoveState, 
@@ -154,7 +148,6 @@ export default class PlayerController extends Phaser.Scene
             this.playerSpeed
         );
         this.player.setVelocity(velocityVector.x, velocityVector.y);
-
 
         if( this.online ) {
 
