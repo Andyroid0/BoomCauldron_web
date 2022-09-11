@@ -2,7 +2,11 @@ import { Scene, GameObjects } from 'phaser'
 
 class Area extends GameObjects.Container {
 
-    constructor(scene: Scene, x: number, y: number) {
+    blitter !: GameObjects.Blitter;
+
+    constructor(scene: Scene, x: number, y: number, groundTexture: string) {
+
+        
         super( scene, x, y )
 
         // TODO: Add children
@@ -10,8 +14,12 @@ class Area extends GameObjects.Container {
         this.x = x;
         this.y = y;
 
-        new GameObjects.Blitter(scene, x, y, texture)
+        this.blitter = new GameObjects.Blitter(scene, x, y, groundTexture);
+
+        new GameObjects.Bob(this.blitter, 0, 0, 0, true);
         
 
     }
 }
+
+// 144 Tiles
