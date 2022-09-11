@@ -81,7 +81,6 @@ export default class PlayerController extends Phaser.Scene
 
         this.showServerPlayer = false;
 
-
 	}
 
 
