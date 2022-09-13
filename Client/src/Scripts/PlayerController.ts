@@ -153,6 +153,8 @@ export default class PlayerController extends Phaser.Scene
             this.serverSync();
             this.syncPosition();
         }
+
+        this.flipHandler();
     }
 
 
@@ -241,6 +243,20 @@ export default class PlayerController extends Phaser.Scene
         easeX();
         easeY();
         serverPlayer_positionDebugger();
+    }
+
+    flipHandler = () => {
+
+        const v = this.player.body.velocity;
+
+        if ( v.x < 0 ) {
+
+            this.player.flipX = true;
+        }
+        else if ( v.x > 0 ) {
+            this.player.flipX = false;
+        }
+        
     }
 
 
