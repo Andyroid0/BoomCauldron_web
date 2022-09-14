@@ -10,7 +10,8 @@ import MovementStateHandler from '../Actors/Players/functions/MovementStateHandl
 import AttackInputHandler from '../Actors/Players/functions/AttackInputHandler';
 import AttackStateHandler from '../Actors/Players/functions/AttackStateHandler';
 import ProjectileHandler from '../Actors/Players/functions/ProjectileHandler';
-
+import FlipHandler from '../Actors/Players/functions/FlipHandler';
+import Ease from '../Actors/Players/functions/Ease';
 
 export default class PlayerController extends Phaser.Scene
 {
@@ -150,24 +151,22 @@ export default class PlayerController extends Phaser.Scene
 
         if( this.online ) {
 
-            this.serverSync();
-            this.syncPosition();
+            this.moveStateSync();
+            this.syncPosition(
+                
+                this.player.x, 
+                this.player.y, 
+                this.colyseusClient.room?.state?.players.get(this.name)?.x as number, 
+                this.colyseusClient.room?.state?.players.get(this.name)?.y as number
+            );
         }
 
-        this.flipHandler();
+        this.player.flipX = FlipHandler(this.player.body.velocity, this.player.flipX);
+
     }
 
 
-
-    VelocityAndState_setter = (state: PlayerMoveState, x: number, y: number) => {
-        // not in use
-        let speed = this.colyseusClient.room?.state.players.get(this.name)?.moveSpeed
-        this.playerMoveState = state;
-        this.player.setVelocity(x*speed!, y*speed!)
-    }
-
-
-    serverSync = () => {
+    moveStateSync = () => {
 
         if( this.playerMoveState != this.previous_playerMoveState ) {
 
@@ -176,88 +175,22 @@ export default class PlayerController extends Phaser.Scene
         }
     }
 
+    
+/** Syncs and eases the player positions across the server and client.
+ * 
+ * @param {number} [x] local x position
+ * @param {number} [y] local y position
+ * @param {number} [sx] server x position
+ * @param {numbebr} [sy] server y position
+ */
+    syncPosition = ( x: number, y: number, sx: number, sy: number ) => {
 
-    syncPosition = () => {
+        this.player.x = Ease.X( x, sx );
 
-        let state = this.colyseusClient.room?.state;
+        this.player.y = Ease.Y( y, sy );
 
-        let Ydelta = Math.Difference( this.player.y, state?.players.get(this.name)?.y as number);
-        let Xdelta = Math.Difference( this.player.x, state?.players.get(this.name)?.x as number);
-
-
-
-        // SYNC PLAYER POSITION WITH THE SERVER AND EASES DIFFERENCES
-        // METHODS EXECUTED AT BOTTOM OF FUNCTION
-
-        const serverPlayer_positionDebugger = () => {
-
-            if(this.showServerPlayer) {
-
-                this.serverPlayer.x = this.serverX;
-                this.serverPlayer.y = this.serverY;
-            }
-        }
-
-        const easeX = () => {
-
-            let x = this.player.x;
-            let state = this.colyseusClient?.room?.state;
-            let sx = state?.players.get(this.name)?.x;
-
-
-            if ( Xdelta > 5 ) {
-
-                this.player.x = Phaser.Math.Linear( x, sx as number, 0.05 );
-            }
-            else if ( Xdelta > 1 && Xdelta <= 5 ) {
-
-                this.player.x = Phaser.Math.Linear( x, sx as number, 0.1 );
-            }
-            else {
-
-                this.player.x = Phaser.Math.Linear( x, sx as number, 0.3 );
-            }
-        };
-
-        const easeY = () => {
-
-            let y = this.player.y;
-            let state = this.colyseusClient?.room?.state;
-            let sy = state?.players.get(this.name)?.y;
-
-            if (   Ydelta > 5 ) {
-
-                this.player.y = Phaser.Math.Linear( y, sy as number, 0.05 );
-            }
-            else if ( Ydelta > 1 && Ydelta <=5 ) {
-
-                this.player.y = Phaser.Math.Linear( y, sy as number, 0.1 );
-            }
-            else {
-
-                this.player.y = Phaser.Math.Linear( y, sy as number, 0.3 );
-            }
-        };
-
-
-        easeX();
-        easeY();
-        serverPlayer_positionDebugger();
     }
 
-    flipHandler = () => {
-
-        const v = this.player.body.velocity;
-
-        if ( v.x < 0 ) {
-
-            this.player.flipX = true;
-        }
-        else if ( v.x > 0 ) {
-            this.player.flipX = false;
-        }
-        
-    }
 
 
 }

@@ -10,7 +10,8 @@ import PlayerAttackState from "../src/State/PlayerAttackState";
 import AttackStateHandler from '../src/Actors/Players/functions/AttackStateHandler';
 import AttackInputHandler from '../src/Actors/Players/functions/AttackInputHandler';
 import ProjectileHandler from '../src/Actors/Players/functions/ProjectileHandler';
-
+import FlipHandler from '../src/Actors/Players/functions/FlipHandler';
+import Ease from '../src/Actors/Players/functions/Ease';
 
 describe('Player tests', function () {
 
@@ -428,5 +429,87 @@ describe('Player tests', function () {
             expect(result).to.equal("success");
         });
     });
+
+    describe('Flip Handler Tests', function () {
+
+        it('Should be true, when x is negative and y is 0', function () {
+
+            let flip = false;
+
+            flip = FlipHandler( {x: -1, y: 0}, flip);
+            
+            expect(flip).to.be.true;
+        });
+
+        it('Should be true, when X is negative and Y is positive', function () {
+
+            let flip = false;
+
+            flip = FlipHandler( {x: -1, y: 1}, flip);
+            
+            expect(flip).to.be.true;
+        });
+
+        it('Should be true, when X is negative and Y is negative', function () {
+
+            let flip = false;
+
+            flip = FlipHandler( {x: -1, y: -1}, flip);
+            
+            expect(flip).to.be.true;
+        });
+
+        it('Should be false, when X is positive and Y is 0', function () {
+
+            let flip = true;
+
+            flip = FlipHandler( {x: 1, y: 0}, flip);
+            
+            expect(flip).to.be.false;
+        });
+        
+        it('Should be false, when X is positive and Y is positive', function () {
+
+            let flip = true;
+
+            flip = FlipHandler( {x: 1, y: 1}, flip);
+            
+            expect(flip).to.be.false;
+        }); 
+        
+        it('Should be false, when X is positive and Y is negative', function () {
+
+            let flip = true;
+
+            flip = FlipHandler( {x: 1, y: -1}, flip);
+            
+            expect(flip).to.be.false;
+        });            
+    });
+
+    describe('Ease functions tests', function () {
+
+        it('difference of 6 should return 4.3', function () {
+
+            let result = Ease.X( 4, 10 )
+
+            expect(result).to.equal(4.3);
+        });
+
+        it('difference of 2 should return 4.2', function () {
+
+            let result = Ease.X( 4, 6 )
+
+            expect(result).to.equal(4.2);
+        });
+
+        it('difference of 2 should return 4.225', function () {
+
+            let result = Ease.X( 4, 4.75 )
+
+            expect(result).to.equal(4.225);
+        });
+
+    })
 
 });
