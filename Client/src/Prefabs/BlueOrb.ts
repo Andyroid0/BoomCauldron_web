@@ -1,6 +1,6 @@
 import Phaser, { Scene } from 'phaser'
 import DurationDestroyer from './DurationDestroyer';
-
+import Color from 'color';
 
 /**
  * Instantiates as a BlueOrb
@@ -28,7 +28,9 @@ export default class BlueOrb extends Phaser.Physics.Matter.Sprite
 
         this.setScale(1);
         this.setBounce(1);
-        this.setVelocity(data.velocity.x, data.velocity.y);        
+        this.setVelocity(data.velocity.x, data.velocity.y);  
+        //scene.add.pointlight(this.x, this.y, Color("#adc758").rgbNumber().valueOf(), 60, 5, .03)
+      
         
         new DurationDestroyer(scene, this, duration);
 	}

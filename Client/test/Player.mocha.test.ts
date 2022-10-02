@@ -489,25 +489,53 @@ describe('Player tests', function () {
 
     describe('Ease functions tests', function () {
 
-        it('difference of 6 should return 4.3', function () {
+        describe('Ease X tests', function () {
 
-            let result = Ease.X( 4, 10 )
+            it('difference of 6 should return 4.3', function () {
 
-            expect(result).to.equal(4.3);
+                let result = Ease.X( 4, 10 )
+    
+                expect(result).to.equal(4.3);
+            });
+    
+            it('difference of 2 should return 4.2', function () {
+    
+                let result = Ease.X( 4, 6 )
+    
+                expect(result).to.equal(4.2);
+            });
+    
+            it('difference of 2 should return 4.225', function () {
+    
+                let result = Ease.X( 4, 4.75 )
+    
+                expect(result).to.equal(4.225);
+            });
         });
 
-        it('difference of 2 should return 4.2', function () {
 
-            let result = Ease.X( 4, 6 )
+        describe('Ease Y tests', function () {
 
-            expect(result).to.equal(4.2);
-        });
+            it('difference of 6 should return 4.3', function () {
 
-        it('difference of 2 should return 4.225', function () {
-
-            let result = Ease.X( 4, 4.75 )
-
-            expect(result).to.equal(4.225);
+                let result = Ease.Y( 4, 10 )
+    
+                expect(result).to.equal(4.3);
+            });
+    
+            it('difference of 2 should return 4.2', function () {
+    
+                let result = Ease.Y( 4, 6 )
+    
+                expect(result).to.equal(4.2);
+            });
+    
+            it('difference of 2 should return 4.225', function () {
+    
+                let result = Ease.Y( 4, 4.75 )
+    
+                expect(result).to.equal(4.225);
+            });
         });
 
     })

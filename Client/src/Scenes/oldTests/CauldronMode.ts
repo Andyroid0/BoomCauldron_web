@@ -1,12 +1,12 @@
 import Phaser from 'phaser'
-import Player from '../Actors/Players/Player';
-import OtherPlayer from '../Actors/Players/OtherPlayer';
+import Player from '../../Actors/Players/Player';
+import OtherPlayer from '../../Actors/Players/OtherPlayer';
 import Color from 'color';
 import PlayerController from '~/Scripts/PlayerController';
 import PlayerState from '~/Api/schema/PlayerState';
-import { colyseusClient } from '../main';
+import { colyseusClient } from '../../main';
 import * as Colyseus from "colyseus.js";
-import CauldronRoomState from '../Api/schema/CauldronRoomState';
+import CauldronRoomState from '../../Api/schema/CauldronRoomState';
 
 
 
@@ -87,23 +87,19 @@ export default class CauldronMode extends Phaser.Scene
 
         this.createPlayer(
             colyseusClient.room?.state.players
-                .find(
-                    player => {
-                        return player.id === colyseusClient.room?.sessionId
-                    }
-                ) as PlayerState
+                .get(colyseusClient.room?.sessionId) as PlayerState
         );
 
         const players: unknown = colyseusClient.room?.state.players;
-        const defined = players as ArraySchema<PlayerState>
-            .onAdd = (item, key) => {}
+        //const defined = players as MapSchema<PlayerState>
+            //.onAdd = (item, key) => {}
 
 
                //onStateChange( state => {
 
-            const handlePlayerCreation = function () {
-                colyseusClient.room?.state.
-            }
+            // const handlePlayerCreation = function () {
+            //     colyseusClient.room?.state.
+            // }
 
             if( colyseusClient.room?.sessionId == state.player1?.id ) {
 

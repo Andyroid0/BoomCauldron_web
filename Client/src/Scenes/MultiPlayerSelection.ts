@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 
-
 export default class MultiplayerSelection extends Phaser.Scene
 {
  
@@ -21,7 +20,6 @@ export default class MultiplayerSelection extends Phaser.Scene
     create() {
 
         this.add.text(100, 100, 'Multi');
-
     }
 
     update(time: number, delta: number): void {

@@ -1,12 +1,12 @@
-import BlueOrb from '../Prefabs/blueOrb';
-import Message from '../State/Message';
+import BlueOrb from '../../Prefabs/blueOrb';
+import Message from '../../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
-import PlayerMoveState from '../State/PlayerMovementState';
-import PlayerAttackState from '../State/PlayerMovementState';
-import playerType from '../State/playerType';
-import Server from '../Api/ColyseusClient';
-import PlayerState from '~/Api/schema/PlayerState';
-import ColyseusClient from '../Api/ColyseusClient';
+import PlayerMoveState from '../../State/PlayerMovementState';
+import PlayerAttackState from '../../State/PlayerMovementState';
+import playerType from '../../State/playerType';
+import Server from '../../Api/ColyseusClient';
+import PlayerState from '../../Api/schema/PlayerState';
+import ColyseusClient from '../../Api/ColyseusClient';
 
 
 export default class OtherPlayerController extends Phaser.Scene

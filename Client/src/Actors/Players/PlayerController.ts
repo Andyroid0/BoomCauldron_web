@@ -1,20 +1,22 @@
-import BlueOrb from '../Prefabs/blueOrb';
-import Message from '../State/Message';
+import BlueOrb from '../../Prefabs/blueOrb';
+import Message from '../../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
-import PlayerMoveState from '../State/PlayerMovementState';
-import PlayerAttackState from '../State/PlayerAttackState';
-import playerType from '../State/playerType';
-import ColyseusClient from '../Api/ColyseusClient';
-import InputHandler from '../Actors/Players/functions/InputHandler';
-import MovementStateHandler from '../Actors/Players/functions/MovementStateHandler';
-import AttackInputHandler from '../Actors/Players/functions/AttackInputHandler';
-import AttackStateHandler from '../Actors/Players/functions/AttackStateHandler';
-import ProjectileHandler from '../Actors/Players/functions/ProjectileHandler';
-import FlipHandler from '../Actors/Players/functions/FlipHandler';
-import Ease from '../Actors/Players/functions/Ease';
+import PlayerMoveState from '../../State/PlayerMovementState';
+import PlayerAttackState from '../../State/PlayerAttackState';
+import playerType from '../../State/playerType';
+import ColyseusClient from '../../Api/ColyseusClient';
+import InputHandler from './functions/InputHandler';
+import MovementStateHandler from './functions/MovementStateHandler';
+import AttackInputHandler from './functions/AttackInputHandler';
+import AttackStateHandler from './functions/AttackStateHandler';
+import ProjectileHandler from './functions/ProjectileHandler';
+import FlipHandler from './functions/FlipHandler';
+import Ease from './functions/Ease';
 
 export default class PlayerController extends Phaser.Scene
 {
+    health!: number;
+    
     player!: Physics.Matter.Sprite;
 
     name!: string;

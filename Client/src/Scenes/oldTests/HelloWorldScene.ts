@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
-import Player from '../Actors/Player'; 
-import OtherPlayer from '../Actors/OtherPlayer';
+import Player from '../../Actors/Players/Player'; 
+import OtherPlayer from '../../Actors/Players/OtherPlayer';
 //import { listenTest } from '../Api/colyseusClient';
-import { colyseusClient } from '../main';
+import { colyseusClient } from '../../main';
 import Color from 'color';
 import PlayerController from '~/Scripts/PlayerController';
 import PlayerState from '~/Api/schema/PlayerState';

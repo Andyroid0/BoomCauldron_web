@@ -18,14 +18,14 @@ const config: Phaser.Types.Core.GameConfig = {
 		default: 'matter',
 		matter: {
 			gravity: { y: 0 },
-			debug: {
-				showBody: true,
-				showStaticBody: true
-			}
+			// debug: {
+			// 	showBody: true,
+			// 	showStaticBody: true
+			// }
 		}
 	},
-	//scene: [Cauldron_start],
-	scene: [Start],
+	scene: [Cauldron_start],
+	//scene: [Start],
 	pixelArt: true,
 	fps: {
 		target: 60,
