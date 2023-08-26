@@ -37,7 +37,6 @@ export default class Cauldron_start extends Phaser.Scene
     }
 
     create() {
-        this.
         
         this.add.rectangle(500, 400, 800, 300, Color("#95a658").rgbNumber().valueOf())
 
