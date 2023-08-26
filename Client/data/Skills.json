@@ -1,5 +1,167 @@
 {
     "skill.000.000.000": {
-        
+        "name": "Fireball+1",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1.2,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.001": {
+        "name": "Fireball+2",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1.2,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.003": {
+        "name": "Fireball+3",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1.2,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.004": {
+        "name": "Lightning+1",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1.2,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.005": {
+        "name": "Lightning+2",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1.2,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.006": {
+        "name": "Lightning+3",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1.2,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.007": {
+        "name": "Water+1",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1.2,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.008": {
+        "name": "Water+2",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1.2,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.009": {
+        "name": "Water+3",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1.2,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.010": {
+        "name": "Earth+1",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.011": {
+        "name": "Earth+2",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.012": {
+        "name": "Earth+3",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.013": {
+        "name": "Plant+1",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1.2,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.014": {
+        "name": "Plant+2",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1.2,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "skill.000.000.015": {
+        "name": "Plant+3",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1.2,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
     }
 }

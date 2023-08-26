@@ -1,22 +1,110 @@
 {
     "buff.000.000.000": {
-        "name": "Poison_Apple",
+        "name":"Summoner",
+        "description":"Focuses on summoning minions to attack enemies",
         "damageMultiplier": 1,
         "healthMultipier": 1,
         "lightningMultiplier": 1,
         "fireMultiplier": 1,
         "waterMultiplier": 1,
         "plantMultiplier": 1,
-        "poisonMultiplier": 1.2
+        "poisonMultiplier": 1.2,
+        "minionMultiplier": 1
     },
     "buff.000.000.001": {
-        "name":"Rat_Trap",
+        "name":"Spellcaster",
+        "description":"Focuses on Spells to eliminate your enemies",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 2,
+        "fireMultiplier": 2,
+        "waterMultiplier": 2,
+        "plantMultiplier": 2,
+        "poisonMultiplier": 2,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.002": {
+        "name":"Improved Summoner",
+        "description":"",
         "damageMultiplier": 1.2,
         "healthMultipier": 1,
         "lightningMultiplier": 1,
         "fireMultiplier": 1,
         "waterMultiplier": 1,
         "plantMultiplier": 1,
-        "poisonMultiplier": 1
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.003": {
+        "name":"Improved Spellcaster",
+        "description":"",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.004": {
+        "name":"Ultimate Summoner",
+        "description":"You skills are limitless youve reached maximum strength",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.005": {
+        "name":"Balanced Necromancer",
+        "description":"Balanced Necromancers use both spells and summoning to vanquish enemies",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.006": {
+        "name":"Master Spellcaster",
+        "description":"",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.007": {
+        "name":"Master Summoner",
+        "description":"",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
+    },
+    "buff.000.000.008": {
+        "name":"Ultimate Spellcaster",
+        "description":"The pinnacle of casting spells no one is beyond you...yet",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1,
+        "minionMultiplier": 1
     }
 }

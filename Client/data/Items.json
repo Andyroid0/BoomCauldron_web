@@ -1,0 +1,137 @@
+{
+    "item.000.000.000": {
+        "name": "Wand",
+        "description":"Buffs speed of spells",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1.2,
+        "minionMultiplier": 1
+    },
+    
+        "sitem.000.000.001": {
+            "name": "Fire Staff",
+            "description":"Increases fire spells damage",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.002": {
+            "name": "Power Pole",
+            "description":"Power Pole Extend",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.003": {
+            "name": "Spear of Longinus",
+            "description":"Blessed with the spear that pierced Christ",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.004": {
+            "name": "Water Staff",
+            "description":"Increases fire spells damage",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.005": {
+            "name": "Lightning Staff",
+            "description":"Increases fire spells damage",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.006": {
+            "name": "Staff",
+            "description":"Increases overall spell damage",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.007": {
+            "name": "Holy Grail",
+            "description":"Increases maximum life and constantly heals player",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.008": {
+            "name": "Ark of the Covenent",
+            "description":"When used all enemies turn into dust",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.009": {
+            "name": "Excalibur",
+            "description":"All stats increase",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        },
+        "item.000.000.010": {
+            "name": "Boots of Icarius",
+            "description":"characters speed increased",
+            "damageMultiplier": 1,
+            "healthMultipier": 1,
+            "lightningMultiplier": 1,
+            "fireMultiplier": 1,
+            "waterMultiplier": 1,
+            "plantMultiplier": 1,
+            "poisonMultiplier": 1.2,
+            "minionMultiplier": 1
+        }
+
+    
+}

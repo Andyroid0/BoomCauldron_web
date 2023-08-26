@@ -1,0 +1,51 @@
+{
+    "powerups.000.000.000": {
+        "name": "Rapid Shot",
+        "description":"Your attacks speed increase rapidly for 15 sec",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1.2,
+        "minionMultiplier": 1
+    },
+    "powerups.000.000.001": {
+        "name": "God Mode",
+        "description":"Invincible for 10 sec",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1.2,
+        "minionMultiplier": 1
+    },
+    "powerups.000.000.003": {
+        "name": "Overload",
+        "description":"All stats have quadruple damage for 10 sec",
+        "damageMultiplier": 4,
+        "healthMultipier": 1,
+        "lightningMultiplier": 4,
+        "fireMultiplier": 4,
+        "waterMultiplier": 4,
+        "plantMultiplier": 4,
+        "poisonMultiplier": 4,
+        "minionMultiplier": 4
+    },
+    "powerups.000.000.004": {
+        "name":"Time Stop",
+        "description":"Stop enemies for 15 sec",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1.2,
+        "minionMultiplier": 1
+    }
+
+}

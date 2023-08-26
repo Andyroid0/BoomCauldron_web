@@ -1,0 +1,115 @@
+{
+    "trait.000.000.000": {
+        "name": "Fireball",
+        "icon":"",
+        "description":"A ball of fire that causes fire damage to your enemies",
+        "initialDamage": 2,
+        "scale": 1
+    },
+    "trait.000.000.001": {
+        "name":"Lightning Bolt",
+        "icon":"",
+        "description":"Electricity discharges and damages your enemies",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.002": {
+        "name":"Waterball",
+        "icon":"",
+        "description":"Capture your enemies in a water prison",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.003": {
+        "name": "ArmorBoost", 
+        "icon":"",
+        "description":"Boost your armor protection and companions",
+        "initialDamage": 2,
+        "scale": 1
+    },
+    "trait.000.000.004": {
+        "name":"SlowTime",
+        "icon":"",
+        "description":"Slow Enemies movement within its radius",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.005": {
+        "name":"HealthBoost",
+        "icon":"",
+        "description":"Boost your health and companions",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.006": {
+        "name": "Spikes",
+        "icon":"",
+        "description":"Giant Rocks come out fo the ground inflicting damage",
+        "initialDamage": 2,
+        "scale": 1
+    },
+    "trait.000.000.007": {
+        "name":"BlackHole",
+        "icon":"",
+        "description":"Giant Hole that draws your enemies in",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.008": {
+        "name":"Blizzard",
+        "icon":"",
+        "description":"Freezes enemies within a raging storm",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.009": {
+        "name": "Inferno", 
+        "icon":"",
+        "description":"Burn your enemies to ash",
+        "initialDamage": 2,
+        "scale": 1
+    },
+    "trait.000.000.010": {
+        "name":"Solar Flare",
+        "icon":"",
+        "description":"Within the radius of the character set everything ablaze",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.011": {
+        "name":"Tornado",
+        "icon":"",
+        "description":"Fierce winds that shred your enemies",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.012": {
+        "name":"Enrage",
+        "icon":"",
+        "description":"Random enemy becomes enraged and attacks your enemies",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.013": {
+        "name":"Posession",
+        "icon":"",
+        "description":"Cause random enemy to start fighting for you indefinalty",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.014": {
+        "name":"vines",
+        "icon":"",
+        "description":"vines tangle up enemies and inflict damage",
+       "initialDamage": 2,
+       "scale": 1
+    },
+    "trait.000.000.015": {
+        "name":"poison barbs",
+        "icon":"",
+        "description":"barbs tangle up enemies and inflict damage and poison",
+       "initialDamage": 2,
+       "scale": 1
+    }
+
+}
