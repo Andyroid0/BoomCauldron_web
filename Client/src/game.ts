@@ -22,8 +22,8 @@ const config: Phaser.Types.Core.GameConfig = {
 			}
 		}
 	},
-	// scene: [Cauldron_start],
-	scene: [Start],
+	scene: [Cauldron_start],
+	//scene: [Start],
 	pixelArt: true,
 	fps: {
 		target: 60,
