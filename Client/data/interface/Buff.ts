@@ -1,5 +1,5 @@
 /** ## Buff
- * The basis to all Buffs or Powerups
+ * The basis to all Buffs 
  * 
  * ---
  *   **damageMultiplier:** number
@@ -27,3 +27,4 @@ interface Buff {
     plantMultiplier: number
     poisonMultiplier: number
 }
+export default Buff

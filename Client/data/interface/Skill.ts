@@ -6,3 +6,4 @@ interface Skill {
     id: string
     damage: number
 }
+export default Skill

@@ -12,6 +12,11 @@ import AttackStateHandler from './functions/AttackStateHandler';
 import ProjectileHandler from './functions/ProjectileHandler';
 import FlipHandler from './functions/FlipHandler';
 import Ease from './functions/Ease';
+import Buff from '../../../data/interface/Buff';
+import Item from '../../../data/interface/Item';
+import PowerUp from '../../../data/interface/PowerUp';
+import Skill from '../../../data/interface/Skill';
+import Trait from '../../../data/interface/Trait'
 
 export default class PlayerController extends Phaser.Scene {
     
