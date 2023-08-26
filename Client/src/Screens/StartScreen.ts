@@ -28,10 +28,10 @@ export const start = ( root: HTMLElement, setSinglePlayer: () => void, setOnline
     singlePlayerText.setAttribute(
         'class',
         `
-                text-4xl
-                font-black
-                text-white
-                text-center
+            text-4xl
+            font-black
+            text-white
+            text-center
         `
     );
     singlePlayerText.innerText = "Solo"

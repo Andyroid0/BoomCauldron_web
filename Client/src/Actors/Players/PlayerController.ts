@@ -1,4 +1,4 @@
-import BlueOrb from '../../Prefabs/blueOrb';
+import BlueOrb from '../../Prefabs/BlueOrb';
 import Message from '../../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
 import PlayerMoveState from '../../State/PlayerMovementState';
@@ -13,8 +13,8 @@ import ProjectileHandler from './functions/ProjectileHandler';
 import FlipHandler from './functions/FlipHandler';
 import Ease from './functions/Ease';
 
-export default class PlayerController extends Phaser.Scene
-{
+export default class PlayerController extends Phaser.Scene {
+    
     health!: number;
     
     player!: Physics.Matter.Sprite;

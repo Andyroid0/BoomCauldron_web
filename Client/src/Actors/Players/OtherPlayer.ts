@@ -1,5 +1,5 @@
 import { Physics } from 'phaser'
-//import { server } from '../Scenes/HelloWorldScene';
+import { colyseusClient } from '../../main';
 import Color from 'color';
 import OtherPlayerController from './OtherPlayerController';
 
@@ -17,31 +17,31 @@ export default class OtherPlayer extends Physics.Matter.Sprite {
         world.add(this);
 
         this.scale = 6;
-        this.controller = new OtherPlayerController(scene, this, server, namer);
+        this.controller = new OtherPlayerController(scene, this, colyseusClient, namer);
 
-        switch ( server.room.sessionId ) {
+        switch ( colyseusClient.room?.state.players.size ) { 
 
-            case server.room.state.player1?.id:
+            // case 1:
+
+            //     this.tintFill = true;
+            //     //red
+            //     this.tint = Color("rgb(255,0,0)").rgbNumber().valueOf();
+            //     break;
+            case 2:
 
                 this.tintFill = true;
                 //red
                 this.tint = Color("rgb(255,0,0)").rgbNumber().valueOf();
                 break;
-            case server.room.state.player2?.id:
 
-                this.tintFill = true;
-                //red
-                this.tint = Color("rgb(255,0,0)").rgbNumber().valueOf();
-                break;
-
-            case server.room.state.player3?.id:
+            case 3:
 
                 this.tintFill = true;
                 //green
                 this.tint = Color("rgb(0,255,0)").rgbNumber().valueOf();
                 break;
 
-            case server.room.state.player4?.id:
+            case 4:
 
                 this.tintFill = true;
                 //blue

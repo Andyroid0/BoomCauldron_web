@@ -1,4 +1,4 @@
-import BlueOrb from '../../Prefabs/blueOrb';
+import BlueOrb from '../../Prefabs/BlueOrb';
 import Message from '../../State/Message';
 import Phaser, { Math, Physics, Types } from 'phaser'
 import PlayerMoveState from '../../State/PlayerMovementState';
@@ -64,7 +64,7 @@ export default class OtherPlayerController extends Phaser.Scene
 
         this.showServerPlayer = false;     
 
-        this.colyseusClient.room?.onStateChange( state => {
+        this.colyseusClient.room?.state.players.onChange( state => {
 
 
             let s = this.colyseusClient.room?.state;
@@ -233,7 +233,7 @@ export default class OtherPlayerController extends Phaser.Scene
             }
         }
 
-        let s = this.colyseusClient.room?.state;
+        let s = this.colyseusClient.room?.state?;
 
         switch (this.name) {
             

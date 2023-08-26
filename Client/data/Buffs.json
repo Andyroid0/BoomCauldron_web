@@ -1,0 +1,22 @@
+{
+    "buff.000.000.000": {
+        "name": "Poison_Apple",
+        "damageMultiplier": 1,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1.2
+    },
+    "buff.000.000.001": {
+        "name":"Rat_Trap",
+        "damageMultiplier": 1.2,
+        "healthMultipier": 1,
+        "lightningMultiplier": 1,
+        "fireMultiplier": 1,
+        "waterMultiplier": 1,
+        "plantMultiplier": 1,
+        "poisonMultiplier": 1
+    }
+}

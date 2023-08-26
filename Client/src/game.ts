@@ -4,8 +4,6 @@ import Start from './Scenes/Start';
 
 import Cauldron_start from './Scenes/singleCauldron/Cauldron_start'
 
-console.log( 'width: ' + window.screen.availWidth + '\n\n' + 'height: ' + window.screen.availHeight)
-
 const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	scale: {
@@ -18,14 +16,14 @@ const config: Phaser.Types.Core.GameConfig = {
 		default: 'matter',
 		matter: {
 			gravity: { y: 0 },
-			// debug: {
-			// 	showBody: true,
-			// 	showStaticBody: true
-			// }
+			debug: {
+				showBody: true,
+				showStaticBody: true
+			}
 		}
 	},
-	scene: [Cauldron_start],
-	//scene: [Start],
+	// scene: [Cauldron_start],
+	scene: [Start],
 	pixelArt: true,
 	fps: {
 		target: 60,
