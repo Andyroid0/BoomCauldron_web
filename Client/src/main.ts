@@ -1,4 +1,4 @@
-import ColyseusClient from "./Api/ColyseusClient";
+import ColyseusClient from "./lib/colyseus/ColyseusClient";
 import { start } from "./Screens/StartScreen";
 
 

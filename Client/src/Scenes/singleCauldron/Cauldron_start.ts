@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import Player from '../../Actors/Players/Player';
-import OtherPlayer from '~/Actors/Players/OtherPlayer';
+//import OtherPlayer from '~/Actors/Players/OtherPlayer';
 import Color from 'color';
 //import Matter from 'matter-js';
 import OrangeBushClump from '../../Prefabs/Flora/OrangeBushClump';
@@ -28,7 +28,12 @@ export default class Cauldron_start extends Phaser.Scene
         this.load.image('bush_green_1', 'bush_green_1.png')
         this.load.image('bush_orange_1', 'bush_orange_1.png')
         this.load.image('bush_red_1', 'bush_red_1.png')
-
+        this.load.image('birch', 'birch_blue_1.png')
+        this.load.image('evergreen1', 'everGreen_1.png')
+        this.load.image('evergreen2', 'everGreen_2.png')
+        this.load.image('evergreen3', 'everGreen_3.png')
+        this.load.image('evergreen4', 'everGreen_4.png')
+        
         this.load.image('bushal', 'bushal.png');
         this.load.image('pumpkin', 'pumpkin1_.png');
         this.load.image('necro', 'necro_plc.png');
@@ -73,16 +78,91 @@ export default class Cauldron_start extends Phaser.Scene
         // dirt2.tint = Color("#c756c7").rgbNumber().valueOf();
         // dirt2.tintFill = true;        
 
-        this.add.text(100, 100, 'Cauldron Start');
+        //this.add.text(100, 100, 'Cauldron Start');
         // this.add.image(300, 500, 'necro');
 
+        const evergreen1 = this.add.image( 780, 120, 'evergreen1')
+        evergreen1.scale = 1.3
+        evergreen1.alpha = .6
+        const evergreen2 = this.add.image( 680, 120, 'evergreen1')
+        evergreen2.scale = 1.3
+        evergreen2.alpha = .6
+        const evergreen3 = this.add.image( 580, 120, 'evergreen1')
+        evergreen3.scale = 1.3
+        evergreen3.alpha = .6
+        const evergreen4 = this.add.image( 480, 120, 'evergreen1')
+        evergreen4.scale = 1.3
+        evergreen4.alpha = .6
+        const evergreen5 = this.add.image( 380, 120, 'evergreen1')
+        evergreen5.scale = 1.3
+        evergreen5.alpha = .6
+        const evergreen6 = this.add.image( 280, 120, 'evergreen1')
+        evergreen6.scale = 1.3
+        evergreen6.alpha = .6
+        const evergreen7 = this.add.image( 180, 120, 'evergreen1')
+        evergreen7.scale = 1.3
+        evergreen7.alpha = .6
+
+        const foreground_evergreen1 = this.add.image( 720, 120, 'evergreen1')
+        foreground_evergreen1.scale = 1.3
+        const foreground_evergreen2 = this.add.image( 620, 120, 'evergreen1')
+        foreground_evergreen2.scale = 1.3
+        const foreground_evergreen3 = this.add.image( 520, 120, 'evergreen1')
+        foreground_evergreen3.scale = 1.3
+        const foreground_evergreen4 = this.add.image( 420, 120, 'evergreen1')
+        foreground_evergreen4.scale = 1.3
+        const foreground_evergreen5 = this.add.image( 320, 120, 'evergreen1')
+        foreground_evergreen5.scale = 1.3
+        const foreground_evergreen6 = this.add.image( 220, 120, 'evergreen1')
+        foreground_evergreen6.scale = 1.3
+        const foreground_evergreen7 = this.add.image( 120, 120, 'evergreen1')
+        foreground_evergreen7.scale = 1.3  
+        
+        
+        const other_evergreen1 = this.add.image( 160, 160, 'evergreen2')
+        other_evergreen1.alpha = .4
+        const other_evergreen2 = this.add.image( 220, 160, 'evergreen3')
+        other_evergreen2.alpha = .4
+        const other_evergreen3 = this.add.image( 260, 160, 'evergreen4')
+        other_evergreen3.alpha = .4
+        const other_evergreen4 = this.add.image( 320, 160, 'evergreen3')
+        other_evergreen4.alpha = .4
+        const other_evergreen5 = this.add.image( 340, 160, 'evergreen3')
+        other_evergreen5.alpha = .6
+        other_evergreen5.scale = 1.2
+        const other_evergreen6 = this.add.image( 400, 160, 'evergreen4')
+        other_evergreen6.alpha = .3
+        other_evergreen6.scale = 1.5
+        const other_evergreen7 = this.add.image( 460, 160, 'evergreen4')
+        other_evergreen7.alpha = .4
+        const other_evergreen8 = this.add.image( 515, 160, 'evergreen3')
+        other_evergreen8.alpha = .5
+        other_evergreen8.scale = 1.3
+        const other_evergreen9 = this.add.image( 540, 160, 'evergreen4')
+        other_evergreen9.alpha = .4
+        const other_evergreen10 = this.add.image( 560, 160, 'evergreen4')
+        other_evergreen10.alpha = .4
+        const other_evergreen11 = this.add.image( 620, 160, 'evergreen3')
+        other_evergreen11.alpha = .4
+        const other_evergreen12 = this.add.image( 660, 160, 'evergreen3')
+        other_evergreen12.alpha = .2
+        const other_evergreen13 = this.add.image( 700, 160, 'evergreen4')
+        other_evergreen13.alpha = .3
+        const other_evergreen14 = this.add.image( 745, 160, 'evergreen3')
+        other_evergreen14.alpha = .5
+        other_evergreen14.scale = 1.3
+
+        this.add.image( 880, 180, 'birch').scale = 2
+
+        
         new RedBushClump(this, 280, 120)
         new OrangeBushClump(this, 360, 140)
         new GreenBushClump(this, 200, 140)
 
-        const path = this.add.image(200, 500, 'path')
-        path.scale = 8
-        this.add.image(275, 500, 'path').scale = 8
+
+        // const path = this.add.image(200, 500, 'path')
+        // path.scale = 8
+        //this.add.image(275, 500, 'path').scale = 8
 
         let dirtrake4 = this.add.image( 200, 600, 'dirt_rake');
         dirtrake4.scale = 3;
