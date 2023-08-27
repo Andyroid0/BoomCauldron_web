@@ -1,6 +1,5 @@
 import { Physics } from 'phaser'
 import PlayerController from './PlayerController';
-import { colyseusClient } from '../../main';
 
 /** Instantiates a Matter Body and Phaser Sprite with a @class PlayerController
  * @class
@@ -9,7 +8,6 @@ import { colyseusClient } from '../../main';
  * @param {Phaser.Scene} [scene] *Phaser.Scene* reference
  * @param {number} [x] *number* Cartesian coordinate
  * @param {number} [y] *number* Cartesian coordinate
- * 
  */
 export default class Player extends Physics.Matter.Sprite {
 
@@ -35,7 +33,7 @@ export default class Player extends Physics.Matter.Sprite {
 
         this.scale = 1;
 
-        this.controller = new PlayerController( scene, this, colyseusClient, false);
+        this.controller = new PlayerController( scene, this,false);
 
     }
 }

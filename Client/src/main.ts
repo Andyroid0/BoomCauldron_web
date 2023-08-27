@@ -11,9 +11,9 @@ const canvas : HTMLCanvasElement | null = canvasCol[0];
 export const colyseusClient = new ColyseusClient();
 
 
-window.addEventListener('resize', event => {
-	console.log(window.innerWidth)
-})
+// window.addEventListener('resize', event => {
+// 	console.log(window.innerWidth)
+// })
 
 window.addEventListener('beforeunload', event => {
 	console.log("going to reload");

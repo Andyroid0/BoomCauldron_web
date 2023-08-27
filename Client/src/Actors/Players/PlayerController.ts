@@ -17,7 +17,7 @@ import Item from '../../../data/interface/Item';
 import PowerUp from '../../../data/interface/PowerUp';
 import Skill from '../../../data/interface/Skill';
 import Trait from '../../../data/interface/Trait'
-
+import { colyseusClient } from '../../main';
 export default class PlayerController extends Phaser.Scene {
     
     health!: number;
@@ -59,17 +59,17 @@ export default class PlayerController extends Phaser.Scene {
     down!: Phaser.Input.Keyboard.Key;
     right!: Phaser.Input.Keyboard.Key;
 
-	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, colyseusClient : ColyseusClient, online: boolean) {
+	constructor( scene: Phaser.Scene, object: Phaser.Physics.Matter.Sprite, online: boolean) {
 
-        var name = colyseusClient?.room?.sessionId;//"PlayerController"
+        //let name = colyseusClient?.room?.sessionId;//"PlayerController"
 
-		super( name as string )
+		super( 'Player')//name as string )
 
-        this.name = name as string;
+        this.name = 'Player'//name as string;
 
         this.online = online;
 
-        scene.scene.add( name as string, this, true );
+        scene.scene.add( 'Player', this, true)//name as string, this, true );
 
         this.position = new Math.Vector2(0,0);
 
@@ -85,7 +85,7 @@ export default class PlayerController extends Phaser.Scene {
 
         this.playerSpeed = 3;
 
-        this.colyseusClient = colyseusClient;
+        //this.colyseusClient = colyseusClient;
 
         this.showServerPlayer = false;
 
@@ -99,6 +99,8 @@ export default class PlayerController extends Phaser.Scene {
     }
 
     create() {
+
+        if ( !this.input.keyboard ) return 
 
         if(this.showServerPlayer) {
             this.serverPlayer = this.add.circle(100, 100, 4, Phaser.Display.Color.GetColor(255, 255, 255))
@@ -114,6 +116,8 @@ export default class PlayerController extends Phaser.Scene {
     }
 
     update(time: number, delta: number): void {
+
+        if ( !this.player || !this.player.body ) return
 
         this.playerMoveState = InputHandler(
 

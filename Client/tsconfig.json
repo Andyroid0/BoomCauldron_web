@@ -21,7 +21,11 @@
 			"node",
 			"phaser",
 			"mocha"
-		]
+		],
+        "typeRoots": [
+			"node_modules/@types",
+			"node_modules/phaser/types"
+		],
 	},
 	"include": [
 		"src/**/**/**/**/*",
