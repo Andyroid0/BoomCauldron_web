@@ -1,7 +1,7 @@
 import CauldronRoomState from "../schema/CauldronRoomState";
 import * as Colyseus from "colyseus.js";
 import ColyseusClient from "../ColyseusClient";
-import Message from "../../State/Message";
+import Message from "../../../State/Message";
 
 export default class Cauldron {
 

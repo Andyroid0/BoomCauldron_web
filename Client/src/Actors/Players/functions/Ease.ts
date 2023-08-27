@@ -1,5 +1,5 @@
 //import { Math } from 'phaser';
-import { lerp } from "../../../Scripts/MathHelpers";
+import { lerp } from "../../../utils/MathHelpers";
 /**
  * 
  * ================

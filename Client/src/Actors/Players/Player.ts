@@ -1,5 +1,5 @@
 import { Physics } from 'phaser'
-import PlayerController from './PlayerController';
+import PlayerController from '../../controllers/PlayerController';
 
 /** Instantiates a Matter Body and Phaser Sprite with a @class PlayerController
  * @class
